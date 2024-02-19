@@ -1,0 +1,31 @@
+
+body{
+    margin: 0;
+}
+.encabezado {
+    background-color: #115089;
+    height: 80px ; /* Ajusta la altura según tus necesidades */
+    width: 100%; /* Cubre de lado a lado */
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.iconos img {
+    height: 50px; /* Ajusta el tamaño de las imágenes */
+    width: 130px;
+    margin-right: 10px; /* Espacio entre las imágenes */
+}
+
+.navbar {
+    background-color: gray; /* Color del navbar */
+    height: 50px; /* Ajusta la altura según tus necesidades */
+    width: 100%; /* Cubre de lado a lado */
+    text-align: left; /* Alinea el texto a la derecha */
+}
+
+.navbar a {
+    padding: 15px; /* Espacio interno */
+    text-decoration: none;
+    color: white; /* Color del texto */
+}
