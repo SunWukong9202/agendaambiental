@@ -221,6 +221,8 @@ iframe {
 
 
     </style>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
     <div class="container-fluid py-3" style="background-color: #115089; ">
@@ -247,11 +249,10 @@ iframe {
         <a href="#">Portal de Postulaciones</a>
         <a href="#">Módulo de Gestión Ambiental</a>
     </div>
-    <section>
-        <div class="contenidoPagina">
 
-        </div>
-    </section>
+    @yield('content')
+
+
     <!-- Aquí va el contenido de tu página -->
     <footer>
         <ul class="seccionFooter">
