@@ -14,222 +14,226 @@
 
      {{-- <link rel="stylesheet" href="..\app.css"> --}}
     <!-- Agrega tus estilos CSS aquí -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
     <style>
-        
-body{
-    margin: auto;
-    font-family: "Nunito", sans-serif;
-    font-size: 0.9rem;
-    font-weight: 400;
-    line-height: 1.6;
-    color: #212529;
-    text-align: left;
-}
-*{
-    box-sizing: border-box;
-}
-.pb-3, .py-3 {
-    padding-bottom: 1rem !important;
-}
-element.style {
-    background-color: #115089;
-}
-.pt-3, .py-3 {
-    padding-top: 1rem !important;
-}
-.container, .container-fluid, .container-xl, .container-lg, .container-md, .container-sm {
-    width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
-    margin-right: auto;
-    margin-left: auto;
-}
-div {
-    display: block;
-}
-.justify-content-end {
-    justify-content: flex-end !important;
-}
-.row {
-    display: flex;
-    flex-wrap: wrap;
-    margin-right: -15px;
-    margin-left: -15px;
-}
-.mb-auto, .my-auto {
-    margin-bottom: auto !important;
-}
-.mt-auto, .my-auto {
-    margin-top: auto !important;
-}
-
-/*.col-md-2 {
-       flex: 0 0 33.33333333%;
-    max-width: 33.33333333%;
-}
-.col-xl-1 {
-    flex: 0 0 33.33333333%;
-    max-width: 33.33333333%;
-}*/
-@media (min-width: 768px)
-{
-    .col-md-2 {
-    flex: 0 0 16.66666667%;
-    max-width: 16.66666667%;
-}
-}
-
-.col-4 {
-    flex: 0 0 33.33333333%;
-    max-width: 33.33333333%;
-}
-@media (min-width: 1200px){
-    .col-xl-1 {
-    flex: 0 0 8.33333333%;
-    max-width: 8.33333333%;
-}
-}
-
-.col-xl, .col-xl-auto, .col-xl-12, .col-xl-11, .col-xl-10, .col-xl-9, .col-xl-8, .col-xl-7, .col-xl-6, .col-xl-5, .col-xl-4, .col-xl-3, .col-xl-2, .col-xl-1, .col-lg, .col-lg-auto, .col-lg-12, .col-lg-11, .col-lg-10, .col-lg-9, .col-lg-8, .col-lg-7, .col-lg-6, .col-lg-5, .col-lg-4, .col-lg-3, .col-lg-2, .col-lg-1, .col-md, .col-md-auto, .col-md-12, .col-md-11, .col-md-10, .col-md-9, .col-md-8, .col-md-7, .col-md-6, .col-md-5, .col-md-4, .col-md-3, .col-md-2, .col-md-1, .col-sm, .col-sm-auto, .col-sm-12, .col-sm-11, .col-sm-10, .col-sm-9, .col-sm-8, .col-sm-7, .col-sm-6, .col-sm-5, .col-sm-4, .col-sm-3, .col-sm-2, .col-sm-1, .col, .col-auto, .col-12, .col-11, .col-10, .col-9, .col-8, .col-7, .col-6, .col-5, .col-4, .col-3, .col-2, .col-1 {
-    position: relative;
-    width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
-}
-element.style {
-    color: white;
-}
-.text-right {
-    text-align: right !important;
-}
-.m-0 {
-    margin: 0 !important;
-}
-h4{
-    color: #5c94d7;
-    display: block;
-    margin-block-start: 1.33em;
-    margin-block-end: 1.33em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    font-weight: bold;
-}
-
-h4, .h4 {
-    font-size: 1.35rem;
-}
-h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-    line-height: 1.2;
-}
-element.style {
-    border-left: 2px solid white;
-    border-right: 2px solid white;
-}
-.text-center {
-    text-align: center !important;
-}
-
-a {
-    color: #3490dc;
-    text-decoration: none;
-    background-color: transparent;
-}
-
-.h-100 {
-        height: 100% !important;
-}
-.w-100 {
-    width: 100% !important;
-}
-img {
-    vertical-align: middle;
-    border-style: none;
-    overflow-clip-margin: content-box;
-    overflow: clip;
-}
-a {
-    color: #3490dc;
-    text-decoration: none;
-    background-color: transparent;
-}
-
-.navbar {
-            background-color: rgb(255, 255, 255); /* Color del navbar */
-            height: 50px; /* Ajusta la altura según tus necesidades */
-            width: 100%; /* Cubre de lado a lado */
-            text-align: left; /* Alinea el texto a la izquierda */
-            padding: 0 20px; /* Agrega espacio interior */
-            display: flex;
+                
+        body{
+            margin: auto;
+            font-family: "Nunito", sans-serif;
+            font-size: 0.9rem;
+            font-weight: 400;
+            line-height: 1.6;
+            color: #212529;
+            text-align: left;
         }
-.navbar a{
-    color:darkgrey;
-    font-family: "Nunito", sans-serif;
-    padding: 15px;
-}
-footer{
-    padding: 20px 20px 20px;
-    background-color: #115089;
-    max-width: 100%;
-   /* margin: 25px auto;*/
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-}
-.seccionFooter{
-    text-align: center;
-    display: inline-grid;
-    list-style: none;
-   /* margin: 25px auto;*/
-    width: 300px;
-    height: 120px;
-    font-family: Myraid light;
-}
-ul{
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    padding-inline-start: 40px;
-}
-.seccionFooter li {
-    height: 25px;
-    width: auto;
-}
-li {
-    display: list-item;
-    text-align: -webkit-match-parent;
-}
-.detalleUbicacion {
-    margin-left: 15px;
-    font-size: 18px;
-    display: inline-block;
-    text-align: start;
-    color: white;
-}
-.mapa {
-    display: inline-grid;
-}
-.mapa iframe {
-    width: 100%;
-    height: 100%;
-}
-.contenidoPagina{
-    height:400px;
-    width: 100%;
-}
-iframe {
-    overflow-clip-margin: content-box !important;
-    overflow: clip !important;
-    border-width: 2px;
-    border-style: inset;
-    border-color: initial;
-    border-image: initial;
-}
+        *{
+            box-sizing: border-box;
+        }
+        .pb-3, .py-3 {
+            padding-bottom: 1rem !important;
+        }
+        element.style {
+            background-color: #115089;
+        }
+        .pt-3, .py-3 {
+            padding-top: 1rem !important;
+        }
+        .container, .container-fluid, .container-xl, .container-lg, .container-md, .container-sm {
+            width: 100%;
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+        div {
+            display: block;
+        }
+        .justify-content-end {
+            justify-content: flex-end !important;
+        }
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+        .mb-auto, .my-auto {
+            margin-bottom: auto !important;
+        }
+        .mt-auto, .my-auto {
+            margin-top: auto !important;
+        }
+
+        /*.col-md-2 {
+            flex: 0 0 33.33333333%;
+            max-width: 33.33333333%;
+        }
+        .col-xl-1 {
+            flex: 0 0 33.33333333%;
+            max-width: 33.33333333%;
+        }*/
+        @media (min-width: 768px)
+        {
+            .col-md-2 {
+            flex: 0 0 16.66666667%;
+            max-width: 16.66666667%;
+        }
+        }
+
+        .col-4 {
+            flex: 0 0 33.33333333%;
+            max-width: 33.33333333%;
+        }
+        @media (min-width: 1200px){
+            .col-xl-1 {
+            flex: 0 0 8.33333333%;
+            max-width: 8.33333333%;
+        }
+        }
+
+        .col-xl, .col-xl-auto, .col-xl-12, .col-xl-11, .col-xl-10, .col-xl-9, .col-xl-8, .col-xl-7, .col-xl-6, .col-xl-5, .col-xl-4, .col-xl-3, .col-xl-2, .col-xl-1, .col-lg, .col-lg-auto, .col-lg-12, .col-lg-11, .col-lg-10, .col-lg-9, .col-lg-8, .col-lg-7, .col-lg-6, .col-lg-5, .col-lg-4, .col-lg-3, .col-lg-2, .col-lg-1, .col-md, .col-md-auto, .col-md-12, .col-md-11, .col-md-10, .col-md-9, .col-md-8, .col-md-7, .col-md-6, .col-md-5, .col-md-4, .col-md-3, .col-md-2, .col-md-1, .col-sm, .col-sm-auto, .col-sm-12, .col-sm-11, .col-sm-10, .col-sm-9, .col-sm-8, .col-sm-7, .col-sm-6, .col-sm-5, .col-sm-4, .col-sm-3, .col-sm-2, .col-sm-1, .col, .col-auto, .col-12, .col-11, .col-10, .col-9, .col-8, .col-7, .col-6, .col-5, .col-4, .col-3, .col-2, .col-1 {
+            position: relative;
+            width: 100%;
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+        element.style {
+            color: white;
+        }
+        .text-right {
+            text-align: right !important;
+        }
+        .m-0 {
+            margin: 0 !important;
+        }
+        h4{
+            color: #5c94d7;
+            display: block;
+            margin-block-start: 1.33em;
+            margin-block-end: 1.33em;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+            font-weight: bold;
+        }
+
+        h4, .h4 {
+            font-size: 1.35rem;
+        }
+        h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+        element.style {
+            border-left: 2px solid white;
+            border-right: 2px solid white;
+        }
+        .text-center {
+            text-align: center !important;
+        }
+
+        a {
+            color: #3490dc;
+            text-decoration: none;
+            background-color: transparent;
+        }
+
+        .h-100 {
+                height: 100% !important;
+        }
+        .w-100 {
+            width: 100% !important;
+        }
+        img {
+            vertical-align: middle;
+            border-style: none;
+            overflow-clip-margin: content-box;
+            overflow: clip;
+        }
+        a {
+            color: #3490dc;
+            text-decoration: none;
+            background-color: transparent;
+        }
+
+        .navbar {
+                    background-color: rgb(255, 255, 255); /* Color del navbar */
+                    height: 50px; /* Ajusta la altura según tus necesidades */
+                    width: 100%; /* Cubre de lado a lado */
+                    text-align: left; /* Alinea el texto a la izquierda */
+                    padding: 0 20px; /* Agrega espacio interior */
+                    display: flex;
+                }
+        .navbar a{
+            color:darkgrey;
+            font-family: "Nunito", sans-serif;
+            padding: 15px;
+        }
+        footer{
+            padding: 20px 20px 20px;
+            background-color: #115089;
+            max-width: 100%;
+        /* margin: 25px auto;*/
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+        .seccionFooter{
+            text-align: center;
+            display: inline-grid;
+            list-style: none;
+        /* margin: 25px auto;*/
+            width: 300px;
+            height: 120px;
+            font-family: Myraid light;
+        }
+        ul{
+            margin-block-start: 1em;
+            margin-block-end: 1em;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+            padding-inline-start: 40px;
+        }
+        .seccionFooter li {
+            height: 25px;
+            width: auto;
+        }
+        li {
+            display: list-item;
+            text-align: -webkit-match-parent;
+        }
+        .detalleUbicacion {
+            margin-left: 15px;
+            font-size: 18px;
+            display: inline-block;
+            text-align: start;
+            color: white;
+        }
+        .mapa {
+            display: inline-grid;
+        }
+        .mapa iframe {
+            width: 100%;
+            height: 100%;
+        }
+        .contenidoPagina{
+            height:400px;
+            width: 100%;
+        }
+        iframe {
+            overflow-clip-margin: content-box !important;
+            overflow: clip !important;
+            border-width: 2px;
+            border-style: inset;
+            border-color: initial;
+            border-image: initial;
+        }
 
 
     </style>
-</head>
+
+    </head>
 <body>
     <div class="container-fluid py-3" style="background-color: #115089; ">
         <div class="row justify-content-end ">
@@ -249,6 +253,7 @@ iframe {
         </div>
     </div>
 
+<<<<<<< HEAD
     <nav class="navbar navbar-expand-lg navbar-light bg-light">        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -285,9 +290,17 @@ iframe {
     </nav>
     <section>
         <div class="contenidoPagina">
+=======
+    <div class="navbar">
+        <a href="#">Inicio</a>
+        <a href="#">Instalaciones</a>
+        <a href="#">Portal de Postulaciones</a>
+        <a href="#">Módulo de Gestión Ambiental</a>
+    </div>
+>>>>>>> db063412fb3d2d7bd9fbcfd17a4831e9bacfcdfa
 
-        </div>
-    </section>
+    @yield('content')
+
     <!-- Aquí va el contenido de tu página -->
     <footer>
         <ul class="seccionFooter">
@@ -322,6 +335,7 @@ iframe {
         
 
     </footer>
+<<<<<<< HEAD
      <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
@@ -331,6 +345,10 @@ iframe {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     
+=======
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+>>>>>>> db063412fb3d2d7bd9fbcfd17a4831e9bacfcdfa
 </body>
 
 </html>
