@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agenda Ambiental</title>
+   <title>@yield('title')</title>
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
            <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -257,7 +257,7 @@ iframe {
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="{{ route('welcome') }}">Inicio</a>
+                    <a class="nav-link" href="#">Inicio</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Instalaciones</a>
@@ -274,7 +274,6 @@ iframe {
                         <a class="dropdown-item" href="{{ route('informativeSection') }}">Submódulo de Información</a>
                         <a class="dropdown-item" href="{{ route('recursos') }}">Submódulo de recursos</a>
                         <a class="dropdown-item" href="{{ route('consumoResponsable') }}">Registro de Consumo Responsable</a>
-                        
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('permissions') }}">Administración de Usuarios</a>
                         <a class="dropdown-item" href="{{ route('events') }}">Gestión de eventos</a>
@@ -284,9 +283,9 @@ iframe {
         </div>
     </nav>
     <section>
-        <div class="contenidoPagina">
-
-        </div>
+         <div class="container">
+        @yield('content')
+    </div>
     </section>
     <!-- Aquí va el contenido de tu página -->
     <footer>
