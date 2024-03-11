@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-@extends('layout')
-
-@section('title', 'Admin - Permisos')
-
-@section('content')
-    {{-- <header class="navbar fixed-top bg-light-subtle shadow">
-=======
 @extends('layouts.layout')
 
 @section('title', 'Admin - Permisos')
@@ -13,7 +5,6 @@
 
 @section('content')
     <header class="navbar fixed-top bg-light-subtle shadow">
->>>>>>> db063412fb3d2d7bd9fbcfd17a4831e9bacfcdfa
         <div class="container-fluid">
             <button
             class="navbar-toggler d-lg-none"
@@ -24,7 +15,11 @@
         >
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a href="#" class="navbar-brand">Logo</a>
+        <a href="#" class="navbar-brand">
+            <img src="{{ asset('images/logouaslp.jpg') }}" 
+            style="border-radius: 0.2rem; height: 45px"
+            class="img-fluid bg-black " id="imglogo" alt="">
+        </a>
         </div>
 
         <div
@@ -52,11 +47,7 @@
                 <p class="">Account</p>
             </div>
         </div>
-<<<<<<< HEAD
-    </header> --}}
-=======
     </header>
->>>>>>> db063412fb3d2d7bd9fbcfd17a4831e9bacfcdfa
 
     <div class="container-fluid mt-5 pt-4">
         <div class="row">
@@ -65,11 +56,7 @@
                 col-lg-3 reserve the space needed for the positioning
                 d-lg-block indicates begin to render up to lg breakpoint
                 --}}
-<<<<<<< HEAD
-            {{-- <nav class="col-lg-3 bg-light d-none d-lg-block position-fixed  top-0 bottom-0 start-0 mt-4" style="padding-top: 56px">
-=======
             <nav class="col-lg-3 bg-light d-none d-lg-block position-fixed  top-0 bottom-0 start-0 mt-4" style="padding-top: 56px">
->>>>>>> db063412fb3d2d7bd9fbcfd17a4831e9bacfcdfa
             
                 <ul class="list-unstyled ps-0">
                     <li class="mb-1">
@@ -100,11 +87,7 @@
                       </div>
                     </li>
                   </ul>
-<<<<<<< HEAD
-            </nav> --}}
-=======
             </nav>
->>>>>>> db063412fb3d2d7bd9fbcfd17a4831e9bacfcdfa
 
             <main class="col-lg-9 ms-lg-auto px-lg-4">
                     <div class="row flex-row-reverse ">
@@ -119,7 +102,7 @@
                             <thead class="table-light table-borderless">
                                 <tr>
                                 <th>Nombre</th>
-                                <th>Correo</th>
+                                <th>Clave</th>
                                 <th>Rol</th>
                                 </tr>
                             </thead>
@@ -127,13 +110,14 @@
                                 @foreach ($users as $user)
                                     <tr>
                                         <td>{{ $user['name'] }}</td>                    
-                                        <td>{{ $user['email'] }}</td>
+                                        <td>{{ $user['clave'] }}</td>
                                         <td class="mb-3">
                                             <select
                                                 class="form-select form-select-sm"
                                                 name=""
                                                 id=""
                                             >
+
                                                 @foreach ($roles as $rol)
                                                     @if ($user['rol'] == $rol)
                                                         <option selected>{{ $rol }}</option>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-@extends('layout')
+@extends('welcome')
 
 @section('title', 'Submódulo de recursos')
 <head>

@@ -1,86 +1,77 @@
-<!DOCTYPE html>
-<html lang="es">
-@extends('welcome')
+@extends('welcome');
 
-@section('title', 'Consumo Responsable')
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de consumo responsable</title>
-    <link rel="stylesheet" href="styles.css">
+@section('title', 'Registro de consumo responsable');
 
+@section('content')
     <style>
         body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f2f2f2;
-}
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
 
-.container {
-    max-width: 600px;
-    margin: 50px auto;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-h1, h2 {
-    text-align: center;
-}
+        h1, h2 {
+            text-align: center;
+        }
 
-.form-container {
-    margin-bottom: 20px;
-}
+        .form-container {
+            margin-bottom: 20px;
+        }
 
-.form-group {
-    margin-bottom: 15px;
-}
+        .form-group {
+            margin-bottom: 15px;
+        }
 
-label {
-    display: block;
-    margin-bottom: 5px;
-}
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
 
-input[type="text"],
-input[type="email"],
-select,
-input[type="number"],
-input[type="date"] {
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
+        input[type="text"],
+        input[type="email"],
+        select,
+        input[type="number"],
+        input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
 
-button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
-button:hover {
-    background-color: #0056b3;
-}
+        button:hover {
+            background-color: #0056b3;
+        }
 
-.success-message {
-    display: none;
-    text-align: center;
-    padding: 10px;
-    background-color: #28a745;
-    color: #fff;
-    border-radius: 5px;
-}
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 10px;
+            background-color: #28a745;
+            color: #fff;
+            border-radius: 5px;
+        }
 
     </style>
-</head>
-@section('content')
-<body>
     <div class="container">
         <h1>Registro de consumo responsable</h1>
         <div class="form-container">
@@ -139,11 +130,9 @@ button:hover {
 
     <script>
         document.getElementById('donation-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    
-    document.getElementById('success-message').style.display = 'block';
-});
+            event.preventDefault();
+            
+            document.getElementById('success-message').style.display = 'block';
+        });
     </script>
-</body>
 @endsection
-</html>

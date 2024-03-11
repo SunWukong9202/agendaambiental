@@ -253,17 +253,19 @@
         </div>
     </div>
 
-<<<<<<< HEAD
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    @section('navigation')
+    @show
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">        
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
                     <a class="nav-link" href="{{ route('welcome') }}">Inicio</a>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="#">Instalaciones</a>
                 </li>
@@ -271,35 +273,44 @@
                     <a class="nav-link" href="#">Portal de Postulaciones</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                    <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Módulo de Gestión Ambiental
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{ route('informativeSection') }}">Submódulo de Información</a>
                         <a class="dropdown-item" href="{{ route('recursos') }}">Submódulo de recursos</a>
-                        <a class="dropdown-item" href="{{ route('consumoResponsable') }}">Registro de Consumo Responsable</a>
-                        
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ route('permissions') }}">Administración de Usuarios</a>
-                        <a class="dropdown-item" href="{{ route('events') }}">Gestión de eventos</a>
+                        <a class="dropdown-item" href="{{ route('solicitudes') }}">Solicitudes</a>
+                        <a class="dropdown-item" href="{{ route('accompany') }}">Acompañamiento</a>
+                        @if ($user['rol'] == 'Admin' || $user['rol'] == 'Becario')
+                            <div class="dropdown-divider"></div>
+                            @if ($user['rol'] == 'Admin')
+                                <a class="dropdown-item" href="{{ route('permissions') }}">Administración de Usuarios</a>
+                            @endif
+                            <a class="dropdown-item" href="{{ route('consumoResponsable') }}">Registro de Consumo Responsable</a>
+                            <a class="dropdown-item" href="{{ route('events') }}">Gestión de eventos</a>
+                            <a class="dropdown-item" href="{{ route('registro_evento') }}">Registro de evento</a>
+                            <a class="dropdown-item" href="{{ route('acopio') }}">Acopio</a>
+                            <a class="dropdown-item" href="{{ route('registroDonante') }}">Registro de donante</a>
+                        @endif
                     </div>
                 </li>
             </ul>
+            <div class="d-flex">
+                <a href="#" class="nav-link">
+                    {{ $user['name'] ?? '' }} - {{ $user['rol'] ?? '' }}
+                </a>
+                <a href="{{ route('logout') }}" class="nav-link">
+                    Log out
+                </a>
+            </div>
         </div>
-    </nav>
-    <section>
-        <div class="contenidoPagina">
-=======
-    <div class="navbar">
-        <a href="#">Inicio</a>
-        <a href="#">Instalaciones</a>
-        <a href="#">Portal de Postulaciones</a>
-        <a href="#">Módulo de Gestión Ambiental</a>
-    </div>
->>>>>>> db063412fb3d2d7bd9fbcfd17a4831e9bacfcdfa
+    </nav>    
 
-    @yield('content')
+    @section('content')
+        <div class="contenidoPagina">
+        </div>
+    @show
 
     <!-- Aquí va el contenido de tu página -->
     <footer>
@@ -335,7 +346,6 @@
         
 
     </footer>
-<<<<<<< HEAD
      <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
@@ -345,10 +355,53 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     
-=======
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
->>>>>>> db063412fb3d2d7bd9fbcfd17a4831e9bacfcdfa
 </body>
 
 </html>
+
+{{-- COPIA CONSERVADA PARA USAR DE GUIA --}}
+{{-- <nav class="navbar navbar-expand-lg navbar-light bg-light">        
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ route('welcome') }}">Inicio</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="#">Instalaciones</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Portal de Postulaciones</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Módulo de Gestión Ambiental
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{{ route('informativeSection') }}">Submódulo de Información</a>
+                    <a class="dropdown-item" href="{{ route('recursos') }}">Submódulo de recursos</a>
+                    <a class="dropdown-item" href="{{ route('consumoResponsable') }}">Registro de Consumo Responsable</a>
+                    
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{{ route('permissions') }}">Administración de Usuarios</a>
+                    <a class="dropdown-item" href="{{ route('events') }}">Gestión de eventos</a>
+                    <a class="dropdown-item" href="{{ route('solicitudes') }}">Solicitudes</a>
+                    <a class="dropdown-item" href="{{ route('registro_evento') }}">Registro de evento</a>
+                    <a class="dropdown-item" href="{{ route('accompany') }}">Acompañamiento</a>
+                    <a class="dropdown-item" href="{{ route('acopio') }}">Acopio</a>
+                    <a class="dropdown-item" href="{{ route('registroDonante') }}">Registro de donante</a>
+                </div>
+            </li>
+        </ul>
+        <div class="d-flex">
+            <a href="#" class="nav-link">
+                {{ $user['name'] ?? '' }} - {{ $user['rol'] ?? '' }}
+            </a>
+        </div>
+    </div>
+</nav>    --}}

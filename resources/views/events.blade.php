@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-@extends('layout')
+@extends('welcome')
 
 @section('title', 'events')
 <head>
