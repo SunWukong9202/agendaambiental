@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Evento;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 
@@ -30,5 +32,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->count(20)->create([
             'rol' => 'Cliente'
         ]);
+
+        Evento::factory()->count(10)->create();
     }
 }

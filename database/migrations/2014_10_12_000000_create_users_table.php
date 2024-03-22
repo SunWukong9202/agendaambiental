@@ -13,8 +13,13 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->string('clave')->unique();
+            $table->string('name');
+            $table->string('ap_pat');
+            $table->string('ap_mat');
+            $table->string('facultad');
+            $table->string('nivel_academico');
+            $table->string('telefono');
             $table->string('password');
             $table->string('rol');
             $table->rememberToken();
