@@ -1,0 +1,50 @@
+{
+    "procedencia": [
+        "Facultad de ingenieria",
+        "Externo",
+        "Publico general",
+        "Jubilado",
+        "IMET",
+        "IMET",
+        "AA",
+        "FI",
+        "Otro"
+    ],
+
+    "genero": [
+        "Masculino",
+        "Femenino",
+        "Otro"
+    ],
+
+    "estadoSolicitud": [
+        "En espera", 
+        "Entregado"
+    ],
+
+    "envase": [
+        "Plastico",
+        "Vidrio",
+        "Botella",
+        "Bolsa de plastico",
+        "Caja",
+        "Otro"
+    ],
+
+    "estadoReactivo": [
+        "Solido",
+        "Liquido",
+        "Gaseoso"
+    ],
+
+    "cretib": [
+        "Corrosibo",
+        ""
+    ],
+
+    "condicion": [
+        "Nuevo",
+        "Seminuevo",
+        "Usado"
+    ]
+}
