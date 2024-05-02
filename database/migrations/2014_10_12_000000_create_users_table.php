@@ -19,8 +19,9 @@ return new class extends Migration
             $table->string('procedencia', 40);
             $table->string('correo', 60);
             $table->string('telefono', 15);
-            $table->string('password', );
+            $table->string('password');
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -3,6 +3,7 @@
     'icon' => false,
     'iconRTL' => false,
     'page' => false,
+    'routes' => []
 ])
 
 <a 
@@ -11,8 +12,8 @@
     @endif
     {{ $attributes->class([
         'cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white group',
-        'hover:bg-gray-100 dark:hover:bg-gray-700' => !request()->routeIs($page),
-        'bg-marine text-white' => request()->routeIs($page)
+        'hover:bg-gray-100 dark:hover:bg-gray-700' => !request()->routeIs(...[$page, ...$routes]),
+        'bg-marine text-white' => request()->routeIs(...[$page, ...$routes])
     ]) }}
 >
 

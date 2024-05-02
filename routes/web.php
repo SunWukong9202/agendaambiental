@@ -1,7 +1,10 @@
 <?php
 
 use App\Livewire\AdminPanel;
+use App\Livewire\Pages\Donaciones\Reactivos as DonacionesReactivos;
 use App\Livewire\Pages\Events;
+use App\Livewire\Pages\Inventarios\Reactivos;
+use App\Livewire\Pages\Solicitudes\Reactivos as SolicitudesReactivos;
 use App\Livewire\Pages\Users;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -19,11 +22,19 @@ use Illuminate\Support\Facades\Auth;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+//as = name -> asi que esto se pega al inicio de name
+Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
+    Route::get('/', AdminPanel::class)->name('panel');
+    Route::get('/users', Users::class)->name('users');
+    Route::get('/events', Events::class)->name('events');
+    Route::get('/inventario-reactivos', Reactivos::class)
+        ->name('inventario-reactivos');
+    Route::get('/solicitudes/reactivos', SolicitudesReactivos::class)
+        ->name('solicitudes.reactivos');
+    Route::get('/donaciones/reactivos', DonacionesReactivos::class)
+        ->name('donaciones.reactivos');
+});
 
-
-Route::get('/', AdminPanel::class)->name('admin-panel');
-Route::get('/users', Users::class)->name('users-page');
-Route::get('/events', Events::class)->name('events-page');
 
 // $materiales = [
 //     "Acero",

@@ -7,10 +7,14 @@ namespace App\Models;
 use App\Models\Acopio\Donacion;
 use App\Models\InventarioAcopio\CapturaProducto;
 use App\Models\InventarioReactivos\CapturaReactivo;
+use App\Models\InventarioReactivos\DonacionReactivo;
 use App\Models\InventarioReactivos\Reactivo;
+use App\Models\InventarioReactivos\SolicitudReactivo;
+use App\Utils\TableColumns;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -19,6 +23,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    use TableColumns;
+    use SoftDeletes;
     /**
      * The attributes that are mass assignable.
      *
@@ -53,21 +59,64 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-                
-    public function reactivosCapturados(): BelongsToMany
+    public function reactivosDonados(): BelongsToMany
     {
-        return $this->belongsToMany(Reactivo::class, 'captura_reactivos', 'responsable_id', 'reactivo_id')
-            ->as('captura')
-            ->withTimestamps();
+        return $this->_reactivosDonados()
+            ->wherePivotNull('deleted_at');
+    }
+
+    public function reactivosCapturadosWithTrashed(): BelongsToMany
+    {
+        return $this->_reactivosDonados()
+            ->wherePivotNotNull('deleted_at');
     }
 
     public function reactivosSolicitados(): BelongsToMany
     {
-        return $this->belongsToMany(Reactivo::class, 'solicitud_reactivos', 'user_id', 'reactivo_id')
-            ->as('solicitud')
-            ->withTimestamps();
+        return $this->_reactivosSolicitados()
+        ->wherePivotNull('deleted_at');
     }
 
+    public function reactivosSolicitadosWithTrashed(): BelongsToMany
+    {
+        return $this->_reactivosSolicitados()
+            ->wherePivotNotNull('deleted_at');
+    }
+                
+    private function _reactivosDonados(): BelongsToMany
+    {
+        $config = [
+            'table' => 'donaciones_reactivos',
+            'fk' => 'user_id',
+            'related_fk' => 'reactivo_id'
+        ];
+        
+
+        $columns = $this->getTableColumns(exclude: $config);
+
+        return $this->belongsToMany(Reactivo::class, $config['table'], $config['fk'], $config['related_fk'])
+            ->as('donacion')
+            ->withPivot(...$columns)
+            ->withTimestamps()
+            ->using(DonacionReactivo::class);
+    }
+
+    public function _reactivosSolicitados(): BelongsToMany
+    {
+        $config = [
+            'table' => 'solicitudes_reactivos',
+            'fk' => 'user_id',
+            'related_fk' => 'reactivo_id'
+        ];
+
+        $columns = $this->getTableColumns(exclude: $config);
+        
+        return $this->belongsToMany(Reactivo::class, $config['table'], $config['fk'], $config['related_fk'])
+            ->as('solicitud')
+            ->withPivot(...$columns)
+            ->withTimestamps()
+            ->using(SolicitudReactivo::class);
+    }
 
     public function acopios()
     {
@@ -92,7 +141,7 @@ class User extends Authenticatable
 
     public function capturasReactivos(): HasMany
     {
-        return $this->hasMany(CapturaReactivo::class);
+        return $this->hasMany(DonacionReactivo::class);
     }
 
     public function solicitudesServicios(): HasMany

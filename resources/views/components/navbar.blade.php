@@ -6,10 +6,10 @@
             <span class="sr-only">Open sidebar</span>
             <x-icon.bars />
         </button>
-        <a href="{{ route('admin-panel') }}" class="flex ms-2">
-          <img src="./images/logouaslp.jpg" class="h-8 me-3" alt="FlowBite Logo" />
+        <a href="{{ route('admin.panel') }}" class="flex ms-2">
+          <img src="../images/logoagenda.jpg" class="h-8 me-3" alt="FlowBite Logo" />
         </a>
-
+        {{ $slot }}
     </div>
   </div>
 </nav>

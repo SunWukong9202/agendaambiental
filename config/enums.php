@@ -8,11 +8,7 @@ return [
 
     
 
-    "genero" => [
-        "Masculino",
-        "Femenino",
-        "Otro"
-    ],
+
 
     "estadoSolicitud" => [
         "En espera", 

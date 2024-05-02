@@ -1,3 +1,3 @@
 <div>
-    Pagina de eventos
+    <x-coming-soon />
 </div>

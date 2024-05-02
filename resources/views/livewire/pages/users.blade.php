@@ -1,3 +1,3 @@
 <div>
-    Pagina de usuarios
+    <x-coming-soon />
 </div>

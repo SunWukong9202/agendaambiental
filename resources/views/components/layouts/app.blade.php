@@ -10,16 +10,34 @@
         @vite('resources/css/app.css')
     </head>
     <body>
-        <x-navbar />
+        @php
+        $routes = \Illuminate\Support\Facades\Config::get('navigation.reactivos', []);
+        @endphp
+        
+        <x-navbar>
+            @if (request()->routeIs(...$routes))
+            <div class="fixed inset-x-0">
+                <x-tabs :pages="$routes"/>
+            </div>
+            @endif
+        </x-navbar>
         <x-aside>
-            <x-link  text="Inicio" icon="grid"/>
-            <x-link  text="Usuarios" icon="grid"/>
+            <x-link text="Inicio" icon="grid"/>
+            <x-link wire:navigate page="admin.users" text="Usuarios" icon="grid"/>
+            <x-link wire:navigate page="admin.events" text="Eventos" icon="grid"/>
+            <x-dropdown key="Inventarios">
+                <x-slot:trigger>
+                    <x-link text="Inventarios" icon="grid" iconRTL="angle-down"/>
+                </x-slot>
 
-            <x-link  text="Eventos" icon="grid"/>
+                <x-link class="pl-11" text="Productos" />
+                <x-link wire:navigate :page="$routes['Inicio']" :$routes class="pl-11" text="Reactivos" />
+                <x-link class="pl-11" text="Acopio" />
+            </x-dropdown>
 
-            <x-link text="Acopios" icon="grid"/>
+            {{-- <x-link text="Acopios" icon="grid"/> --}}
 
-            <x-link text="Acopio Activo" icon="grid"/>
+            {{-- <x-link text="Acopio Activo" icon="grid"/> --}}
 
             <x-dropdown key="solicitudes">
                 <x-slot:trigger>
@@ -31,7 +49,17 @@
                 <x-link class="pl-11" text="Servicios" />
             </x-dropdown>
 
-            <x-link text="Proveedores" icon="grid"/>
+            <x-dropdown key="Donaciones">
+                <x-slot:trigger>
+                    <x-link text="Donacion" icon="grid" iconRTL="angle-down"/>
+                </x-slot>
+
+                <x-link class="pl-11" text="Productos" />
+                <x-link class="pl-11" text="Reactivos" />
+                <x-link class="pl-11" text="Acopio" />
+            </x-dropdown>
+
+            {{-- <x-link text="Proveedores" icon="grid"/>
             <x-link text="Reactivos" icon="grid"/>
             <x-link text="Residuos" icon="grid"/>
             <x-link text="Solicitudes de Reactivos" icon="grid"/>
@@ -39,7 +67,7 @@
             <x-link text="Solicitudes de Servicios" icon="grid"/>
             <x-link text="Captura de Productos" icon="grid"/>
             <x-link text="Captura de Reactivos" icon="grid"/>
-            <x-link text="Reparaciones" icon="grid"/>
+            <x-link text="Reparaciones" icon="grid"/> --}}
         </x-aside>
 
         <div class="p-4 sm:ml-64 dark:bg-gray-800">
