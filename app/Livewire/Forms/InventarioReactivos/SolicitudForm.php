@@ -42,16 +42,23 @@ class SolicitudForm extends Form
         );
     }
 
-    public function update(Reactivo $reactivo): void
+    public function update(Reactivo $reactivo, $withReactive): void
     {
         $this->validate([
             'cantidad' => function ($attribute, $value, $fail) use ($reactivo) {
-                $min = min($reactivo->total, SolicitudReactivo::LIMIT);
-                if($attribute > $min) {
+                $min = min($reactivo?->total ?? $this->solicitud->reactivo->total, SolicitudReactivo::LIMIT);
+                if($value > $min) {
                     $fail('La cantidad aprobada no puede ser mayor a la disponible');
                 }
             }
         ]);
+
+        $this->estado = true;
+
+        if($withReactive) {
+            $this->solicitud->reactivo_id = $reactivo->id;
+            $this->otro_reactivo = null;
+        }
         
         $this->solicitud->update(
             $this->except('solicitud')

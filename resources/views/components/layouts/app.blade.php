@@ -14,7 +14,10 @@
         $routes = \Illuminate\Support\Facades\Config::get('navigation.reactivos', []);
         @endphp
         
-        <x-navbar>
+        <x-navbar class="fixed top-0 z-50">
+            <a href="{{ route('admin.panel') }}" class="flex ms-2">
+                <img src="../images/logoagenda.jpg" class="h-8 me-3" alt="FlowBite Logo" />
+            </a>
             @if (request()->routeIs(...$routes))
             <div class="fixed inset-x-0">
                 <x-tabs :pages="$routes"/>

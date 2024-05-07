@@ -75,7 +75,8 @@ class Reactivos extends Component
         
         $reactivo = Reactivo::findOrFail($this->reactivo_id);
         
-        $this->form->update($reactivo);
+        $this->form->update($reactivo, $this->withReactive);
+
         $this->editSuccess = true;
         $this->modalOpen = false;
     }
