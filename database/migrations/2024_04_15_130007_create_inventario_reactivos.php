@@ -26,13 +26,13 @@ return new class extends Migration
         Schema::create('solicitudes_reactivos', function (Blueprint $table) {
             $table->id();
             $table->decimal('cantidad', 6, 2);// max 9 999.99 u/solictud
-            $table->string('observaciones')->nullable();
+            $table->string('comentario')->nullable();
             $table->string('otro_reactivo')->nullable();
             $table->boolean('estado')->default(false);
 
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('reactivo_id')->constrained('reactivos')
-                ->nullable()
+            $table->foreignId('reactivo_id')->nullable()
+                ->default(null)->constrained('reactivos')
                 ->cascadeOnDelete();
             $table->timestamp('deleted_at')->nullable();
             $table->timestamps();

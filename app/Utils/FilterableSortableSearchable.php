@@ -8,7 +8,7 @@ trait FilterableSortableSearchable
     {
         foreach ($filters as $column => $value) {
             if ($value !== null) {
-                if (in_array($column, $this->fillable)) {
+                if (in_array($column, $this->sortable)) {
                     $query->where($column, $value);
                 }
             }
@@ -16,12 +16,20 @@ trait FilterableSortableSearchable
         return $query;
     }
 
-    public function scopeSearch($query, $term)
+    public function scopeSearch($query, $term, $searchables = [])
     {
         if ($term) {
-            $query->where(function ($query) use ($term) {
-                foreach ($this->searchable as $column) {
-                    $query->orWhere($column, 'LIKE', '%' . $term . '%');
+            $query->where(function ($query) use ($term, $searchables) {
+                if(isset($this->searchables)){
+                    foreach ($this->searchable as $column) {
+                        $query->orWhere($column, 'LIKE', '%' . $term . '%');
+                    }
+                }
+                else 
+                {
+                    foreach ($searchables as $column) {
+                        $query->orWhere($column, 'LIKE', '%' . $term . '%');
+                    }
                 }
             });
         }
@@ -31,7 +39,7 @@ trait FilterableSortableSearchable
     public function scopeSort($query, $column, $direction = 'asc')
     {
         // Asegurarse de que la columna exista en la tabla para evitar SQL injection
-        if (in_array($column, $this->fillable)) {
+        if (in_array($column, $this->sortable)) {
             return $query->orderBy($column, $direction);
         }
         return $query;

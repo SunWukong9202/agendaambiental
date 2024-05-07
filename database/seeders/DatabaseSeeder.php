@@ -27,12 +27,16 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         $dataset = new Collection(Config::get('reactivos'));
-
-        $reactivos = $dataset->map(function ($reactivo) {
+        $count = 0;
+        $reactivos = $dataset->map(function ($reactivo) use (&$count) {
+            if ($count < 2) {
+                $reactivo['visible'] = false;
+            }
+            $count++;
             return Reactivo::factory()->create($reactivo);
         });
-
-        $solicitantes = User::factory()->count(10)->create();
+        
+        $solicitantes = User::factory()->count(1)->create();
 
         foreach($solicitantes as $solicitante) {
             foreach($reactivos as $reactivo) {
@@ -40,12 +44,20 @@ class DatabaseSeeder extends Seeder
                 if($solicitud->estado) 
                     $reactivo->total -= $solicitud->cantidad;
 
-                $solicitante->reactivosSolicitados()
-                    ->attach($reactivo, $solicitud->toArray());
+                if($reactivo->visible) {
+                    $solicitante->reactivosSolicitados()
+                    ->attach($reactivo, $solicitud->toArray()); 
+                }
+                else {
+                    $solicitud['estado'] = false;
+                    $solicitud['otro_reactivo'] = $reactivo->nombre;
+                    $solicitante->solicitudesOtroReactivo()
+                        ->save($solicitud);
+                }
             }   
         }
 
-        $capturistas = User::factory()->count(10)->create();
+        $capturistas = User::factory()->count(1)->create();
         foreach ($capturistas as $capturista) {
             foreach ($reactivos as $reactivo) {
                 $captura = DonacionReactivo::factory()->make();

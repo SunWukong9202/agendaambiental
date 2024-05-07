@@ -124,6 +124,11 @@ class User extends Authenticatable
                     ->withTimestamps();
     }
 
+    public function solicitudesOtroReactivo() : HasMany
+    {
+        return $this->hasMany(SolicitudReactivo::class, 'user_id');
+    }
+
     public function donaciones(): HasMany
     {
         return $this->hasMany(Donacion::class);

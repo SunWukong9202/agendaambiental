@@ -8,7 +8,7 @@
 
     <div 
     wire:loading.flex
-    class="flex justify-center items-center absolute inset-0">
+    {{ $attributes->class(['flex justify-center items-center absolute inset-0']) }}>
         {{ $show }}
     </div>
 </div>

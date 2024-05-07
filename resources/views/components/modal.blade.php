@@ -6,7 +6,7 @@
 <div
   x-data="{ open: false }"
   x-modelable="open"
-  {{ $attributes }}
+  {{ $attributes->whereDoesntStartWith('class') }}
   >
   <!-- Trigger -->
   @if (!$outsideTrigger)
@@ -42,7 +42,9 @@
       x-transition:leave="transition ease-in duration-300"
       x-transition:leave-start="transform opacity-100 translate-y-0"
       x-transition:leave-end="transform opacity-0 translate-y-full"
-      class="relative flex min-h-screen items-center justify-center p-4">
+      {{ $attributes->class([
+        'relative flex min-h-screen items-center justify-center p-4'
+      ]) }} >
       <div
         x-on:click.stop=""
         x-trap.noscroll.inert="open"
@@ -67,10 +69,6 @@
             </div>
             <div class="p-4 md:p-5">
                 {{ $slot }}
-            </div>
-            <!-- Modal footer -->
-            <div class="flex items-center px-4 py-2 md:px-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                {{ $footer }}
             </div>
       </div>
     </div>

@@ -8,7 +8,7 @@
 
 <div 
 x-id="['text-input']"    
-{{ $attributes->whereStartsWith('class') }}>
+{{ $attributes->class(['w-full']) }}>
     @if ($label instanceof \Illuminate\View\ComponentSlot)
         {{ $label }}
     @else
@@ -28,7 +28,7 @@ x-id="['text-input']"
         <input 
         {{ $attributes->whereDoesntStartWith('class') }}
         type="{{ $type }}" name="{{ $label }}" :id="$id('text-input')"
-            class="bg-gray-100 text-sm rounded-lg block w-full p-2.5 dark:placeholder-gray-400 
+            class="bg-gray-100 text-sm rounded-lg block w-full p-2 dark:placeholder-gray-400 
             @if ($icon)
             ps-10
             @endif

@@ -23,7 +23,7 @@ class ReactivoFactory extends Factory
             'grupo' => $faker->word,
             'formula' => $faker->word,
             'unidad' => $faker->word,
-            'visible' => $faker->boolean,
+            'visible' => true,
             'total' => 0.00,
         ];
     }
