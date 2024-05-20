@@ -24,9 +24,9 @@
         default => 'Formulario de Solicitudes'
     }"
     >
-        <div>
+        {{-- <div>
             @error('form.unidad') <span class="text-red-600">{{ $message }}</span> @enderror
-        </div>
+        </div> --}}
 
         @if ($action == 'edit')
             <form wire:submit="edit">

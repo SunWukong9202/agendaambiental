@@ -6,11 +6,13 @@ use App\Livewire\Forms\InventarioReactivos\SolicitudForm;
 use App\Models\InventarioReactivos\Reactivo;
 use App\Models\InventarioReactivos\SolicitudReactivo;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithPagination;
 
+#[Lazy()]
 class Reactivos extends Component
 {
     use WithPagination;
@@ -98,6 +100,10 @@ class Reactivos extends Component
         $this->render();
     }
 
+    public function mount(): void
+    {
+        sleep(1);//Solo para mostrar los indicadores de carg
+    }
 
     public function render()
     {
@@ -110,6 +116,10 @@ class Reactivos extends Component
         ]);
     }
 
+    public function placeholder()
+    {
+        return view('components.table.placeholder', ['howMany' => 10, 'cols' => 8]);
+    }
 
     // SECCION DE BUSQUEDA Y ORDENAMIENTO    
 

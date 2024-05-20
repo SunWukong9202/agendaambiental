@@ -32,9 +32,9 @@
         default => 'Formulario de Reactivos'
     }"
     >
-        <div>
+        {{-- <div>
             @error('form.unidad') <span class="text-red-600">{{ $message }}</span> @enderror
-        </div>
+        </div> --}}
         @if ($action == 'create')
             <form wire:submit="create">
                 <div class="flex gap-4">
@@ -50,6 +50,7 @@
 
                     <x-input.select 
                     wire:model="form.unidad"
+                    error="form.unidad"
                     label="Unidad De Medida*">
                         <option value="" disabled>Selecciona una unidad</option>
                         @foreach ($form->getUnidades() as $unidad => $unidadConFormato)
@@ -100,6 +101,7 @@
                     label="Formula*" error="form.formula" />
                     <x-input.select 
                     wire:model="form.unidad"
+                    error="form.unidad"
                     label="Unidad De Medida*">
                         <option disabled>Selecciona una unidad</option>
                         @foreach ($form->getUnidades() as $unidad => $unidadConFormato)
@@ -147,6 +149,7 @@
                 label="Formula*" error="formula" />
                 <x-input.select disabled
                 wire:model="form.unidad"
+                error="form.unidad"
                 label="Unidad De Medida*">
                     <option value="" disabled>Selecciona una unidad</option>
                     @foreach ($form->getUnidades() as $unidad => $unidadConFormato)
@@ -235,7 +238,7 @@
                 </td>
     
                 <td class="whitespace-nowrap p-3 text-sm">
-                    {{ $reactivo->estado ? 'Visible' : 'Oculto' }}
+                    {{ $reactivo->visible ? 'Visible' : 'Oculto' }}
                 </td>
     
                 <td class="whitespace-nowrap p-3 text-sm">

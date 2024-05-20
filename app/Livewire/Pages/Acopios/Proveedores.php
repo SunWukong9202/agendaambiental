@@ -4,9 +4,11 @@ namespace App\Livewire\Pages\Acopios;
 
 use App\Livewire\Forms\Acopios\ProveedorForm;
 use App\Models\Acopio\Proveedor;
+use Livewire\Attributes\Lazy;
 use Livewire\Component;
 use Livewire\WithPagination;
 
+#[Lazy()]
 class Proveedores extends Component
 {
     use WithPagination;
@@ -55,12 +57,17 @@ class Proveedores extends Component
         $this->modalOpen = true;
         $this->action = $action;
         if(isset($proveedor)) $this->form->setProveedor($proveedor);
-        $this->form->fetchAddressData($this->form->cp);
+        if($action == 'edit') $this->form->fetchAddressData($this->form->cp);
     }
 
     public function updatedFormCp($value): void
     {
         $this->form->updatedPostalCode($value);
+    }
+
+    public function mount(): void
+    {
+        sleep(1);//Solo para mostrar los indicadores de carg
     }
 
     public function render()
@@ -69,6 +76,11 @@ class Proveedores extends Component
         return view('livewire.pages.acopios.proveedores', [
             'proveedores' => $query->paginate(10)
         ]);
+    }
+
+    public function placeholder()
+    {
+        return view('components.table.placeholder', ['howMany' => 10, 'cols' => 9]);
     }
 
     //SECCION DE BUSQUEDA Y ORDENAMIENTO

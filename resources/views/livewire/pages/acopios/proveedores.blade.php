@@ -1,19 +1,19 @@
 <div class="relative">
 
     {{-- TOATS DEL CRUD --}}
-    {{-- <div class="fixed bottom-5 right-5 z-30">
+    <div class="fixed bottom-5 right-5 z-30">
         <x-toast
         wire:model="createSuccess"
         class="!max-w-sm"
         x-effect="if($wire.createSuccess) setTimeout(()=> $wire.createSuccess = false, 3000)">
             <div class="p-3">
-                <span class="font-semibold">proveedor Creado Existosamente</span><br>
+                <span class="font-semibold">Proveedor Creado Existosamente</span><br>
                 {{ $form->proveedor?->nombre ?? 'El proveedor' }}&nbsp;fue agregado a la tabla
             </div>
         </x-toast>
 
         <x-toast
-        message="proveedor editado con éxito"
+        message="Proveedor editado con éxito"
         wire:model="editSuccess"
         x-effect="if($wire.editSuccess) setTimeout(()=> $wire.editSuccess = false, 3000)"/>
         
@@ -22,7 +22,7 @@
         x-effect="if($wire.deleteSuccess) setTimeout(()=> $wire.deleteSuccess = false, 3000)">
         {{ $form->proveedor?->nombre ?? 'El proveedor' }}&nbsp;fue eliminado
         </x-toast>
-    </div> --}}
+    </div>
 
     {{-- MODAL PARA VISTA/MODIFICACION --}}
     <x-modal wire:model="modalOpen" 
@@ -53,7 +53,7 @@
                             wire:model.stop="form.rfc"
                             label="RFC*"
                             error="form.rfc"
-                            x-data
+                            x-mask="aaaa999999aaa"
                             x-on:input="event.target.value = event.target.value.toUpperCase()"
                         />
                     </div>
@@ -65,7 +65,7 @@
     
                         <x-input.text 
                         wire:model.stop="form.giro_empresa"
-                        label="Giro de la empresa" error="form.giro_empresa" />
+                        label="Giro de la empresa*" error="form.giro_empresa" />
                     </div>
                 </x-dropdown>
 
@@ -90,7 +90,7 @@
                         <x-input.text 
                         wire:model.stop="form.num_ext"
                         x-mask="#99999"
-                        label="Num Ext." error="form.num_ext" />
+                        label="Num Exterior*" error="form.num_ext" />
 
                         <x-input.text 
                         x-mask="#99999"
@@ -105,14 +105,10 @@
                         wire:model="form.colonia"
                         placeholder="Escoge una colonia"
                         label="Colonia*">
-                            {{-- @if (empty($form->colonias))
-                                <option disabled>Ingresa un codigo postal</option>
-                            @else --}}
-                                <option disabled>Selecciona una colonia</option>
-                                @foreach ($form->colonias as $colonia)
-                                    <option value="{{ $colonia }}">{{ $colonia }}</option>
-                                @endforeach
-                            {{-- @endif --}}
+                            <option disabled>Selecciona una colonia</option>
+                            @foreach ($form->colonias as $colonia)
+                                <option value="{{ $colonia }}">{{ $colonia }}</option>
+                            @endforeach
                         </x-input>
                         {{-- <x-input.text 
                         wire:model.stop="form.colonia"
@@ -120,7 +116,7 @@
 
                         <x-input.text 
                         wire:model.stop="form.calle"
-                        label="Calle" error="form.calle" />
+                        label="Calle*" error="form.calle" />
                     </div>
 
                     <div class="flex gap-4 mt-4 md:mt-5">
@@ -181,10 +177,6 @@
                     </x-modal-footer>
                 @endif
             </form>
-        {{-- @elseif ($action == 'edit')
-            <form wire:submit="edit">
-
-            </form> --}}
         @elseif ($action == 'show')
             <x-dropdown
                 x-init="expanded = true"

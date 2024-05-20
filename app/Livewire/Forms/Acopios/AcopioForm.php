@@ -15,6 +15,11 @@ class AcopioForm extends Form
     public $sede = '';
     public $ini_evento = '';
 
+    protected $guarded = [];
+
+    public $programable = false;
+    public $autoEnable = true;
+
     public function setProveedor(Evento $acopio): void
     {
         $this->acopio = $acopio;

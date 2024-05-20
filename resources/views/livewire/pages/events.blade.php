@@ -30,14 +30,69 @@
     :header="match($action) {
         'create' => 'Crear Nuevo acopio',
         'edit' => 'Editar acopio '.$form->nombre,
-        'show' => 'Proveedor '.$form->nombre,
+        'show' => 'Acopio '.$form->nombre,
         default => 'Formulario de acopios'
     }"
     >
         @if ($action == 'create')
-            <form 
-                wire:submit="create">
-                En progreso 
+            <form wire:submit="create">
+                <div class="flex gap-4">
+                    <x-input.text wire:model.stop="form.nombre" label="Nombre*" error="form.nombre" />
+                    <x-input.text 
+                        wire:model.stop="form.sede"
+                        label="Sede*"
+                        error="form.sede"
+                        x-on:input="event.target.value = event.target.value.toUpperCase()"
+                    />
+                </div>
+                
+                <x-input.text-area 
+                    class="mt-4"
+                    wire:model.stop="form.descripcion"
+                    label="Descripcion"
+                    error="form.descripcion"
+                    placeholder="Ingresa una pequeña descripcion del acopio"
+                />
+
+                <x-utils.alert class="mt-4">
+                    <span class="font-medium">Esta opcion</span> publica el
+                    acopio en el momento de su creacion. Eso significa que
+                    sera publicado al publico. Pero solo aquellos con permisos
+                    podran registrar movimientos.
+                </x-utils>
+
+                <div class="flex items-center mt-4">
+                    <span>Desea publicar el acopio al momento de su creacion?</span>
+                    <x-input.toggle 
+                    class="ml-4"
+                    wire:model="form.autoEnable" >
+                    </x-input>
+                </div>
+
+                <x-utils.alert class="mt-4">
+                    <span class="font-medium">Esta opcion</span> te permite
+                    programar la fecha en que el acopio sera creado publicado
+                    si aplicable. 
+                </x-utils>
+
+                <div class="flex items-center mt-4">
+                    <span>Desea programar el acopio?</span>
+                    <x-input.toggle 
+                    class="ml-4"
+                    wire:model="form.programable" >
+                    </x-input>
+                </div>
+
+                @if ($form->programable)
+                    <x-input.text 
+                        class="my-4"
+                        wire:model.stop="form.ini_evento" 
+                        label="Fecha de publicacion" 
+                        x-mask="99/99/9999" placeholder="MM/DD/YYYY"
+                        error="form.ini_evento" />
+                @endif
+
+                
                 <x-modal-footer>
                     <div class="ml-auto">
                         <x-loading.wrapper class="!justify-end inset-y-0 right-2">

@@ -124,11 +124,11 @@ class ProveedorForm extends Form
         $dipomex = new DipomexService();
         $response = $dipomex->getAddressByPostalCode($postalCode);
 
-        if (isset($response) || !$response['error']) {
-            $data = $response['codigo_postal'];
-            $this->colonias = $data['colonias'];
-            $this->estado = Str::title($data['estado']);
-            $this->municipio = Str::title($data['municipio']);
+        if (isset($response) && !$response['error']) {
+            $data = $response['codigo_postal'] ?? [];
+            $this->colonias = $data['colonias'] ?? '';
+            $this->estado = $data['estado'] ?? '';
+            $this->municipio = $data['municipio'] ?? '';
         } else {
             $this->resetAddressData();
         }

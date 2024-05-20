@@ -15,6 +15,8 @@ class Proveedor extends Model
 
     protected $table = 'proveedores';
 
+    protected $guarded = [];
+
     public function acopiosPorCategorias(): BelongsToMany
     {
         return $this->belongsToMany(AcopioPorCategoria::class, 'entregas', 'proveedor_id', 'categoria_id')
@@ -29,8 +31,6 @@ class Proveedor extends Model
     //         get: fn (string $value) => Str::title($value),
     //     );
     // }
-
-
 
     public function direccion(): string
     {

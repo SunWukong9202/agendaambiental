@@ -3,9 +3,11 @@
 namespace App\Livewire\Pages\Donaciones;
 
 use App\Models\InventarioReactivos\DonacionReactivo;
+use Livewire\Attributes\Lazy;
 use Livewire\Component;
 use Livewire\WithPagination;
 
+#[Lazy()]
 class Reactivos extends Component
 {
     use WithPagination;
@@ -31,6 +33,11 @@ class Reactivos extends Component
         $this->modalOpen = true;
     }
 
+    public function mount(): void
+    {
+        sleep(1);//Solo para mostrar los indicadores de carg
+    }
+
     public function render()
     {
         $query = $this->donaciones();
@@ -39,32 +46,37 @@ class Reactivos extends Component
         ]);
     }
 
-        // SECCION DE BUSQUEDA Y ORDENAMIENTO    
+    public function placeholder()
+    {
+        return view('components.table.placeholder', ['howMany' => 10, 'cols' => 7]);
+    }
+    
+    // SECCION DE BUSQUEDA Y ORDENAMIENTO    
 
-        public function sortBy($column)
-        {
-            if($this->sortCol == $column) {
-                $this->sortAsc = !$this->sortAsc;
-            }
-            else {
-                $this->sortCol = $column;
-                $sortAsc = false;
-            }
-        }    
-    
-        public function clear($search = 'main'): void
-        {
-            match($search) {
-                default => $this->search = ''
-            };
+    public function sortBy($column)
+    {
+        if($this->sortCol == $column) {
+            $this->sortAsc = !$this->sortAsc;
         }
-    
-        //este metodo se llama en automatico cuando search se
-        //actualiza, livewire se encarga de eso
-        public function updatedSearch(): void
-        {
-            $this->resetPage();//<= metodo de WithPagination
+        else {
+            $this->sortCol = $column;
+            $sortAsc = false;
         }
+    }    
+
+    public function clear($search = 'main'): void
+    {
+        match($search) {
+            default => $this->search = ''
+        };
+    }
+
+    //este metodo se llama en automatico cuando search se
+    //actualiza, livewire se encarga de eso
+    public function updatedSearch(): void
+    {
+        $this->resetPage();//<= metodo de WithPagination
+    }
 
     public function donaciones()
     {
