@@ -42,6 +42,14 @@
                 'btn-light' => !request()->routeIs('reactivos.solicitudes') 
             ])
             href="{{ route('reactivos.solicitudes') }}">Solicitar</x-link>
+
+            <x-link.pill
+            @class([
+                'btn-primary' => request()->routeIs('articulos.donaciones'),
+                'btn-light' => !request()->routeIs('articulos.donaciones') 
+            ])
+            href="{{ route('articulos.donaciones') }}">Articulos</x-link>
+
             <x-link.pill
             @class([
                 'btn-primary' => request()->routeIs('user.profile'),

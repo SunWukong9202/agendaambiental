@@ -5,12 +5,17 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Models\Acopio\Donacion;
-use App\Models\InventarioAcopio\CapturaProducto;
+use App\Models\InventarioAcopio\Articulo;
+use App\Models\InventarioAcopio\CapturaArticulo;
+use App\Models\InventarioAcopio\SolicitudArticulo;
 use App\Models\InventarioReactivos\CapturaReactivo;
 use App\Models\InventarioReactivos\DonacionReactivo;
 use App\Models\InventarioReactivos\Reactivo;
 use App\Models\InventarioReactivos\SolicitudReactivo;
+use App\Utils\DateFormats;
+use App\Utils\FilterableSortableSearchable;
 use App\Utils\TableColumns;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -25,6 +30,8 @@ class User extends Authenticatable
 
     use TableColumns;
     use SoftDeletes;
+    use FilterableSortableSearchable;
+    use DateFormats;
     /**
      * The attributes that are mass assignable.
      *
@@ -37,7 +44,7 @@ class User extends Authenticatable
     //     'password',
     // ];
 
-    protected $guard = [];
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -59,13 +66,21 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    protected function nombreCompleto(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes) 
+                => "{$attributes['nombre']} {$attributes['ap_pat']} {$attributes['ap_mat']}"
+        );
+    }
+
     public function reactivosDonados(): BelongsToMany
     {
         return $this->_reactivosDonados()
             ->wherePivotNull('deleted_at');
     }
 
-    public function reactivosCapturadosWithTrashed(): BelongsToMany
+    public function reactivosDonadosWithTrashed(): BelongsToMany
     {
         return $this->_reactivosDonados()
             ->wherePivotNotNull('deleted_at');
@@ -118,6 +133,33 @@ class User extends Authenticatable
             ->using(SolicitudReactivo::class);
     }
 
+
+
+
+    //REVISAR CREO QUE LA RELACION NO ESTA BIEN DEFINIDA
+    public function articulosSolicitados(): BelongsToMany
+    {
+        return $this->belongsToMany(Articulo::class, 'solicitudes_articulos', 'solicitante_id', 'articulo_id')
+            ->as('captura')
+            ->withPivot('observaciones', 'condiion')
+            ->withTimestamps()
+            ->using(User::class);
+    }
+
+    // public function articulosCapturados(Type $args): void
+    // {
+    //     # code...
+    // }
+
+    public function solicitantes(): BelongsToMany
+    {
+        return $this->belongsToMany(SolicitudArticulo::class, 'solicitudes_articulos', 'articulo_id', 'solicitante_id')
+            ->as('solicitud')
+            ->withPivot('comentario', 'estado')
+            ->withTimestamps()
+            ->using(SolicitudArticulo::class);
+    }
+
     public function acopios()
     {
         return $this->belongsToMany(Evento::class, 'donaciones', 'donador_id', 'acopio_id')
@@ -139,12 +181,17 @@ class User extends Authenticatable
         return $this->donaciones()->where('de_residuos', false);
     }
 
-    public function capturasProductos(): HasMany
+    public function productosCapturados(): HasMany
     {
-        return $this->hasMany(CapturaProducto::class);
+        return $this->hasMany(CapturaArticulo::class);
     }
 
-    public function capturasReactivos(): HasMany
+    public function productosSolicitados(): void
+    {
+        # code...
+    }
+
+    public function donacionesReactivos(): HasMany
     {
         return $this->hasMany(DonacionReactivo::class);
     }

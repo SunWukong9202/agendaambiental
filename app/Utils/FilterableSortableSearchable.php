@@ -20,7 +20,7 @@ trait FilterableSortableSearchable
     {
         if ($term) {
             $query->where(function ($query) use ($term, $searchables) {
-                if(isset($this->searchables)){
+                if(empty($searchables)){
                     foreach ($this->searchable as $column) {
                         $query->orWhere($column, 'LIKE', '%' . $term . '%');
                     }

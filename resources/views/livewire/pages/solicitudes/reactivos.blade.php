@@ -1,7 +1,18 @@
 <div class="relative">
     {{-- HABILITAR TOASTS SI APLICABLE --}}
 
-
+    <div class="fixed bottom-5 right-5 z-30">
+        <x-toast
+        message="Solicitud Procesada con exito"
+        wire:model="editSuccess"
+        x-effect="if($wire.editSuccess) setTimeout(()=> $wire.editSuccess = false, 3000)"/>
+        
+        <x-toast
+        wire:model="deleteSuccess"
+        x-effect="if($wire.deleteSuccess) setTimeout(()=> $wire.deleteSuccess = false, 3000)">
+        La solicitud del usuario {{ $form->solicitud?->user->nombre ?? 'La solicitud' }}&nbsp;fue eliminada
+        </x-toast>
+    </div>
 
     {{-- HABILITAR MODAL SI APLICABLE --}}
 
@@ -50,11 +61,18 @@
                     title="Por">
                     {{ $form->solicitud->user->nombre }}
                   </x-utils>
-                  
-                  <x-utils.text-info
+                  @if ($form->solicitud->estado)
+                    <x-utils.text-info
+                    title="Aceptada">
+                        {{ $form->solicitud->fechaLegible('updated_at') }}
+                    </x-utils>
+                  @else
+                    <x-utils.text-info
                     title="Estado">
-                        {{ $form->solicitud->estado ? 'Aprobada' : 'En Curso' }}
-                  </x-utils>
+                        En Curso
+                    </x-utils>
+                  @endif
+                  
                 </div>
                 <div class="p-4 grow-[1]">
                     <x-utils.text-info
@@ -66,6 +84,7 @@
             <x-modal-footer></x-modal-footer>
         @endif
     </x-modal>
+    
     
     
     {{-- BUSQUEDA --}}
@@ -82,17 +101,18 @@
         </x-button> --}}
 
         <x-drawer
+        outsideTrigger
         wire:model="drawerOpen"
         class="!top-10 pb-14 shadow-lg"
         :title="'Solicitud #'.($form->solicitud?->id ?? '00')
             .': '.($form->solicitud?->reactivo?->nombre 
             ?? $form->solicitud?->otro_reactivo ?? 'Anonimo')"
         >
-            <x-slot:button>
+            {{-- <x-slot:button>
                 <x-button>
                     click
                 </x-button>
-            </x-slot>
+            </x-slot> --}}
 
             <form wire:submit="edit" >
                 <x-modal-footer>
@@ -107,6 +127,10 @@
                         </x-loading>
                     </div>
                 </x-modal-footer>
+
+                {{-- <div>
+                    @error('reactivo_id') <span class="text-red-600">{{ $message }}</span> @enderror
+                </div> --}}
 
                 <x-input.text                    
                     class="my-4"
@@ -141,10 +165,21 @@
                         name="reactivos"
                         wire:model="reactivo_id"
                         value="{{ $reactivo->id }}"
-                        :title="$reactivo->nombre"
-                        :subtitle="$reactivo->grupo .' - '. $reactivo->formula.'\nDisponible: '.$reactivo->total"    
-                    />
+                        :title="$reactivo->nombre"   
+                    >
+                        {{ $reactivo->grupo .' - '. $reactivo->formula}}
+                        <br>Disponible:
+                        {{ $reactivo->total }}
+                    </x-card>
                     @endforeach
+                @else
+                <div class="bg-slate-100 p-4 rounded-lg">
+                    <x-utils.text-info
+                       title="Cantidad disponible:">
+                           {{ ($form->solicitud->reactivo?->total ?? '00').' '.($form->solicitud->reactivo?->unidad ?? '')}}
+                     </x-utils>
+                     
+                   </div>
                 @endif
             </form>
         </x-drawer>
@@ -207,6 +242,7 @@
                         <div class="truncate md:max-w-40 lg:max-w-52" style="max-width: 200px;">
                             {{ $solicitud->comentario }}
                         </div>
+                        
                     </td>
         
                     <td class="whitespace-nowrap p-3 text-sm">
@@ -229,7 +265,7 @@
                                         type="in-progress" >
                                             En Curso
                                             <x-icon.angle-down 
-                                            x-bind:class="open ? '-rotate-180': 'rotate-0'"    
+                                            x-bind:class="open ? '-rotate-180': 'rotate-0'"   
                                             class="ml-2 mt-[2px]"/>
                                         </x-utils>
                                     </button>
@@ -259,7 +295,7 @@
                             <x-table.closable>
                                 <x-table.button 
                                 wire:click="setAction({{ $solicitud->id }}, 'show')"
-                                text="Mostrar"/>
+                                text="Detalle"/>
                             </x-table>
                             <x-table.closable>
                                 <x-table.button

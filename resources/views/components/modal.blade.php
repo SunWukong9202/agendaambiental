@@ -25,7 +25,7 @@
     aria-labelledby="modal-title-3"
     :aria-labelledby="$id('modal-title')"
     x-on:keydown.escape.prevent.stop="open = false"
-    class="fixed inset-0 z-50 w-screen overflow-y-hidden">
+    class="fixed inset-0 z-50 w-screen overflow-y-auto">
     <!-- Overlay -->
     <div
       x-show="open"
@@ -42,13 +42,13 @@
       x-transition:leave="transition ease-in duration-300"
       x-transition:leave-start="transform opacity-100 translate-y-0"
       x-transition:leave-end="transform opacity-0 translate-y-full"
-      {{ $attributes->class([
-        'relative flex min-h-screen items-center justify-center p-4'
-      ]) }} >
+      class="relative flex min-h-screen items-center justify-center p-4">
       <div
         x-on:click.stop=""
         x-trap.noscroll.inert="open"
-        class="relative w-full max-w-xl overflow-y-auto shadow-2xl bg-white ring-1 ring-gray-200 rounded-xl">
+        {{ $attributes->class([
+          'relative w-full max-w-xl overflow-y-auto shadow-2xl bg-white ring-1 ring-gray-200 rounded-xl'
+        ]) }} >
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                 @if ($header instanceof \Illuminate\View\ComponentSlot)

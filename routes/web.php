@@ -1,11 +1,13 @@
 <?php
 
 use App\Livewire\AdminPanel;
+use App\Livewire\Pages\Acopios\Proveedores;
 use App\Livewire\Pages\Donaciones\Reactivos as DonacionesReactivos;
 use App\Livewire\Pages\Events;
 use App\Livewire\Pages\Inventarios\Reactivos;
 use App\Livewire\Pages\Solicitudes\Reactivos as SolicitudesReactivos;
 use App\Livewire\Pages\Users;
+use App\Models\InventarioAcopio\Articulo;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Faker\Factory as Faker;
@@ -27,6 +29,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
     Route::get('/', AdminPanel::class)->name('panel');
     Route::get('/users', Users::class)->name('users');
     Route::get('/events', Events::class)->name('events');
+    Route::get('/proveedores', Proveedores::class)->name('proveedores');
+
     Route::get('/inventario-reactivos', Reactivos::class)
         ->name('inventario-reactivos');
     Route::get('/solicitudes/reactivos', SolicitudesReactivos::class)
@@ -83,6 +87,14 @@ Route::middleware(['auth'])->group(function () {
 
     Route::view('/modulo/reactivos/donaciones', 'client.reactivos.solicitudes')
         ->name('reactivos.donaciones');
+
+    Route::get('/modulo/articulos', function () {
+        
+        return view('client.articulos.solicitudes', [
+            'articulos' => Articulo::all(),
+        ]);
+    })
+    ->name('articulos.donaciones');
 
     Route::view('/modulo/profile', 'client.user.profile')
     ->name('user.profile');

@@ -21,7 +21,8 @@
     
     @if($text) <span class="ms-3 {{ $iconRTL ? 'flex-1': '' }}">{{ $text }}</span> @endif
 
-    @if($iconRTL) <x-icon o :icon="$iconRTL"/> @endif
+       
+    @if($iconRTL) <x-icon  :icon="$iconRTL"/> @endif
     
     {{ $slot }}
  </a>

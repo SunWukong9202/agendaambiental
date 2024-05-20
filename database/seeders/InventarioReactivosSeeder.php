@@ -16,20 +16,6 @@ class InventarioReactivosSeeder extends Seeder
      */
     public function run(): void
     {
-        $dataset = new Collection(Config::get('reactivos'));
-
-        $reactivos = $dataset->map(function ($reactivo) {
-            return Reactivo::factory()->create($reactivo);
-        });
-
-        // $user = User::factory()
-        //     ->count(10)
-        //     ->hasAttached(
-        //         $reactivos, 
-        //         [
-        //             'foto'
-        //         ]
-        //     )
-
+        
     }
 }

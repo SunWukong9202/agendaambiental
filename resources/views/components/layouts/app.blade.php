@@ -8,8 +8,16 @@
         @livewireStyles
         @vite(['resources/js/app.js'])
         @vite('resources/css/app.css')
+
     </head>
-    <body>
+    <body class="  [&::-webkit-scrollbar]:w-3
+    [&::-webkit-scrollbar-track]:rounded-full
+    [&::-webkit-scrollbar-track]:bg-slate-100
+    [&::-webkit-scrollbar-thumb]:rounded-full
+    [&::-webkit-scrollbar-thumb]:bg-slate-300
+    dark:[&::-webkit-scrollbar-track]:bg-slate-700
+    dark:[&::-webkit-scrollbar-thumb]:bg-slate-500">
+
         @php
         $routes = \Illuminate\Support\Facades\Config::get('navigation.reactivos', []);
         @endphp
@@ -25,12 +33,33 @@
             @endif
         </x-navbar>
         <x-aside>
-            <x-link text="Inicio" icon="grid"/>
+            <x-link page="admin.panel" wire:navigate text="Inicio" icon="grid"/>
             <x-link wire:navigate page="admin.users" text="Usuarios" icon="grid"/>
-            <x-link wire:navigate page="admin.events" text="Eventos" icon="grid"/>
+
+            {{-- <x-link wire:navigate page="admin.events" text="Eventos" icon="grid"/> --}}
+
+            <x-dropdown key="Acopios">
+                <x-slot:trigger>
+                    <x-link icon="grid"
+                        text="Acopios">
+                        <x-icon.angle-down 
+                        x-bind:class="expanded ? '-rotate-180': 'rotate-0'"   
+                        class="ml-auto mt-[2px]"/>
+                    </x-link>
+                </x-slot>
+
+                <x-link class="pl-11" wire:navigate page="admin.events" text="Inicio" />
+                <x-link wire:navigate page="admin.proveedores" class="pl-11" text="Proveedores" />
+            </x-dropdown>
+
             <x-dropdown key="Inventarios">
                 <x-slot:trigger>
-                    <x-link text="Inventarios" icon="grid" iconRTL="angle-down"/>
+                    <x-link icon="grid"
+                        text="Inventarios">
+                        <x-icon.angle-down 
+                        x-bind:class="expanded ? '-rotate-180': 'rotate-0'"   
+                        class="ml-auto mt-[2px]"/>
+                    </x-link>
                 </x-slot>
 
                 <x-link class="pl-11" text="Productos" />
@@ -38,39 +67,26 @@
                 <x-link class="pl-11" text="Acopio" />
             </x-dropdown>
 
+            <x-dropdown key="Configuracion">
+                <x-slot:trigger>
+                    <x-link icon="grid"
+                        text="Configuracion">
+                        <x-icon.angle-down 
+                        x-bind:class="expanded ? '-rotate-180': 'rotate-0'"   
+                        class="ml-auto mt-[2px]"/>
+                    </x-link>
+                </x-slot>
+
+                <x-link class="pl-11" text="Permisos" />
+                <x-link wire:navigate class="pl-11" text="General" />
+            </x-dropdown>
+
+            <x-link text="Cerrar Sesion" icon="arrow-right-to-bracket"/>
+            
             {{-- <x-link text="Acopios" icon="grid"/> --}}
 
             {{-- <x-link text="Acopio Activo" icon="grid"/> --}}
 
-            <x-dropdown key="solicitudes">
-                <x-slot:trigger>
-                    <x-link text="Solicitudes" icon="grid" iconRTL="angle-down"/>
-                </x-slot>
-
-                <x-link class="pl-11" text="Productos" />
-                <x-link class="pl-11" text="Reactivos" />
-                <x-link class="pl-11" text="Servicios" />
-            </x-dropdown>
-
-            <x-dropdown key="Donaciones">
-                <x-slot:trigger>
-                    <x-link text="Donacion" icon="grid" iconRTL="angle-down"/>
-                </x-slot>
-
-                <x-link class="pl-11" text="Productos" />
-                <x-link class="pl-11" text="Reactivos" />
-                <x-link class="pl-11" text="Acopio" />
-            </x-dropdown>
-
-            {{-- <x-link text="Proveedores" icon="grid"/>
-            <x-link text="Reactivos" icon="grid"/>
-            <x-link text="Residuos" icon="grid"/>
-            <x-link text="Solicitudes de Reactivos" icon="grid"/>
-            <x-link text="Solicitudes de Productos" icon="grid"/>
-            <x-link text="Solicitudes de Servicios" icon="grid"/>
-            <x-link text="Captura de Productos" icon="grid"/>
-            <x-link text="Captura de Reactivos" icon="grid"/>
-            <x-link text="Reparaciones" icon="grid"/> --}}
         </x-aside>
 
         <div class="p-4 sm:ml-64 dark:bg-gray-800">

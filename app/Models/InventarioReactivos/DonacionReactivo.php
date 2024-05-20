@@ -5,13 +5,17 @@ namespace App\Models\InventarioReactivos;
 use App\Enums\Condicion;
 use App\Enums\CRETIB;
 use App\Enums\Estado;
+use App\Models\User;
+use App\Utils\DateFormats;
 use Illuminate\Database\Eloquent\Casts\AsEnumCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class DonacionReactivo extends Pivot
 {
     use HasFactory;
+    use DateFormats;
 
     protected $table = 'donaciones_reactivos';
     public $incrementing = true;
@@ -41,4 +45,14 @@ class DonacionReactivo extends Pivot
         // 'reactivo_id' => 0
         
     ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function reactivo(): BelongsTo
+    {
+        return $this->belongsTo(Reactivo::class, 'reactivo_id', 'id');
+    }
 }

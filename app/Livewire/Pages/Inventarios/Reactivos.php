@@ -44,7 +44,7 @@ class Reactivos extends Component
         }
         else {
             $this->sortCol = $column;
-            $sortAsc = false;
+            $this->sortAsc = false;
         }
     }
 

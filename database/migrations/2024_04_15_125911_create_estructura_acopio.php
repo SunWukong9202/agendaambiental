@@ -13,21 +13,23 @@ return new class extends Migration
     {
         Schema::create('eventos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre')->nullable();
+            $table->string('nombre');
             $table->string('descripcion')->nullable();
-            $table->string('sede')->nullable();
+            $table->string('sede');
             $table->string('cartel')->nullable();
-            $table->dateTime('ini_convocatoria');
+            $table->dateTime('fecha_publicacion')->nullable();
+            $table->dateTime('ini_convocatoria')->nullable();
             $table->dateTime('ini_evento');
-            $table->dateTime('fin_convocatoria');
+            $table->dateTime('fin_convocatoria')->nullable();
             $table->unsignedSmallInteger('inscritos')->default(0);
-            $table->boolean('es_acopio')->default(false);
+            $table->boolean('es_acopio')->default(true);
+            $table->softDeletes();
             $table->timestamps();//created_at, updated_at
         });
 
-        
         Schema::create('proveedores', function (Blueprint $table) {
             $table->id();
+            $table->string('nombre', 80);
             $table->string('rfc', 13)->nullable();
             $table->string('cp', 6)->nullable();
             $table->string('calle', 100)->nullable();
@@ -47,7 +49,7 @@ return new class extends Migration
             //checar como guardar los certificados url/blob y si es posible minificar
             $table->string('cert_participacion')->nullable();
             $table->string('cert_b_practicas')->nullable();
-            $table->decimal('costo', 4, 2)->default(0.00);//xxxx.xx max(9999.99)
+            $table->decimal('costo', 6, 2)->default(0.00);//xxxx.xx max(9999.99)
             $table->boolean('compromiso_pago');
             $table->foreignId('user_id')
                 ->constrained('users')->cascadeOnDelete();
@@ -63,9 +65,10 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('acopio_por_categorias', function (Blueprint $table) {
+        //TABLA DE APOYO
+        Schema::create('acopios_por_categorias', function (Blueprint $table) {
             $table->id();
-            $table->decimal('total', 8, 2)->default(0.00);
+            $table->decimal('total', 10, 2)->default(0.00);
             $table->foreignId('acopio_id')
                 ->constrained('eventos')->cascadeOnDelete();
             $table->foreignId('residuo_id')
@@ -73,11 +76,12 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        //TABLA PIVOTE
         Schema::create('entregas', function (Blueprint $table) {
-            $table->decimal('cantidad', 8, 2)->default(0.00);
+            $table->decimal('cantidad', 10, 2)->default(0.00);
 
             $table->foreignId('categoria_id')
-                ->constrained('acopio_por_categorias')->cascadeOnDelete();
+                ->constrained('acopios_por_categorias')->cascadeOnDelete();
 
             $table->foreignId('proveedor_id')
                 ->constrained('proveedores')->cascadeOnDelete();
@@ -87,8 +91,8 @@ return new class extends Migration
 
         Schema::create('donaciones', function (Blueprint $table) {
             $table->id();
-            $table->unsignedSmallInteger('donados')->default(0);
-            $table->unsignedSmallInteger('tomados')->default(0);
+            $table->unsignedSmallInteger('donados')->nullable();
+            $table->unsignedSmallInteger('tomados')->nullable();
             $table->boolean('de_residuos')->default(false);
 
             $table->foreignId('capturista_id')
@@ -103,17 +107,15 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('donacion_por_categorias', function (Blueprint $table) {
+        Schema::create('donaciones_por_categorias', function (Blueprint $table) {
             $table->id();
-            $table->decimal('cantidad', 4, 2)->default(0.00);
+            $table->decimal('cantidad', 6, 2)->default(0.00);
 
             $table->foreignId('donacion_id')
                 ->constrained('donaciones')->cascadeOnDelete();
             $table->foreignId('residuo_id')
                 ->constrained('residuos')->cascadeOnDelete();
-            $table->timestamps();
         });
-
     }
 
     /**
@@ -123,10 +125,10 @@ return new class extends Migration
     {
         Schema::dropIfExists('eventos');
         Schema::dropIfExists('registros');
-        Schema::dropIfExists('acopio_por_categorias');
+        Schema::dropIfExists('acopios_por_categorias');
         Schema::dropIfExists('donaciones');
 
-        Schema::dropIfExists('donacion_por_categorias');
+        Schema::dropIfExists('donaciones_por_categorias');
         Schema::dropIfExists('residuos');
 
         Schema::dropIfExists('entregas');

@@ -65,7 +65,6 @@ class Reactivo extends Model
     {
         return $this->hasMany(SolicitudReactivo::class, 'reactivo_id', 'id');
     }
-    
 }
 
     // public function solcitudes(): HasMany

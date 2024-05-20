@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('productos', function (Blueprint $table) {
+        Schema::create('articulos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
             $table->unsignedInteger('cantidad')->default(0);
@@ -19,21 +19,21 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('solicitud_productos', function (Blueprint $table) {
+        Schema::create('solicitudes_articulos', function (Blueprint $table) {
             $table->id();
             $table->string('comentario')->nullable();
             $table->string('estado');
             $table->foreignId('solicitante_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('producto_id')->constrained('productos')->cascadeOnDelete();
+            $table->foreignId('articulo_id')->constrained('articulos')->cascadeOnDelete();
             $table->timestamps();
         });
 
-        Schema::create('captura_productos', function (Blueprint $table) {
+        Schema::create('capturas_articulos', function (Blueprint $table) {
             $table->id();
             $table->string('observaciones')->nullable();
             $table->string('condicion');
             $table->foreignId('capturista_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('producto_id')->constrained('productos')->cascadeOnDelete();
+            $table->foreignId('articulo_id')->constrained('articulos')->cascadeOnDelete();
             $table->timestamps();
         });
 
@@ -42,7 +42,7 @@ return new class extends Migration
             $table->string('observaciones')->nullable();
             $table->string('estado');
             // $table->string('asignacion')->nullable();
-            $table->foreignId('captura_id')->constrained('captura_productos')->cascadeOnDelete();
+            $table->foreignId('captura_id')->constrained('capturas_articulos')->cascadeOnDelete();
             $table->foreignId('revisado_por')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
         });
@@ -52,7 +52,7 @@ return new class extends Migration
             // en caso de no querer obligar a crear la refaccion necesitamos este campo        
             // $table->string('nombre')->nullable(); <-- 
             $table->foreignId('reparacion_id')->constrained('reparaciones')->cascadeOnDelete();
-            $table->foreignId('producto_id')->constrained('productos')->cascadeOnDelete();
+            $table->foreignId('articulo_id')->constrained('articulos')->cascadeOnDelete();
         });
     }
 
@@ -61,9 +61,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('productos');
-        Schema::dropIfExists('captura_productos');
-        Schema::dropIfExists('solicitud_productos');
+        Schema::dropIfExists('articulos');
+        Schema::dropIfExists('capturas_articulos');
+        Schema::dropIfExists('solicitudes_articulos');
         
         Schema::dropIfExists('reparaciones');
         Schema::dropIfExists('refacciones');

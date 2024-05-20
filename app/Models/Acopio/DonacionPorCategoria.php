@@ -11,7 +11,7 @@ class DonacionPorCategoria extends Model
 {
     use HasFactory;
 
-    protected $table = 'donacion_por_categorias';
+    protected $table = 'donaciones_por_categorias';
 
     public function donacion(): BelongsTo
     {

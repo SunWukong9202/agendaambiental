@@ -13,7 +13,7 @@ class AcopioPorCategoria extends Model
 {
     use HasFactory;
 
-    protected $table = 'acopio_por_categorias';
+    protected $table = 'acopios_por_categorias';
 
     public function acopio(): BelongsTo
     {
@@ -34,5 +34,4 @@ class AcopioPorCategoria extends Model
             ->withPivot('cantidad')
             ->withTimestamps();
     }
-
 }

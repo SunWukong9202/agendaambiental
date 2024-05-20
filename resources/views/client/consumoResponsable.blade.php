@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
-@extends('welcome')
+@extends('layout')
 
 @section('title', 'Consumo Responsable')
 <head>

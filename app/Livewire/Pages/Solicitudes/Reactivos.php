@@ -40,7 +40,6 @@ class Reactivos extends Component
     public $editSuccess = false;
     public $deleteSuccess = false;
 
-    #[Validate('required', message: "Escoge un reactivo para poder continuar")]
     public $reactivo_id;
 
     public function test(): void
@@ -71,14 +70,16 @@ class Reactivos extends Component
 
     public function edit()
     {
-        $this->validate();
-        
-        $reactivo = Reactivo::findOrFail($this->reactivo_id);
-        
-        $this->form->update($reactivo, $this->withReactive);
+        $this->validate([
+            'reactivo_id' => 'exclude_if:form.otro_reactivo,null|required',
+        ], [
+            'reactivo_id.required' => 'Escoge un reactivo para poder continuar',
+        ]);
 
+        $this->form->update($this->reactivo_id, $this->withReactive);
+        $this->reactivo_id = null;
         $this->editSuccess = true;
-        $this->modalOpen = false;
+        $this->drawerOpen = false;
     }
 
     public function setAction(SolicitudReactivo $solicitud, $action) {

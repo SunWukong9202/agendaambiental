@@ -2,7 +2,7 @@
     'label',
 ])
 
-<div class="max-w-sm mx-auto">
+<div {{ $attributes->class(['w-full']) }}>
     @if ($label instanceof \Illuminate\View\ComponentSlot)
         {{ $label }}
     @else

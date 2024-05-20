@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Donacion extends Model
@@ -19,7 +20,8 @@ class Donacion extends Model
     {
         return $this->belongsTo(
             Evento::class, //id es la PK con la que compara por defecto
-            foreignKey: 'acopio_id'//FK Evento en esta tabla
+            'acopio_id',//FK Evento en esta tabla
+            'id'
         );
     }
 
@@ -33,10 +35,11 @@ class Donacion extends Model
         return $this->belongsTo(User::class, 'donador_id');
     }
 
-    public function donacionPorCategorias(): HasMany
+    public function residuos(): BelongsToMany
     {
         //por defecto se busca la FK camelcasedModelName_id
         //es decir donacion_id, PK = id por defecto
-        return $this->hasMany(DonacionPorCategoria::class);
+        return $this->belongsToMany(Residuo::class, 'donaciones_por_categorias', 'donacion_id', 'residuo_id')
+            ->withPivot('cantidad');
     }
 }
