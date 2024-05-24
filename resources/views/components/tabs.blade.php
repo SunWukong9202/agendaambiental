@@ -4,7 +4,7 @@
 ])
 
 <div {{ $attributes->class([
-    'w-full max-w-md px-2 sm:px-0 mx-auto',
+    'w-full max-w-md px-0 sm:px-0 mx-auto',
 ]) }}>
     <div class="flex space-x-1 rounded-xl bg-white/20 p-1">
         @if ($withOutRoutes)

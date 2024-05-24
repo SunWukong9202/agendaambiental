@@ -10,21 +10,21 @@
         @vite('resources/css/app.css')
 
     </head>
-    <body class="  [&::-webkit-scrollbar]:w-3
+    <body class="[&::-webkit-scrollbar]:w-3
     [&::-webkit-scrollbar-track]:rounded-full
-    [&::-webkit-scrollbar-track]:bg-slate-100
+    [&::-webkit-scrollbar-track]:bg-marine-50
     [&::-webkit-scrollbar-thumb]:rounded-full
-    [&::-webkit-scrollbar-thumb]:bg-slate-300
-    dark:[&::-webkit-scrollbar-track]:bg-slate-700
-    dark:[&::-webkit-scrollbar-thumb]:bg-slate-500">
+    [&::-webkit-scrollbar-thumb]:bg-marine-200 
+    dark:[&::-webkit-scrollbar-track]:bg-marine-600
+    dark:[&::-webkit-scrollbar-thumb]:bg-marine-400">
 
         @php
         $routes = \Illuminate\Support\Facades\Config::get('navigation.reactivos', []);
         @endphp
         
         <x-navbar class="fixed top-0 z-50">
-            <a href="{{ route('admin.panel') }}" class="flex ms-2">
-                <img src="../images/logoagenda.jpg" class="h-8 me-3" alt="FlowBite Logo" />
+            <a href="{{ route('admin.panel') }}" class="flex ms-2 ">
+                <img src="/images/logoagenda.jpg" class="h-8 me-3" alt="FlowBite Logo" />
             </a>
             @if (request()->routeIs(...$routes))
             <div class="fixed inset-x-0">
@@ -89,8 +89,8 @@
 
         </x-aside>
 
-        <div class="p-4 sm:ml-64 dark:bg-gray-800">
-            <div class="p-4 rounded-lg dark:border-gray-700 mt-14">
+        <div class="p-2 sm:p-4 sm:ml-64 dark:bg-gray-800">
+            <div class="p-2 sm:p-4 rounded-lg dark:border-gray-700 mt-14">
                 {{ $slot }}
             </div>
         </div>

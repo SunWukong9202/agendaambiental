@@ -6,6 +6,8 @@ use App\Models\Acopio\AcopioPorCategoria;
 use App\Models\Acopio\Donacion;
 use App\Utils\DateFormats;
 use App\Utils\FilterableSortableSearchable;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -20,9 +22,19 @@ class Evento extends Model
 
     protected $table = 'eventos';
 
+    protected $guarded = [];
+
     protected $casts = [
         'ini_evento' => 'datetime',
     ];
+
+    protected function iniEvento()
+    {
+        return Attribute::make(
+            get: fn ($value) => Carbon::parse($value)->utc(),
+            set: fn ($value) => Carbon::parse($value)->utc(),
+        );
+    }
 
     public function usuarios(): BelongsToMany
     {

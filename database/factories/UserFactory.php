@@ -25,6 +25,7 @@ class UserFactory extends Factory
     public function definition(): array
     {
         $f = \Faker\Factory::create('es_ES');
+    
         return [
             'clave' => ''.fake()->unique()->numberBetween(100000, 999999),
             'nombre' => $f->name(),

@@ -17,10 +17,10 @@ return new class extends Migration
             $table->string('nombre', 40);
             $table->string('ap_mat', 40);
             $table->string('ap_pat', 40);
-            $table->string('genero', 15)->nullable();
-            $table->string('procedencia', 40);
+            $table->string('genero', 15);
+            $table->string('procedencia', 40)->nullable();
             $table->string('correo', 60);
-            $table->string('telefono', 15);
+            $table->string('telefono', 15)->nullable();
             $table->string('password');
             $table->boolean('externo')->default(false);
             $table->rememberToken();

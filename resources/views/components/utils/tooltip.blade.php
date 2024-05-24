@@ -1,6 +1,6 @@
 @props([
     'type' => 'dark',
-    'content'
+    'content' => 'default'
 ])
 
 <div
@@ -21,12 +21,13 @@ x-id="['tooltip']">
         'text-white bg-gray-900 dark:bg-gray-700' => $type == 'dark'
     ]) }}
     >
+        @if ($slot || $content)
         @if ($slot->isEmpty())
             {{ $content }}
         @else
             {{ $slot }}
         @endif
+        @endif
         <div class="tooltip-arrow" data-popper-arrow></div>
     </div>
-
 </div>

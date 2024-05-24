@@ -1,7 +1,11 @@
 <?php
 
 use App\Livewire\AdminPanel;
+use App\Livewire\Pages\Acopios\Acopio;
+use App\Livewire\Pages\Acopios\Activo;
 use App\Livewire\Pages\Acopios\Proveedores;
+use App\Livewire\Pages\Client\Perfil;
+use App\Livewire\Pages\Client\Solicitudes;
 use App\Livewire\Pages\Donaciones\Reactivos as DonacionesReactivos;
 use App\Livewire\Pages\Events;
 use App\Livewire\Pages\Inventarios\Reactivos;
@@ -28,7 +32,11 @@ use Illuminate\Support\Facades\Auth;
 Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
     Route::get('/', AdminPanel::class)->name('panel');
     Route::get('/users', Users::class)->name('users');
+    
     Route::get('/events', Events::class)->name('events');
+    Route::get('/events/acopio/{action}/{id?}', Acopio::class)->name('acopio');
+    Route::get('/acopios/activos/{acopio}', Activo::class)->name('acopios.activos');
+
     Route::get('/proveedores', Proveedores::class)->name('proveedores');
 
     Route::get('/inventario-reactivos', Reactivos::class)
@@ -62,18 +70,19 @@ Route::post('login', function (Request $req){
     ])->onlyInput('clave');
 });
 
+Route::get('logout', function (Request $request) {
+    Auth::logout();
+
+    $request->session()->invalidate();
+ 
+    $request->session()->regenerateToken();
+ 
+    return redirect('login');
+
+})->name('logout');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('logout', function (Request $request) {
-        Auth::logout();
- 
-        $request->session()->invalidate();
-     
-        $request->session()->regenerateToken();
-     
-        return redirect('login');
-
-    })->name('logout');
+    
 
 
     Route::get('/', function () {
@@ -82,20 +91,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::view('/modulo', 'client.home')->name('client.home');
 
-    Route::view('/modulo/reactivos/solicitudes', 'client.reactivos.solicitudes')
-        ->name('reactivos.solicitudes');
+    Route::get('/modulo/solicitudes/{type}', Solicitudes::class)->name('solicitudes');
 
-    Route::view('/modulo/reactivos/donaciones', 'client.reactivos.solicitudes')
-        ->name('reactivos.donaciones');
+    Route::get('/modulo/profile', Perfil::class)->name('user.profile');
 
-    Route::get('/modulo/articulos', function () {
-        
-        return view('client.articulos.solicitudes', [
-            'articulos' => Articulo::all(),
-        ]);
-    })
-    ->name('articulos.donaciones');
-
-    Route::view('/modulo/profile', 'client.user.profile')
-    ->name('user.profile');
 });

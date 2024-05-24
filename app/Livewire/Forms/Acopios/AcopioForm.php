@@ -10,17 +10,17 @@ class AcopioForm extends Form
 {
     public ?Evento $acopio;
     
+    #[Validate('required', message: 'El campo Nombre es obligatorio')]
     public $nombre = '';
     public $descripcion = '';
+    #[Validate('required', message: 'El campo Sede es obligatorio')]
     public $sede = '';
-    public $ini_evento = '';
+    #[Validate('required', message: 'Es obligatorio especificar la fecha de publicacion')]
+    public $ini_evento = null;
 
-    protected $guarded = [];
+    protected $guarded = ['acopio'];
 
-    public $programable = false;
-    public $autoEnable = true;
-
-    public function setProveedor(Evento $acopio): void
+    public function setAcopio(Evento $acopio): void
     {
         $this->acopio = $acopio;
 
@@ -30,6 +30,14 @@ class AcopioForm extends Form
         $this->ini_evento = $acopio->ini_evento;
     }
 
+    public function make(): Evento
+    {
+        $this->acopio = Evento::make(
+            $this->except($this->guarded),
+        );
+        return $this->acopio;
+    }
+
     public function create(): Evento
     {
         //Primero validamos para evitar data que no cumpla reglas
@@ -37,7 +45,7 @@ class AcopioForm extends Form
 
         $this->acopio = Evento::create(
             //Evitamos agregar la instancia del modelo misma
-            $this->except('acopio'),
+            $this->except($this->guarded),
         );
 
         return $this->acopio;
@@ -49,7 +57,7 @@ class AcopioForm extends Form
 
         $this->acopio->update(
             //observe create
-            $this->except('acopio'),
+            $this->except($this->guarded),
         );
     }
 }

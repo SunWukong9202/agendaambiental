@@ -26,6 +26,7 @@ class ReactivoForm extends Form
     public function setReactivo(Reactivo $reactivo): void
     {
         $this->reactivo = $reactivo;
+        
         $this->nombre = $reactivo->nombre;
         $this->grupo = $reactivo->grupo;
         $this->formula = $reactivo->formula;

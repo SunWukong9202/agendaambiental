@@ -24,7 +24,7 @@ class ArticuloFactory extends Factory
 
         return [
             'nombre' => $faker->name,
-            'cantidad' => rand(0, 10)
+            'cantidad' => rand(0, 15)
         ];
     }
 }

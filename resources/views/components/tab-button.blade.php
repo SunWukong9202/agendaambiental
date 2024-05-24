@@ -1,9 +1,11 @@
 @props([
     'active' => false,
-    'text'
+    'text',
+    'type' => 'button',
 ])
 
 <button
+type="{{ $type }}"
 {{ $attributes->class([
     'w-full rounded-lg py-1 text-sm font-medium leading-5 text-center',
     'ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2', 

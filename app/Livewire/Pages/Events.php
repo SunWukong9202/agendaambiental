@@ -4,6 +4,8 @@ namespace App\Livewire\Pages;
 
 use App\Livewire\Forms\Acopios\AcopioForm;
 use App\Models\Evento;
+use Carbon\Carbon;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -11,7 +13,7 @@ class Events extends Component
 {
     use WithPagination;
 
-    public AcopioForm $form;
+    public Evento $acopio;
 
     public $search = '';
     public $searchables = ['nombre', 'sede'];
@@ -22,39 +24,44 @@ class Events extends Component
     // #[Url]
     public $sortAsc = false;
 
-    public $modalOpen = false;
+    public $showForm = false;
 
     public $action = '';
-    public $createSuccess = false;
-    public $editSuccess = false;
-    public $deleteSuccess = false;
+    public $actionMessage = false;
+    public $deletedMessage = '';
+    public $seeActives = false;
 
-    public function create(): void
+    #[Computed()]
+    public function activos()
     {
-        $this->form->create();
-        $this->createSuccess = true;
-        $this->js("console.log('acopio creado')"); 
-        $this->modalOpen = false;
+        // $query = Evento::whereDate('ini_evento', Carbon::today()->toDateString());
+        // Obtén la fecha actual en UTC
+        $startOfTodayUtc = Carbon::today()->startOfDay();
+        $endOfTodayUtc = Carbon::today('UTC')->endOfDay();
+
+        // Consulta para eventos del día de hoy en UTC
+        $query = Evento::all();
+        return $query;
+    }
+
+    public function mount(): void
+    {
+        if(session('actionMessage')) {
+            $this->actionMessage = true;
+        }
     }
 
     public function delete(Evento $acopio)
     {
         $acopio->delete();
-        $this->form->acopio = $acopio;
-        $this->deleteSuccess = true;
+        $this->actionMessage = true;
+        $this->deletedMessage = "El acopio <b>{$acopio->nombre}</b> fue eliminado exitosamente";
     }
 
-    public function edit()
-    {
-        $this->editSuccess = true;
-        $this->modalOpen = false;
-        $this->form->update();
-    }
+    public function setAction($action,  int $id = null) {
+        $params = compact('action', 'id');
 
-    public function setAction($action, ?Evento $acopio) {
-        $this->modalOpen = true;
-        $this->action = $action;
-        if(isset($acopio)) $this->form->setProveedor($acopio);
+        return $this->redirectRoute('admin.acopio', $params, navigate: true);
     }
 
     public function render()

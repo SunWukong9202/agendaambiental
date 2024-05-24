@@ -28,7 +28,7 @@ x-modelable="show"
         <x-icon.check />
         <span class="sr-only">Check icon</span>
     </div>
-    <div class="ms-3 text-sm font-normal">
+    <div class="ms-3 text-base font-normal">
     @if ($slot->isEmpty())
         {{ $message }}
     @else

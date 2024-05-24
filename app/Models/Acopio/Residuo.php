@@ -31,4 +31,9 @@ class Residuo extends Model
         return $this->belongsToMany(Donacion::class, 'donaciones_por_categorias', 'residuo_id', 'donacion_id')
             ->withPivot('cantidad');
     }
+
+    public function otrasDonaciones(): void
+    {
+        # code...
+    }
 }

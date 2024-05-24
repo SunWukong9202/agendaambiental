@@ -1,5 +1,8 @@
 
-<div class="relative">
+<div 
+{{ $attributes->class(['relative']) }}
+{{-- class="relative" --}}
+>
     {{ $slot }}
     <div 
     wire:loading

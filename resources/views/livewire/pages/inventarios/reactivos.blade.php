@@ -38,18 +38,18 @@
         @if ($action == 'create')
             <form wire:submit="create">
                 <div class="flex gap-4">
-                    <x-input.text wire:model="form.nombre" label="Nombre*" error="form.nombre" />
+                    <x-input.text wire:model.stop="form.nombre" label="Nombre*" error="form.nombre" />
                     <x-input.text 
                     wire:model="form.grupo"
                     label="Grupo*" error="form.grupo" />
                 </div>
                 <div class="flex gap-4 mt-4 md:mt-5">
                     <x-input.text 
-                    wire:model="form.formula"
+                    wire:model.stop="form.formula"
                     label="Formula*" error="form.formula" />
 
                     <x-input.select 
-                    wire:model="form.unidad"
+                    wire:model.stop="form.unidad"
                     error="form.unidad"
                     label="Unidad De Medida*">
                         <option value="" disabled>Selecciona una unidad</option>
@@ -63,7 +63,7 @@
                 <div class="flex gap-4 my-4 md:my-5">
                     <x-input.text 
                     x-mask:dynamic="$money($input, '.', '', 2)"
-                    wire:model="form.total"
+                    wire:model.stop="form.total"
                     label="Cantidad En Existencia" 
                     error="form.total" />
                     <div class="w-full pt-7 flex items-center">
@@ -90,17 +90,17 @@
         @elseif ($action == 'edit')
             <form wire:submit="edit">
                 <div class="flex gap-4">
-                    <x-input.text wire:model.blur="form.nombre" label="Nombre*" error="form.nombre" />
+                    <x-input.text wire:model.stop.blur="form.nombre" label="Nombre*" error="form.nombre" />
                     <x-input.text 
-                    wire:model.blur="form.grupo"
+                    wire:model.stop.blur="form.grupo"
                     label="Grupo*" error="form.grupo" />
                 </div>
                 <div class="flex gap-4 mt-4 md:mt-5">
                     <x-input.text 
-                    wire:model.blur="form.formula"
+                    wire:model.stop.blur="form.formula"
                     label="Formula*" error="form.formula" />
                     <x-input.select 
-                    wire:model="form.unidad"
+                    wire:model.stop="form.unidad"
                     error="form.unidad"
                     label="Unidad De Medida*">
                         <option disabled>Selecciona una unidad</option>
@@ -113,7 +113,7 @@
                 <div class="flex gap-4 my-4 md:my-5">
                     <x-input.text 
                     x-mask:dynamic="$money($input, '.', '', 2)"
-                    wire:model="form.total"
+                    wire:model.stop="form.total"
                     label="Cantidad En Existencia" 
                     error="form.total" />
                     <div class="w-full pt-7 flex items-center">

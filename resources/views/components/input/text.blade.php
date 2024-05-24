@@ -16,7 +16,7 @@ x-id="['text-input']"
     @endif
 
     <div class="relative">
-
+        @if ($icon)
         <div class="absolute inset-y-0 start-0 flex items-center ps-2.5 pointer-events-none">
             @if ($icon instanceof \Illuminate\View\ComponentSlot)
                 {{ $icon }}
@@ -24,6 +24,7 @@ x-id="['text-input']"
                 <x-icon :$icon />
             @endif
         </div>
+        @endif
     
         <input 
         {{ $attributes->whereDoesntStartWith('class') }}

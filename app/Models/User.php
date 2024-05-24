@@ -133,42 +133,40 @@ class User extends Authenticatable
             ->using(SolicitudReactivo::class);
     }
 
-
-
-
     //REVISAR CREO QUE LA RELACION NO ESTA BIEN DEFINIDA
-    public function articulosSolicitados(): BelongsToMany
-    {
-        return $this->belongsToMany(Articulo::class, 'solicitudes_articulos', 'solicitante_id', 'articulo_id')
-            ->as('captura')
-            ->withPivot('observaciones', 'condiion')
-            ->withTimestamps()
-            ->using(User::class);
-    }
-
-    // public function articulosCapturados(Type $args): void
+    // public function articulosSolicitados(): BelongsToMany
     // {
-    //     # code...
+    //     return $this->belongsToMany(Articulo::class, 'solicitudes_articulos', 'solicitante_id', 'articulo_id')
+    //         ->as('captura')
+    //         ->withPivot('observaciones', 'condiion')
+    //         ->withTimestamps()
+    //         ->using(User::class);
     // }
 
-    public function solicitantes(): BelongsToMany
+    public function articulosSolicitados(): BelongsToMany
     {
-        return $this->belongsToMany(SolicitudArticulo::class, 'solicitudes_articulos', 'articulo_id', 'solicitante_id')
+        return $this->belongsToMany(Articulo::class, 'solicitudes_articulos', 'articulo_id', 'solicitante_id')
             ->as('solicitud')
             ->withPivot('comentario', 'estado')
-            ->withTimestamps()
-            ->using(SolicitudArticulo::class);
+            ->withTimestamps();
+            // ->using(SolicitudArticulo::class);
+    }
+
+    //Manejo de otras solicitudes
+    public function solicitudesOtroReactivo() : HasMany
+    {
+        return $this->hasMany(SolicitudReactivo::class, 'user_id');
+    }
+
+    public function solicitudesOtroArticulo(): HasMany
+    {
+        return $this->hasMany(CapturaArticulo::class, 'solicitante_id');
     }
 
     public function acopios()
     {
         return $this->belongsToMany(Evento::class, 'donaciones', 'donador_id', 'acopio_id')
-                    ->withTimestamps();
-    }
-
-    public function solicitudesOtroReactivo() : HasMany
-    {
-        return $this->hasMany(SolicitudReactivo::class, 'user_id');
+            ->withTimestamps();
     }
 
     public function donaciones(): HasMany
@@ -179,16 +177,6 @@ class User extends Authenticatable
     public function donacionesDeLibros(): BelongsToMany
     {
         return $this->donaciones()->where('de_residuos', false);
-    }
-
-    public function productosCapturados(): HasMany
-    {
-        return $this->hasMany(CapturaArticulo::class);
-    }
-
-    public function productosSolicitados(): void
-    {
-        # code...
     }
 
     public function donacionesReactivos(): HasMany

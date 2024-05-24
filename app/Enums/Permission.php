@@ -65,6 +65,7 @@ enum Permission: string
     case HABILITAR_PROVEEDORES = 'habilitar proveedores';
 
     case VER_ADMIN_PANEL = 'ver admin panel';
+    case VER_USERS = 'ver usuarios en panel de administrador';
 
     case VER_ROLES = 'ver pagina de roles';
     case CREAR_ROLES = 'crear roles';
@@ -86,5 +87,58 @@ enum Permission: string
             => $categories->contains(fn($value) 
             => Str::contains($permission->value, $value))
         );
+    }
+
+    public function descripcion(): string
+    {
+        return match($this->name) {
+            'VER_REACTIVOS' => '',
+            'CREAR_REACTIVOS' => '',
+            'EDITAR_REACTIVOS' => '',
+            'ELIMINAR_REACTIVOS' => '',
+            'DESHABILITAR_REACTIVOS' => '',
+            'HABILITAR_REACTIVOS' => '',
+            'DONAR_REACTIVOS' => '',
+            'SOLICITAR_REACTIVOS' => '',
+            'VER_RESIDUOS' => '',
+            'CREAR_RESIDUOS' => '',
+            'EDITAR_RESIDUOS' => '',
+            'ELIMINAR_RESIDUOS' => '',
+            'DESHABILTAR_RESIDUOS' => '',
+            'HABILITAR_RESIDUOS' => '',
+            'VER_EVENTOS' => '',
+            'CREAR_EVENTOS' => '',
+            'EDITAR_EVENTOS' => '',
+            'ELIMINAR_EVENTOS' => '',
+            'DESPUBLICAR_EVENTOS' => '',
+            'PUBLICAR_EVENTOS' => '',
+            'VER_EVENTOS_DESPUBLICADOS' => '',
+            'VER_ACOPIOS' => '',
+            'CREAR_ACOPIOS' => '',
+            'EDITAR_ACOPIOS' => '',
+            'ELIMINAR_ACOPIOS' => '',
+            'DESHABILTAR_ACOPIOS' => '',
+            'HABILITAR_ACOPIOS' => '',
+            'VER_ACOPIO_ACTIVO' => '',
+            'VER_PRODUCTOS' => '',
+            'CREAR_PRODUCTOS' => '',
+            'EDITAR_PRODUCTOS' => '',
+            'ELIMINAR_PRODUCTOS' => '',
+            'DESHABILTAR_PRODUCTOS' => '',
+            'HABILITAR_PRODUCTOS' => '',
+            'VER_PROVEEDORES' => '',
+            'CREAR_PROVEEDORES' => '',
+            'EDITAR_PROVEEDORES' => '',
+            'ELIMINAR_PROVEEDORES' => '',
+            'DESHABILTAR_PROVEEDORES' => '',
+            'HABILITAR_PROVEEDORES' => '',
+            'VER_ADMIN_PANEL' => '',
+            'VER_USERS' => '',
+            'VER_ROLES' => '',
+            'CREAR_ROLES' => '',
+            'EDITAR_ROLES' => '',
+            'REMOVER_ROLES' => '',
+            'ASIGNAR_ROLES' => '',
+        };
     }
 }

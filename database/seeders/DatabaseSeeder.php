@@ -41,11 +41,19 @@ class DatabaseSeeder extends Seeder
         $donadores = User::factory()->count(5)->create();
         $proveedores = Proveedor::factory()->count(15)->create();
 
-        $articulos = Articulo::factory()->count(30)->create();
+        // $articulos = Articulo::factory()->count(30)->create();
     
         $residuos = $catalogo->map(function ($residuo) {
             return Residuo::create([
                 'categoria' => $residuo,
+            ]);
+        });
+
+        $catalogo = new Collection(Config::get('opciones.articulos'));
+
+        $articulos = $catalogo->map(function ($articulo) {
+            return Articulo::factory()->create([
+                'nombre' => $articulo,
             ]);
         });
 
