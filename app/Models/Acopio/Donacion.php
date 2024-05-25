@@ -16,15 +16,6 @@ class Donacion extends Model
 
     protected $table = 'donaciones';
 
-    public function acopio(): BelongsTo
-    {
-        return $this->belongsTo(
-            Evento::class, //id es la PK con la que compara por defecto
-            'acopio_id',//FK Evento en esta tabla
-            'id'
-        );
-    }
-
     public function capturista(): BelongsTo
     {
         return $this->belongsTo(User::class, 'capturista_id');
@@ -35,11 +26,17 @@ class Donacion extends Model
         return $this->belongsTo(User::class, 'donador_id');
     }
 
+    public function acopio(): BelongsTo
+    {
+        return $this->belongsTo(Evento::class);
+    }
+
     public function residuos(): BelongsToMany
     {
         //por defecto se busca la FK camelcasedModelName_id
         //es decir donacion_id, PK = id por defecto
         return $this->belongsToMany(Residuo::class, 'donaciones_por_categorias', 'donacion_id', 'residuo_id')
+            ->as('donacion')
             ->withPivot('cantidad');
     }
 }

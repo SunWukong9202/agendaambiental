@@ -20,14 +20,23 @@
         <x-shell.sub-nav>
             <x-link.pill 
             @class([
-                '!bg-blue-600 !text-white' => request()->routeIs('client.home')
+                '!bg-marine !text-white' => request()->routeIs('client.home')
             ])
             href="{{ route('client.home') }}">Solicitar</x-link>
             <x-link.pill
             @class([
-                '!bg-blue-600 !text-white' => request()->routeIs('user.profile')
+                '!bg-marine !text-white' => request()->routeIs('user.profile')
             ])
             href="{{ route('user.profile') }}">Perfil</x-link>
+
+            <x-link.pill
+            @class([
+                '!bg-marine !text-white' => request()->routeIs('admin.panel')
+            ])
+            href="{{ route('admin.panel') }}">Panel de Administrador</x-link>
+
+            <x-link.pill
+            href="{{ route('logout') }}">Cerrar sesion</x-link>
 
         </x-shell>
         <div class="p-4 sm:m dark:bg-gray-800">

@@ -15,13 +15,16 @@ class Activo extends Component
     
     public $step = 1;
 
+    public $siguiente = false;
+
     public $isExtern = false;
+
+    public $type = true;
 
     public $registrado = false;
 
     public $signUpSucces = false;
 
-    public $cache = null;
 
     public function updatedFormClave($value): void
     {
@@ -31,13 +34,15 @@ class Activo extends Component
     public function switchTab()
     {
         $this->isExtern = !$this->isExtern;
-        
+        $this->form->clearKeep();
         $this->form->updatedKey(null, silenly: true);
         $this->render();
     }
 
     public function registrar(): void
     {
+        $this->form->externo = true;
+        $this->form->create();
         $this->registrado = true;
         $this->signUpSucces = true;
     }

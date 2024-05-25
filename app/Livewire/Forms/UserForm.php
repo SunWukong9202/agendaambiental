@@ -10,13 +10,19 @@ class UserForm extends Form
 {
     public ?User $user;
     
-    public $clave = '';
+    public $clave = null;
+    #[Validate('required')]
     public $nombre = '';
+    #[Validate('required')]
     public $ap_mat = '';
+    #[Validate('required')]
     public $ap_pat = '';
+    #[Validate('required')]
     public $genero = '';
     public $procedencia = '';
+    #[Validate('required')]
     public $correo = '';
+    #[Validate('required')]
     public $telefono = '';
     public $password = '';
     public $externo = false;
@@ -25,13 +31,18 @@ class UserForm extends Form
 
     protected $keep = ['clave'];
 
+    public function clearKeep(): void
+    {
+        $this->keep = [];
+    }
+
     public $not_found = false;
 
     public function setUser(User $user = null): void
     {
         $this->user = $user;
 
-        if(!in_array('clave', $this->keep)) $this->clave = $user?->clave ?? '';
+        if(!in_array('clave', $this->keep)) $this->clave = $user?->clave ?? null;
         if(!in_array('nombre', $this->keep)) $this->nombre = $user?->nombre ?? '';
         if(!in_array('ap_mat', $this->keep)) $this->ap_mat = $user?->ap_mat ?? '';
         if(!in_array('ap_pat', $this->keep)) $this->ap_pat = $user?->ap_pat ?? '';

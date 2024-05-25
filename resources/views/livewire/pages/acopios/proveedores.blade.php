@@ -351,14 +351,14 @@
             </tr>
             @endforeach
         </x-table>
-            @if ($proveedores->isEmpty())
-                <div class="p-16 flex items-center justify-center text-xl">
-                    Sin resultados para: 
-                    <span 
-                    class="font-semibold"
-                    >&nbsp;&nbsp;"{{ $search }}"</span>
-                </div>
-            @endif
+        @if ($proveedores->isEmpty())
+            <div class="p-16 flex items-center justify-center text-xl">
+                Sin resultados para: 
+                <span 
+                class="font-semibold"
+                >&nbsp;&nbsp;"{{ $search }}"</span>
+            </div>
+        @endif
     </x-loading>
     
     <div class="pt-4 flex justify-between items-center">

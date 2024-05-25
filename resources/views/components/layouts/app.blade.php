@@ -10,7 +10,9 @@
         @vite('resources/css/app.css')
 
     </head>
-    <body class="[&::-webkit-scrollbar]:w-3
+    <body class="
+    text-base md:text-lg lg:text-xl
+    [&::-webkit-scrollbar]:w-3
     [&::-webkit-scrollbar-track]:rounded-full
     [&::-webkit-scrollbar-track]:bg-marine-50
     [&::-webkit-scrollbar-thumb]:rounded-full
@@ -81,7 +83,7 @@
                 <x-link wire:navigate class="pl-11" text="General" />
             </x-dropdown>
 
-            <x-link text="Cerrar Sesion" icon="arrow-right-to-bracket"/>
+            <x-link page="logout" text="Cerrar Sesion" icon="arrow-right-to-bracket"/>
             
             {{-- <x-link text="Acopios" icon="grid"/> --}}
 

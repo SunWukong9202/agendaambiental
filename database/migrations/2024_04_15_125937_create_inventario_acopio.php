@@ -22,9 +22,13 @@ return new class extends Migration
         Schema::create('solicitudes_articulos', function (Blueprint $table) {
             $table->id();
             $table->string('comentario')->nullable();
-            $table->string('estado');
+            $table->string('otro_articulo')->nullable();
+            $table->boolean('estado')->default(false);
             $table->foreignId('solicitante_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('articulo_id')->constrained('articulos')->cascadeOnDelete();
+            $table->foreignId('articulo_id')
+                ->nullable()
+                ->default(null)
+                ->constrained('articulos')->cascadeOnDelete();
             $table->timestamps();
         });
 

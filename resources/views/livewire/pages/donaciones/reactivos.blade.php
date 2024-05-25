@@ -117,7 +117,7 @@
                                 <x-icon.tube class="w-16 h-16"></x-icon> 
                             @endif
                         @else
-                            foto
+                            image
                         @endif
                     </td>
                     <td class="whitespace-nowrap p-3 text-sm">

@@ -17,6 +17,7 @@ use App\Utils\FilterableSortableSearchable;
 use App\Utils\TableColumns;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -152,6 +153,15 @@ class User extends Authenticatable
             // ->using(SolicitudArticulo::class);
     }
 
+    public function articulosDonados(): BelongsToMany
+    {
+        return $this->belongsToMany(Articulo::class, 'solicitudes_articulos', 'articulo_id', 'solicitante_id')
+            ->as('solicitud')
+            ->withPivot('comentario', 'estado')
+            ->withTimestamps();
+            // ->using(SolicitudArticulo::class);
+    }
+
     //Manejo de otras solicitudes
     public function solicitudesOtroReactivo() : HasMany
     {
@@ -160,7 +170,7 @@ class User extends Authenticatable
 
     public function solicitudesOtroArticulo(): HasMany
     {
-        return $this->hasMany(CapturaArticulo::class, 'solicitante_id');
+        return $this->hasMany(SolicitudArticulo::class, 'solicitante_id');
     }
 
     public function acopios()
@@ -171,12 +181,22 @@ class User extends Authenticatable
 
     public function donaciones(): HasMany
     {
-        return $this->hasMany(Donacion::class);
+        return $this->hasMany(Donacion::class, 'donador_id');
     }
 
-    public function donacionesDeLibros(): BelongsToMany
+    // public function donacionesDeResiduos(): HasMany
+    // {
+    //     # code...
+    // }
+
+    public function donacionesDeLibros(): HasMany
     {
         return $this->donaciones()->where('de_residuos', false);
+    }
+
+    public function donacionesDeResiduos(): HasMany
+    {
+        return $this->donaciones()->where('de_residuos', true);
     }
 
     public function donacionesReactivos(): HasMany

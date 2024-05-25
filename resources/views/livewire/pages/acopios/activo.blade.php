@@ -52,42 +52,25 @@
             </x-tabs>
 
             <div class="grid gap-4 grid-cols-1 md:grid-cols-2 mt-4 md:mt-5">
-                <!-- Mostrar 'Clave' solo si no es externo -->
                 @if (!$isExtern)
                     <x-input.text 
                     wire:model.stop.blur="form.clave"
                     label="Clave*" error="form.clave" />
                 @endif
-            
-                <!-- 'Correo' y 'Telefono' al tope si es externo -->
-                <x-input.text
-                x-bind:class="isExtern ? 'order-1' : ''"
-                wire:model.stop="form.correo"
-                label="Correo*" error="form.correo" />
-            
+
                 <x-input.text 
-                x-bind:class="isExtern ? 'order-2' : ''"
-                wire:model.stop="form.telefono"
-                label="Telefono*" error="form.telefono" />
-            
-                <!-- Otros campos mantienen su orden pero bajan si es externo -->
-                <x-input.text 
-                x-bind:class="isExtern ? 'order-3' : ''"
                 wire:model.stop="form.nombre"
                 label="Nombre*" error="form.nombre" />
-            
+
                 <x-input.text 
-                x-bind:class="isExtern ? 'order-4' : ''"
                 wire:model.stop="form.ap_pat"
                 label="Apellido Paterno*" error="form.ap_pat" />
-            
+
                 <x-input.text 
-                x-bind:class="isExtern ? 'order-5' : ''"
                 wire:model.stop="form.ap_mat"
                 label="Apellido Materno*" error="form.mat" />
-            
+
                 <x-input.select 
-                x-bind:class="isExtern ? 'order-6' : ''"
                 wire:model.stop="form.genero"
                 label="Genero*" 
                 error="form.genero">
@@ -95,27 +78,40 @@
                     @foreach (['Femenino', 'Masculino', 'Otro'] as $gender)
                         <option value="{{ $gender }}">{{ $gender }}</option>
                     @endforeach
-                </x-input.select>
-            
-                <!-- Mostrar 'Procedencia' solo si no es externo -->
+                </x-input>
+
+                <x-input.text
+                wire:model.stop="form.correo"
+                label="Correo*" error="form.correo" />
+
                 @if (!$isExtern)
                     <x-input.text 
                     wire:model.stop="form.procedencia"
                     label="Procedencia*" error="form.procedencia" />
                 @endif
+
+                <x-input.text 
+                wire:model.stop="form.telefono"
+                label="Telefono*" error="form.telefono" />
+
             </div>
-            
+        </div>
         <div class="items-center" x-cloak x-show="step === 2">
             
             <x-tabs class="!max-w-full bg-marine rounded-xl !ml-auto !mr-0 mb-4" withOutRoutes>
                 <x-tab-button 
-                wire:click="switchTab"
-                text="Usuario Externo" :active="$isExtern"/>
+                wire:click="$toggle('type')"
+                text="Residuos" :active="$type"/>
 
                 <x-tab-button 
-                wire:click="switchTab"
-                text="Usuario Interno" :active="!$isExtern"/>
+                wire:click="$toggle('type')"
+                text="Libros/Cambalache" :active="!$type"/>
             </x-tabs>
+
+            <div class="grid gap-4 grid-cols-1 md:grid-cols-2 mt-4 md:mt-5">
+                
+            </div>
+            
 
         </div>
 
