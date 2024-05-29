@@ -1,5 +1,8 @@
-<div class="relative">
+<x-slot:title>
+    Panel de administracion - Usuarios
+</x-slot>
 
+<div class="relative">
     {{-- TOATS DEL CRUD --}}
     {{-- <div class="fixed bottom-5 right-5 z-30">
         <x-toast

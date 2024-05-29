@@ -11,7 +11,9 @@
         @vite(['resources/js/app.js'])
         @vite('resources/css/app.css')
     </head>
-    <body>
+    <body 
+    class="text-base md:text-lg lg:text-xl"
+    >
         <x-navbar>
             <a href="{{ route('agendaAmbiental') }}" class="flex ms-2">
                 <img src="/images/logoagenda.jpg" class="h-8 me-3" alt="FlowBite Logo" />

@@ -3,6 +3,7 @@
 namespace App\Models\InventarioAcopio;
 
 use App\Models\User;
+use App\Utils\FilterableSortableSearchable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,8 +13,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Articulo extends Model
 {
     use HasFactory;
+    use FilterableSortableSearchable;
 
     protected $table = 'articulos';
+
+    protected $guarded = [];
 
     public function solicitantes(): BelongsToMany
     {

@@ -1,76 +1,79 @@
+<x-slot:title>
+    Panel - donaciones de reactivos
+</x-slot>
 <div>
-        {{-- HABILITAR MODAL SI APLICABLE --}}
+    {{-- HABILITAR MODAL SI APLICABLE --}}
 
-        <x-modal wire:model="modalOpen" 
-        outsideTrigger
-        class="max-w-3xl"
-        :header="match('show') {
-            'show' => 'Donacion #'.($donacion?->id ?? '00')
-                .': '.($donacion?->reactivo->nombre),
-            default => 'Detalle de donacion'
-        }"
-        >    
-            <div class="flex gap-4 mb-4 md:mb-5">
-                <div class="bg-gray-50 shadow-sm p-4 rounded-lg w-full">
-                    <x-utils.text-info
-                    title="Cantidad">
-                        {{ $donacion?->cantidad ?? '00' .' '.($donacion?->reactivo->unidad ?? '')}}
-                    </x-utils>
-                    <x-utils.text-info
-                    title="Donada">
-                    {{ $donacion?->fechaLegible('created_at') ?? now() }}
-                    </x-utils>
-                    <x-utils.text-info
-                    title="Por">
-                    {{ $donacion?->user->nombre ?? 'no definido'}}
-                    </x-utils>
-                    
-                    <x-utils.text-info
-                    title="Facultad">
-                    {{ $donacion?->fac_proc ?? 'no definido'}}
-                    </x-utils>
+    <x-modal wire:model="modalOpen" 
+    outsideTrigger
+    class="max-w-3xl"
+    :header="match('show') {
+        'show' => 'Donacion #'.($donacion?->id ?? '00')
+            .': '.($donacion?->reactivo->nombre),
+        default => 'Detalle de donacion'
+    }"
+    >    
+        <div class="flex gap-4 mb-4 md:mb-5">
+            <div class="bg-gray-50 shadow-sm p-4 rounded-lg w-full">
+                <x-utils.text-info
+                title="Cantidad">
+                    {{ $donacion?->cantidad ?? '00' .' '.($donacion?->reactivo->unidad ?? '')}}
+                </x-utils>
+                <x-utils.text-info
+                title="Donada">
+                {{ $donacion?->fechaLegible('created_at') ?? now() }}
+                </x-utils>
+                <x-utils.text-info
+                title="Por">
+                {{ $donacion?->user->nombre ?? 'no definido'}}
+                </x-utils>
+                
+                <x-utils.text-info
+                title="Facultad">
+                {{ $donacion?->fac_proc ?? 'no definido'}}
+                </x-utils>
 
-                    <x-utils.text-info
-                    title="Laboratorio">
-                    {{ $donacion?->lab_proc ?? 'no definido'}}
-                    </x-utils>
-                </div>
-
-                <div class="p-4 bg-gray-50 shaodw-sm w-full">
-                    <x-utils.text-info
-                    title="Condicion">
-                    {{ $donacion?->condicion->name ?? 'no definido'}}
-                    </x-utils>
-                    <x-utils.text-info
-                    title="Envase">
-                    {{ $donacion?->envase ?? 'no definido'}}
-                    </x-utils>
-                    <x-utils.text-info
-                    title="Peso">
-                    {{ $donacion?->peso ?? 'no definido'}}
-                    </x-utils>
-                    <x-utils.text-info
-                    title="Estado quimico">
-                    {{ $donacion?->estado->name ?? 'no definido'}}
-                    </x-utils>
-                </div>
-
-                <div class="p-4 bg-gray-50 shadow-sm w-full">
-                    <x-utils.text-info
-                    title="Propiedades">
-                        @foreach (\App\Enums\CRETIB::cases() as $propiedad)
-                        <div class="flex items-center ps-4 border border-gray-200 rounded dark:border-gray-700">
-                            <input id="bordered-checkbox-1" type="checkbox" disabled
-                            @checked($donacion?->CRETIB->contains(fn($prop) => $prop == $propiedad))
-                            name="bordered-checkbox-{{ $donacion?->id }}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="bordered-checkbox-1" class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ $propiedad->label() }}</label>
-                        </div>
-                        @endforeach
-                    </x-utils>
-                </div>
+                <x-utils.text-info
+                title="Laboratorio">
+                {{ $donacion?->lab_proc ?? 'no definido'}}
+                </x-utils>
             </div>
-            <x-modal-footer></x-modal-footer>
-        </x-modal>
+
+            <div class="p-4 bg-gray-50 shaodw-sm w-full">
+                <x-utils.text-info
+                title="Condicion">
+                {{ $donacion?->condicion->name ?? 'no definido'}}
+                </x-utils>
+                <x-utils.text-info
+                title="Envase">
+                {{ $donacion?->envase ?? 'no definido'}}
+                </x-utils>
+                <x-utils.text-info
+                title="Peso">
+                {{ $donacion?->peso ?? 'no definido'}}
+                </x-utils>
+                <x-utils.text-info
+                title="Estado quimico">
+                {{ $donacion?->estado->name ?? 'no definido'}}
+                </x-utils>
+            </div>
+
+            <div class="p-4 bg-gray-50 shadow-sm w-full">
+                <x-utils.text-info
+                title="Propiedades">
+                    @foreach (\App\Enums\CRETIB::cases() as $propiedad)
+                    <div class="flex items-center ps-4 border border-gray-200 rounded dark:border-gray-700">
+                        <input id="bordered-checkbox-1" type="checkbox" disabled
+                        @checked($donacion?->CRETIB->contains(fn($prop) => $prop == $propiedad))
+                        name="bordered-checkbox-{{ $donacion?->id }}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        <label for="bordered-checkbox-1" class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ $propiedad->label() }}</label>
+                    </div>
+                    @endforeach
+                </x-utils>
+            </div>
+        </div>
+        <x-modal-footer></x-modal-footer>
+    </x-modal>
 
 
     {{-- BUSQUEDA --}}

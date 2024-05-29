@@ -8,6 +8,7 @@ use App\Livewire\Pages\Client\Perfil;
 use App\Livewire\Pages\Client\Solicitudes;
 use App\Livewire\Pages\Donaciones\Reactivos as DonacionesReactivos;
 use App\Livewire\Pages\Events;
+use App\Livewire\Pages\Inventarios\Articulos;
 use App\Livewire\Pages\Inventarios\Reactivos;
 use App\Livewire\Pages\Solicitudes\Reactivos as SolicitudesReactivos;
 use App\Livewire\Pages\Users;
@@ -17,7 +18,6 @@ use Illuminate\Support\Facades\Route;
 use Faker\Factory as Faker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -39,12 +39,15 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
 
     Route::get('/proveedores', Proveedores::class)->name('proveedores');
 
-    Route::get('/inventario-reactivos', Reactivos::class)
-        ->name('inventario-reactivos');
+    Route::get('/inventario/reactivos', Reactivos::class)
+        ->name('inventario.reactivos');
     Route::get('/solicitudes/reactivos', SolicitudesReactivos::class)
         ->name('solicitudes.reactivos');
     Route::get('/donaciones/reactivos', DonacionesReactivos::class)
         ->name('donaciones.reactivos');
+
+    Route::get('/inventario/articulos', Articulos::class)
+    ->name('inventario.articulos');
 });
 
 Route::view('login', 'client.login')->name('login');
@@ -90,6 +93,7 @@ Route::middleware(['auth'])->group(function () {
     })->name('agendaAmbiental');
 
     Route::view('/modulo', 'client.home')->name('client.home');
+    Route::view('/modulo/testing', 'client.home')->name('client.home');
 
     Route::get('/modulo/solicitudes/{type}', Solicitudes::class)->name('solicitudes');
 

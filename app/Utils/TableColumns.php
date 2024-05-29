@@ -7,7 +7,7 @@ namespace App\Utils;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
 
-trait TableColumns
+trait TableColumn
 {
     private function getTableColumns($exclude, $withTimestamps = false): array
     {

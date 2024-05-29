@@ -1,22 +1,20 @@
 <?php
 
-namespace App\Livewire\Pages\Acopios;
+namespace App\Livewire\Pages\Inventarios;
 
-use App\Livewire\Forms\Acopios\ProveedorForm;
-use App\Models\Acopio\Proveedor;
-use Livewire\Attributes\Lazy;
+use App\Livewire\Forms\InventarioArticulos\ArticuloForm;
+use App\Models\InventarioAcopio\Articulo;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-#[Lazy()]
-class Proveedores extends Component
-{
+class Articulos extends Component
+{       
     use WithPagination;
 
-    public ProveedorForm $form;
+    public ArticuloForm $form;
 
     public $search = '';
-    public $searchables = ['nombre', 'rfc', 'telefono', 'correo'];
+    public $searchables = ['nombre'];
 
     // #[Url]
     public $sortCol;
@@ -27,56 +25,43 @@ class Proveedores extends Component
     public $modalOpen = false;
 
     public $action = '';
-    public $createSuccess = false;
-    public $editSuccess = false;
-    public $deleteSuccess = false;
-
-    public $rfcPersonaMoral = 'Yes';
+    public $actionSuccess = false;
+    public $actionMessage = '';
 
     public function create(): void
     {
         $this->form->create();
-        $this->createSuccess = true;
-        $this->js("console.log('proveedor creado')"); 
+        $this->actionSuccess = true;
+        $this->actionMessage = "<b>{$this->form->articulo->nombre}</b> fue agreagado correctamente"; 
         $this->modalOpen = false;
     }
 
-    public function delete(Proveedor $proveedor)
+    public function delete(Articulo $articulo)
     {
-        $proveedor->delete();
-        $this->form->proveedor = $proveedor;
-        $this->deleteSuccess = true;
+        $articulo->delete();
+        $this->form->articulo = $articulo;
+        $this->actionMessage = "El Articulo <b>$articulo->nombre</b> fue eliminado exitosamente"; 
+        $this->actionSuccess = true;
     }
 
     public function edit()
     {
-        $this->editSuccess = true;
-        $this->modalOpen = false;
         $this->form->update();
+        $this->actionSuccess = true;
+        $this->actionMessage = "<b>{$this->form->nombre}</b> fue editado exitosamente"; 
+        $this->modalOpen = false;
     }
 
-    public function setAction($action, ?Proveedor $proveedor) {
+    public function setAction($action, ?Articulo $articulo = null) {
         $this->modalOpen = true;
         $this->action = $action;
-        if(isset($proveedor)) $this->form->setProveedor($proveedor);
-        if($action == 'edit') $this->form->fetchAddressData($this->form->cp);
-    }
-
-    public function updatedFormCp($value): void
-    {
-        $this->form->updatedPostalCode($value);
-    }
-
-    public function mount(): void
-    {
-        sleep(1);//Solo para mostrar los indicadores de carg
+        $this->form->setarticulo($articulo);
     }
 
     public function render()
     {
-        $query = $this->proveedores();
-        return view('livewire.pages.acopios.proveedores', [
-            'proveedores' => $query->paginate(10)
+        return view('livewire.pages.inventarios.articulos', [
+            'articulos' => $this->articulos()->paginate(10),
         ]);
     }
 
@@ -86,9 +71,9 @@ class Proveedores extends Component
     }
 
     //SECCION DE BUSQUEDA Y ORDENAMIENTO
-    public function proveedores()
+    public function articulos()
     {
-        $query = Proveedor::search($this->search, $this->searchables);
+        $query = Articulo::search($this->search, $this->searchables);
 
         if(!empty($this->sortCol)) {
             $query->orderBy($this->sortCol, $this->sortAsc ? 'asc': 'desc');

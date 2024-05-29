@@ -1,3 +1,6 @@
+<x-slot:title>
+    Panel de administracion - Proveedores
+</x-slot>
 <div class="relative">
 
     {{-- TOATS DEL CRUD --}}
@@ -47,18 +50,30 @@
                             Datos Generales
                         </x-disclosure>
                     </x-slot>
-                    <div class="flex gap-4">
+
+                    <x-input.group>
                         <x-input.text wire:model.stop="form.nombre" label="Nombre*" error="form.nombre" />
+                        
+                        <div class="flex">
+                            <x-input.radio  
+                            value="No"
+                            wire:model="rfcPersonaMoral"
+                            label="RFC para personas fisicias" />
+                            <x-input.radio 
+                            value=Yes"
+                            wire:model="rfcPersonaMoral"
+                            label="RFC para personas morales" />
+                        </div>
                         <x-input.text 
                             wire:model.stop="form.rfc"
                             label="RFC*"
                             error="form.rfc"
-                            x-mask="aaaa999999aaa"
+                            x-mask:dynamic="$wire.rfcPersonaMoral ? 'aaa999999aaa' : 'aaaa999999aaa'"
                             x-on:input="event.target.value = event.target.value.toUpperCase()"
                         />
-                    </div>
+                    </x-input>
     
-                    <div class="flex gap-4 mt-4 md:mt-5">
+                    <x-input.group class="mt-4 md:mt-5">
                         <x-input.text 
                         wire:model.stop="form.razon_social"
                         label="Razon Social*" error="form.razon_social" />
@@ -66,7 +81,7 @@
                         <x-input.text 
                         wire:model.stop="form.giro_empresa"
                         label="Giro de la empresa*" error="form.giro_empresa" />
-                    </div>
+                    </x-input>
                 </x-dropdown>
 
                 <x-dropdown 

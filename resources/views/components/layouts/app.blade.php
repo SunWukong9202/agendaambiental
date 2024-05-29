@@ -64,7 +64,7 @@
                     </x-link>
                 </x-slot>
 
-                <x-link class="pl-11" text="Productos" />
+                <x-link wire:navigate page="admin.inventario.articulos" class="pl-11" text="Articulos" />
                 <x-link wire:navigate :page="$routes['Inicio']" :$routes class="pl-11" text="Reactivos" />
                 <x-link class="pl-11" text="Acopio" />
             </x-dropdown>
