@@ -31,11 +31,13 @@
             ])
             href="{{ route('user.profile') }}">Perfil</x-link>
 
-            <x-link.pill
-            @class([
-                '!bg-marine !text-white' => request()->routeIs('admin.panel')
-            ])
-            href="{{ route('admin.panel') }}">Panel de Administrador</x-link>
+            @if (auth()->user()->clave == '112233')
+                <x-link.pill
+                @class([
+                    '!bg-marine !text-white' => request()->routeIs('admin.panel')
+                ])
+                href="{{ route('admin.users') }}">Panel de Administrador</x-link>
+            @endif
 
             <x-link.pill
             href="{{ route('logout') }}">Cerrar sesion</x-link>

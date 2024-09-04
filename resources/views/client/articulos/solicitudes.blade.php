@@ -1,6 +1,7 @@
 <x-layouts.client 
-enableTALL="true"
 >
+
+    {{ $otro ?? 'Sin valor' }}
     <div class="lg:max-w-7xl mx-auto">
         <h1 class="mb-4 font-medium text-3xl text-gray-500">
             <span class="font-semibold text-3xl text-gray-700">Solicitudes: </span>

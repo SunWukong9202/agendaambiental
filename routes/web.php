@@ -29,26 +29,6 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 //as = name -> asi que esto se pega al inicio de name
-Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
-    Route::get('/', AdminPanel::class)->name('panel');
-    Route::get('/users', Users::class)->name('users');
-    
-    Route::get('/events', Events::class)->name('events');
-    Route::get('/events/acopio/{action}/{id?}', Acopio::class)->name('acopio');
-    Route::get('/acopios/activos/{acopio}', Activo::class)->name('acopios.activos');
-
-    Route::get('/proveedores', Proveedores::class)->name('proveedores');
-
-    Route::get('/inventario/reactivos', Reactivos::class)
-        ->name('inventario.reactivos');
-    Route::get('/solicitudes/reactivos', SolicitudesReactivos::class)
-        ->name('solicitudes.reactivos');
-    Route::get('/donaciones/reactivos', DonacionesReactivos::class)
-        ->name('donaciones.reactivos');
-
-    Route::get('/inventario/articulos', Articulos::class)
-    ->name('inventario.articulos');
-});
 
 Route::view('login', 'client.login')->name('login');
 
@@ -86,6 +66,26 @@ Route::get('logout', function (Request $request) {
 
 Route::middleware(['auth'])->group(function () {
     
+    Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
+        // Route::get('/', AdminPanel::class)->name('panel');
+        Route::get('/', Users::class)->name('users');
+        
+        Route::get('/events', Events::class)->name('events');
+        Route::get('/events/acopio/{action}/{id?}', Acopio::class)->name('acopio');
+        Route::get('/acopios/activos/{acopio}', Activo::class)->name('acopios.activos');
+    
+        Route::get('/proveedores', Proveedores::class)->name('proveedores');
+    
+        Route::get('/inventario/reactivos', Reactivos::class)
+            ->name('inventario.reactivos');
+        Route::get('/solicitudes/reactivos', SolicitudesReactivos::class)
+            ->name('solicitudes.reactivos');
+        Route::get('/donaciones/reactivos', DonacionesReactivos::class)
+            ->name('donaciones.reactivos');
+    
+        Route::get('/inventario/articulos', Articulos::class)
+        ->name('inventario.articulos');
+    });
 
 
     Route::get('/', function () {

@@ -40,7 +40,9 @@ class DatabaseSeeder extends Seeder
         $acopiador = User::factory()->count(1)->create()->first();
         $donadores = User::factory()->count(5)->create();
         $proveedores = Proveedor::factory()->count(15)->create();
-
+        $admin = User::factory()->create([
+            'clave' => '112233'
+        ]);
         // $articulos = Articulo::factory()->count(30)->create();
     
         $residuos = $catalogo->map(function ($residuo) {

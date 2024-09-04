@@ -104,7 +104,7 @@
             <x-loading class="!w-14 !h-14 !fill-marine-600"/>
         </x-slot>
         <x-table 
-        class="p-8"
+        class="p-8 !min-h-12"
         :columns="[
             'Nombre',
             'Cantidad',

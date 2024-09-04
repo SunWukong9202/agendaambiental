@@ -38,7 +38,7 @@
 
 
 
-    <div class="max-w-6xl mx-auto mt-4 md:mt-10">
+    <div class="max-w-6xl ml-44 mr-auto mt-4 md:mt-10">
 
         <div x-cloak x-show="$wire.see == 'profile'">
             <h3 class="mb-4 text-lg font-bold leading-none tracking-tight text-gray-500 md:text-4xl dark:text-white py-4">

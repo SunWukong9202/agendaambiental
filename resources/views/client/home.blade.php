@@ -46,5 +46,19 @@
             @endforeach
 
         </div>
+
+        <h2 class="mb-4 text-2xl font-bold leading-none tracking-tight text-gray-500 md:text-4xl dark:text-white py-4">
+            Haz tu Donacion
+        </h2>
+    
+        <div class="flex flex-wrap sm:flex-nowrap gap-4 h-60">
+
+                <a 
+                href="{{ route('solicitudes', ['type' => 'donacion']) }}"
+                class="shadow-lg rounded-lg p-4 hover:bg-gray-100 w-full flex items-center justify-center">
+                    Donaciones
+                </a>
+
+        </div>
     </div>
 </x-layouts>

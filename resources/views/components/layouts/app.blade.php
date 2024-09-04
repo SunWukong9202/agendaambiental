@@ -11,21 +11,14 @@
 
     </head>
     <body class="
-    text-base md:text-lg lg:text-xl
-    [&::-webkit-scrollbar]:w-3
-    [&::-webkit-scrollbar-track]:rounded-full
-    [&::-webkit-scrollbar-track]:bg-marine-50
-    [&::-webkit-scrollbar-thumb]:rounded-full
-    [&::-webkit-scrollbar-thumb]:bg-marine-200 
-    dark:[&::-webkit-scrollbar-track]:bg-marine-600
-    dark:[&::-webkit-scrollbar-thumb]:bg-marine-400">
+    text-base md:text-lg lg:text-xl">
 
         @php
         $routes = \Illuminate\Support\Facades\Config::get('navigation.reactivos', []);
         @endphp
         
         <x-navbar class="fixed top-0 z-50">
-            <a href="{{ route('admin.panel') }}" class="flex ms-2 ">
+            <a href="{{ route('admin.users') }}" class="flex ms-2 ">
                 <img src="/images/logoagenda.jpg" class="h-8 me-3" alt="FlowBite Logo" />
             </a>
             @if (request()->routeIs(...$routes))
@@ -35,7 +28,7 @@
             @endif
         </x-navbar>
         <x-aside>
-            <x-link page="admin.panel" wire:navigate text="Inicio" icon="grid"/>
+            {{-- <x-link page="admin.panel" wire:navigate text="Inicio" icon="grid"/> --}}
             <x-link wire:navigate page="admin.users" text="Usuarios" icon="grid"/>
 
             {{-- <x-link wire:navigate page="admin.events" text="Eventos" icon="grid"/> --}}
@@ -66,7 +59,6 @@
 
                 <x-link wire:navigate page="admin.inventario.articulos" class="pl-11" text="Articulos" />
                 <x-link wire:navigate :page="$routes['Inicio']" :$routes class="pl-11" text="Reactivos" />
-                <x-link class="pl-11" text="Acopio" />
             </x-dropdown>
 
             <x-dropdown key="Configuracion">
@@ -83,6 +75,7 @@
                 <x-link wire:navigate class="pl-11" text="General" />
             </x-dropdown>
 
+            <x-link wire:navigate page="client.home" text="Regresar" icon="arrow-right-to-bracket"/>
             <x-link page="logout" text="Cerrar Sesion" icon="arrow-right-to-bracket"/>
             
             {{-- <x-link text="Acopios" icon="grid"/> --}}

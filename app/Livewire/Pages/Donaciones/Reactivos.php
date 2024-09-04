@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Pages\Donaciones;
 
+use App\Livewire\Forms\InventarioReactivos\DonacionForm;
 use App\Models\InventarioReactivos\DonacionReactivo;
 use Livewire\Attributes\Lazy;
 use Livewire\Component;
@@ -12,7 +13,9 @@ class Reactivos extends Component
 {
     use WithPagination;
 
-    public ?DonacionReactivo $donacion;
+    public DonacionForm $form;
+
+    public ?DonacionReactivo $donacion = null;
 
     public $search = '';
 
@@ -29,7 +32,8 @@ class Reactivos extends Component
 
     public function show($id): void
     {
-        $this->donacion = DonacionReactivo::findOrFail($id);
+        $donacion = DonacionReactivo::findOrFail($id);
+        $this->form->setDonacion($donacion);
         $this->modalOpen = true;
     }
 
@@ -85,25 +89,28 @@ class Reactivos extends Component
         $donaciones = 'donaciones_reactivos';
         $fk_user = 'user_id';
         $fk = 'reactivo_id';
-
+    
         $query = DonacionReactivo::join($users, "$donaciones.$fk_user", '=', "$users.id")
-            ->join($reactivos, "$donaciones.$fk", '=', "$reactivos.id");
-        
+            ->join($reactivos, "$donaciones.$fk", '=', "$reactivos.id")
+            ->distinct() // Asegura que los resultados sean únicos
+            ->select("$donaciones.*"); // Selecciona solo las columnas de la tabla principal
+    
         $this->searchables = array_merge($this->seachablesReactivos, $this->users);
-        
+    
         $this->searchables = array_merge($this->users, $this->searchables);
-        
+    
         $query->where(function ($query) {
             foreach($this->searchables as $column) 
             {
                 $query->orWhere($column, 'LIKE', '%'.$this->search.'%');
             }
         });
-
+    
         if(!empty($this->sortCol)) {
             $query->orderBy($this->sortCol, $this->sortAsc ? 'asc': 'desc');
         }
-
+    
         return $query;
     }
+    
 }

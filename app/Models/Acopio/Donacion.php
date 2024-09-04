@@ -16,6 +16,8 @@ class Donacion extends Model
 
     protected $table = 'donaciones';
 
+    protected $guarded = [];
+
     public function capturista(): BelongsTo
     {
         return $this->belongsTo(User::class, 'capturista_id');

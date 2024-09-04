@@ -8,8 +8,8 @@
     outsideTrigger
     class="max-w-3xl"
     :header="match('show') {
-        'show' => 'Donacion #'.($donacion?->id ?? '00')
-            .': '.($donacion?->reactivo->nombre),
+        // 'show' => 'Donacion #'.($form?->donacion?->id ?? '00')
+        //     .': '.($form?->donacion?->reactivo->nombre),
         default => 'Detalle de donacion'
     }"
     >    
@@ -17,44 +17,44 @@
             <div class="bg-gray-50 shadow-sm p-4 rounded-lg w-full">
                 <x-utils.text-info
                 title="Cantidad">
-                    {{ $donacion?->cantidad ?? '00' .' '.($donacion?->reactivo->unidad ?? '')}}
+                    {{ $form->cantidad ?? '00' .' '.($form?->donacion->reactivo->unidad ?? '')}}
                 </x-utils>
                 <x-utils.text-info
                 title="Donada">
-                {{ $donacion?->fechaLegible('created_at') ?? now() }}
+                {{ $form->donacion?->fechaLegible('created_at') ?? '' }}
                 </x-utils>
                 <x-utils.text-info
                 title="Por">
-                {{ $donacion?->user->nombre ?? 'no definido'}}
+                {{ $form?->donacion->user->nombre ?? 'no definido'}}
                 </x-utils>
                 
                 <x-utils.text-info
                 title="Facultad">
-                {{ $donacion?->fac_proc ?? 'no definido'}}
+                {{ $form->fac_proc ?? 'no definido'}}
                 </x-utils>
 
                 <x-utils.text-info
                 title="Laboratorio">
-                {{ $donacion?->lab_proc ?? 'no definido'}}
+                {{ $form->lab_proc ?? 'no definido'}}
                 </x-utils>
             </div>
 
             <div class="p-4 bg-gray-50 shaodw-sm w-full">
                 <x-utils.text-info
                 title="Condicion">
-                {{ $donacion?->condicion->name ?? 'no definido'}}
+                {{ $form->condicion?->name ?? 'no definido'}}
                 </x-utils>
                 <x-utils.text-info
                 title="Envase">
-                {{ $donacion?->envase ?? 'no definido'}}
+                {{ $form?->envase ?? 'no definido'}}
                 </x-utils>
                 <x-utils.text-info
                 title="Peso">
-                {{ $donacion?->peso ?? 'no definido'}}
+                {{ $form?->peso ?? 'no definido'}}
                 </x-utils>
                 <x-utils.text-info
                 title="Estado quimico">
-                {{ $donacion?->estado->name ?? 'no definido'}}
+                {{ $form->estado?->name ?? 'no definido'}}
                 </x-utils>
             </div>
 
@@ -64,7 +64,8 @@
                     @foreach (\App\Enums\CRETIB::cases() as $propiedad)
                     <div class="flex items-center ps-4 border border-gray-200 rounded dark:border-gray-700">
                         <input id="bordered-checkbox-1" type="checkbox" disabled
-                        @checked($donacion?->CRETIB->contains(fn($prop) => $prop == $propiedad))
+                        wire:model="form.CRETIB" value="{{ $propiedad->value }}"
+                        {{-- @checked($donacion?->CRETIB->where($prop->value == $propiedad->value)) --}}
                         name="bordered-checkbox-{{ $donacion?->id }}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                         <label for="bordered-checkbox-1" class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ $propiedad->label() }}</label>
                     </div>
@@ -105,13 +106,14 @@
                 'Reactivo' => ['reactivos.nombre', $sortCol, $sortAsc],
                 'Condicion' => ['condicion', $sortCol, $sortAsc],
                 'Caducidad' => ['caducidad', $sortCol, $sortAsc],
-                'Donado' => ['created_at', $sortCol, $sortAsc]
+                'Donado' => ['created_at', $sortCol, $sortAsc],
+                '',
                 ]">
                 @foreach ($donaciones as $donacion)
                 <tr 
                 wire:click="show({{ $donacion->id }})"
                 class="hover:bg-gray-50 cursor-pointer"
-                wire:key="{{ $donacion->id }}">
+                wire:key="{{ $donacion->id }}-key">
                     <td class="whitespace-nowrap p-3 text-sm">
                         @if ($donacion->foto == null)
                             @if (rand(0, 1))
