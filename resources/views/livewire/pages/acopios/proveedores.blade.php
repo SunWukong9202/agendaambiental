@@ -1,10 +1,11 @@
 <x-slot:title>
     Panel de administracion - Proveedores
 </x-slot>
+
 <div class="relative">
 
     {{-- TOATS DEL CRUD --}}
-    <div class="fixed bottom-5 right-5 z-30">
+    {{-- <div class="fixed bottom-5 right-5 z-30">
         <x-toast
         wire:model="createSuccess"
         class="!max-w-sm"
@@ -25,7 +26,7 @@
         x-effect="if($wire.deleteSuccess) setTimeout(()=> $wire.deleteSuccess = false, 3000)">
         {{ $form->proveedor?->nombre ?? 'El proveedor' }}&nbsp;fue eliminado
         </x-toast>
-    </div>
+    </div> --}}
 
     {{-- MODAL PARA VISTA/MODIFICACION --}}
     <x-modal wire:model="modalOpen" 
@@ -41,7 +42,6 @@
             <form 
                 wire:submit="{{ $action }}">
                 <x-dropdown
-                   
                     x-init="expanded = true"
                     class="!px-0 py-4"
                     :persistent="false">
@@ -50,7 +50,7 @@
                             Datos Generales
                         </x-disclosure>
                     </x-slot>
-
+{{-- 
                     <x-input.group>
                         <x-input.text wire:model.stop="form.nombre" label="Nombre*" error="form.nombre" />
                         
@@ -81,7 +81,7 @@
                         <x-input.text 
                         wire:model.stop="form.giro_empresa"
                         label="Giro de la empresa*" error="form.giro_empresa" />
-                    </x-input>
+                    </x-input> --}}
                 </x-dropdown>
 
                 <x-dropdown 
@@ -95,7 +95,7 @@
                             Direccion
                         </x-disclosure-button>
                     </x-slot>
-                    
+{{--                     
                     <div class="flex gap-4 ">
                         <x-input.text 
                         wire:model.stop.blur="form.cp"
@@ -125,9 +125,6 @@
                                 <option value="{{ $colonia }}">{{ $colonia }}</option>
                             @endforeach
                         </x-input>
-                        {{-- <x-input.text 
-                        wire:model.stop="form.colonia"
-                        label="Colonia" error="form.colonia" /> --}}
 
                         <x-input.text 
                         wire:model.stop="form.calle"
@@ -142,7 +139,7 @@
                         <x-input.text 
                         wire:model.stop="form.municipio"
                         label="Municipio" error="form.municipio" />
-                    </div>
+                    </div> --}}
                 </x-dropdown>
 
                 <x-dropdown 
@@ -155,15 +152,17 @@
                             Datos de contacto
                         </x-disclosure-button>
                     </x-slot>
+
                     <div class="flex gap-4">
                         <x-input.text 
-                        wire:model.stop="form.correo"
-                        label="Correo*" error="form.correo" />
-    
-                        <x-input.text 
                         wire:model.stop="form.telefono"
-                        x-mask="(999) 999 9999"
+                        {{-- x-mask="(999) 999 9999"  --}}
                         label="Telefono*" error="form.telefono" />
+
+                        <x-input.text 
+                        wire:model.stop="form.correo"
+                        label="Correo*" error="form.correo" />    
+
                     </div>
                 </x-dropdown>
                 @if ($action == 'create')
@@ -202,7 +201,7 @@
                         Datos Generales
                     </x-disclosure>
                 </x-slot>
-                <x-utils.text-info
+                {{-- <x-utils.text-info
                     title="Nombre">
                     {{ $form->nombre }}
                 </x-utils>
@@ -218,7 +217,7 @@
                 <x-utils.text-info
                     title="Giro de la empresa">
                     {{ $form->giro_empresa }}
-                </x-utils>
+                </x-utils> --}}
             </x-dropdown>
 
             <x-dropdown 
@@ -232,7 +231,7 @@
                     </x-disclosure-button>
                 </x-slot>
                 
-                <x-utils.text-info
+                {{-- <x-utils.text-info
                     title="Direccion">
                     {{ $form->proveedor->direccion() }}
                 </x-utils>
@@ -245,7 +244,7 @@
                 <x-utils.text-info
                     title="Telefono">
                     {{ $form->telefono }}
-                </x-utils>
+                </x-utils> --}}
                 
             </x-dropdown>
 
@@ -255,13 +254,15 @@
     </x-modal>
 
     {{-- BUSQUEDA  Y CREACION--}}
-    <div class="flex items-center pb-4 md:pb-5">
+    <div class="flex flex-wrap items-center pb-4 md:pb-5">
         <x-input.search 
         class="w-80 !p-0"
         placeholder="Busca proveedores"
         wire:model.live.debounce.350ms="search">
         <x-icon.circle class="cursor-pointer" wire:click="clear"/>
         </x-input>
+
+
 
         {{-- <x-button wire:click="test">
             toast
@@ -273,6 +274,12 @@
             <x-icon.plus class="!w-5 !h-5 mr-2"/>
             Nuevo
         </x-button>
+
+        <x-input.text 
+        wire:model.stop="form.telefono"
+        x-mask="(999) 999 9999" 
+        label="Telefono*" error="form.telefono" />
+
 
     </div>
 

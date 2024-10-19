@@ -16,20 +16,30 @@ class ProveedorForm extends Form
 {
     public ?Proveedor $proveedor;
 
+    #[Validate]
     public $nombre = ''; 
+    #[Validate]
     public $rfc = ''; 
     #[Validate()]//solo para habilitar real-time validation, para esta propiedad
     public $cp = ''; //dir
+    #[Validate]
     public $calle = ''; //dir
+    #[Validate]
     public $num_ext = ''; //dir
-
     public $num_int = ''; //dir
+    #[Validate]
     public $colonia = ''; //dir
+    #[Validate]
     public $municipio = ''; //dir
+    #[Validate]
     public $estado = ''; //dir
-    public $telefono;
-    public $correo;
+    #[Validate]
+    public $telefono = '';
+    #[Validate]
+    public $correo = '';
+    #[Validate]
     public $razon_social = ''; 
+    #[Validate]
     public $giro_empresa = '';
 
     public $colonias = [];
@@ -47,8 +57,8 @@ class ProveedorForm extends Form
             'colonia' => 'required',
             'municipio' => 'required',
             'estado' => 'required',
-            'telefono' => 'exclude_unless:correo,null|required',
-            'correo' => 'exclude_unless:telefono,null|required',
+            'telefono' => 'required',
+            'correo' => 'required',
             'razon_social' => 'required',
             'giro_empresa' => 'required',
         ];
@@ -65,8 +75,8 @@ class ProveedorForm extends Form
             'colonia.required' => 'El campo Colonia es obligatorio',
             'municipio.required' => 'El campo Municipio es obligatorio',
             'estado.required' => 'El campo Estado es obligatorio',
-            'telefono.required' => 'El campo Teléfono es requerido si el Correo está vacío.',
-            'correo.required' => 'El campo Correo es requerido si el Teléfono está vacío.',
+            'telefono.required' => 'El campo Teléfono es requerido.',
+            'correo.required' => 'El campo Correo es requerido.',
             'razon_social.required' => 'El campo "Razon Social" es obligatorio',
             'giro_empresa.required' => 'El campo "Giro de la empresa" es obligatorio',
         ];

@@ -10,8 +10,7 @@
         @vite('resources/css/app.css')
 
     </head>
-    <body class="
-    text-base md:text-lg lg:text-xl">
+    <body class="text-base md:text-lg lg:text-xl">
 
         @php
         $routes = \Illuminate\Support\Facades\Config::get('navigation.reactivos', []);

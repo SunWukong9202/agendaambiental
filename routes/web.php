@@ -64,7 +64,7 @@ Route::get('logout', function (Request $request) {
 
 })->name('logout');
 
-Route::middleware(['auth'])->group(function () {
+Route::group(['middleware' => 'auth'], function () {
     
     Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
         // Route::get('/', AdminPanel::class)->name('panel');
@@ -84,9 +84,8 @@ Route::middleware(['auth'])->group(function () {
             ->name('donaciones.reactivos');
     
         Route::get('/inventario/articulos', Articulos::class)
-        ->name('inventario.articulos');
+            ->name('inventario.articulos');
     });
-
 
     Route::get('/', function () {
         return view('layout');
@@ -99,4 +98,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/modulo/profile', Perfil::class)->name('user.profile');
 
+});
+
+
+
+Route::get('/hello', function () {
+    return 'Hello world';
 });

@@ -97,7 +97,7 @@
                 'Sede' => ['sede', $sortCol, $sortAsc],
                 'inicio' => ['correo', $sortCol, $sortAsc],
                 'Creado' => ['created_at', $sortCol, $sortAsc],
-                'Accion'
+               'Accion'
                 ]">
                 @foreach ($acopios as $acopio)
                 <tr 

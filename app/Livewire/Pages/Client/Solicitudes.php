@@ -50,8 +50,9 @@ class Solicitudes extends Component
     {
         $this->form->user_id = auth()->user()->id;
         $this->form->reactivo_id = $this->id;
+        $this->js("console.log('{$this->form->caducidad}')");
         if(!empty($this->form->caducidad)) {
-            $cad = Carbon::parse($this->form->caducidad);
+            $cad = Carbon::createFromFormat("d/m/Y", $this->form->caducidad);
             $this->form->caducidad = $cad;
         }
 

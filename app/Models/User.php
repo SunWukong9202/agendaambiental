@@ -184,11 +184,6 @@ class User extends Authenticatable
         return $this->hasMany(Donacion::class, 'donador_id');
     }
 
-    // public function donacionesDeResiduos(): HasMany
-    // {
-    //     # code...
-    // }
-
     public function donacionesDeLibros(): HasMany
     {
         return $this->donaciones()->where('de_residuos', false);

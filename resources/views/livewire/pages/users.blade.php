@@ -106,21 +106,21 @@
             <tr 
             class="hover:bg-gray-50"
             wire:key="{{ $user->id }}">
-                <td class="whitespace-nowrap p-3 text-sm">
+                <td class="whitespace-nowrap p-3">
                     <div class="flex gap-1">
                     {{ $user->clave }}
                     </div>
                 </td>
 
-                <td class="whitespace-nowrap p-3 text-sm">
+                <td class="whitespace-nowrap p-3 ">
                     <div>{{ $user->nombre_completo }}</div>
                 </td>
 
-                <td class="whitespace-nowrap p-3 text-sm">
+                <td class="whitespace-nowrap p-3 ">
                     <div>{{ $user->genero }}</div>
                 </td>
     
-                <td class="whitespace-nowrap p-3 text-sm">
+                <td class="whitespace-nowrap p-3 ">
                     <x-utils.tooltip>
                         <x-slot:trigger>
                             <x-table.truncable-col>
@@ -131,7 +131,7 @@
                     </x-utils>
                 </td>
 
-                <td class="whitespace-nowrap p-3 text-sm">
+                <td class="whitespace-nowrap p-3 ">
                     <x-utils.tooltip>
                         <x-slot:trigger>
                             <x-table.truncable-col>
@@ -142,11 +142,11 @@
                     </x-utils>
                 </td>
 
-                <td class="whitespace-nowrap p-3 text-sm">
+                <td class="whitespace-nowrap p-3 ">
                     <div>{{ $user->telefono }}</div>
                 </td>
 
-                <td class="whitespace-nowrap p-3 text-sm">
+                <td class="whitespace-nowrap p-3 ">
                     {{ $user->fechaLegible('created_at') }}
                 </td>
 
@@ -187,7 +187,7 @@
     </x-loading>
     
     <div class="pt-4 flex justify-between items-center">
-        <div class="text-gray-700 text-sm">
+        <div class="text-gray-700">
             Resultados: {{ $users->total() }}
         </div>
 

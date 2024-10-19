@@ -43,7 +43,6 @@ class DonacionReactivo extends Pivot
         'caducidad' => null
         // 'responsable_id' => 0,
         // 'reactivo_id' => 0
-        
     ];
 
     public function user(): BelongsTo

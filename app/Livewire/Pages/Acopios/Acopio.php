@@ -15,8 +15,6 @@ class Acopio extends Component
 
     public function create()
     {
-        // $ini_evento = Carbon::parse($this->form->ini_evento)->utc();
-        // dd($ini_evento);
         $this->form->create();
         session()->flash('actionMessage', "El acopio <b>{$this->form->acopio->nombre}</b> fue creado exitosamente");
 

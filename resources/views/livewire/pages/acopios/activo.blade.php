@@ -1,7 +1,7 @@
 <div>
-    {{-- <pre>
-        {{ $acopio->nombre  }}
-    </pre> --}}
+    <pre>
+        {{ $form->externo ? 'externo': 'interno' }}
+    </pre>
 
     <form 
         x-modelable="step"
@@ -30,33 +30,40 @@
             </x-utils>
 
             <x-utils.alert
-            x-data="{show: false}"
-            x-show="show"
-            x-cloak
-            x-modelable="show" 
-            wire:model="form.not_found"
-            x-effect="if($wire.form.not_found) setTimeout(()=> $wire.form.not_found = false, 5000)"
-            class="mt-4 block text-[18px]" type="warning">
-                <span class="font-medium">Sin coincidencias</span> <br>
-                Asegurate de que la clave esta bien escrita 
+                x-data="{show: false}"
+                x-show="show"
+                x-cloak
+                x-modelable="show" 
+                wire:model="form.not_found"
+                x-effect="if($wire.form.not_found) setTimeout(()=> $wire.form.not_found = false, 5000)"
+                class="mt-4 block text-[18px]" type="warning">
+                    <span class="font-medium">Sin coincidencias</span> <br>
+                    Asegurate de que la clave esta bien escrita 
             </x-utils>
 
             <x-tabs class="!max-w-full bg-marine rounded-xl !ml-auto !mr-0 mb-4" withOutRoutes>
                 <x-tab-button 
                 wire:click="switchTab"
-                text="Usuario Externo" :active="$isExtern"/>
+                text="Usuario Interno" :active="!$form->externo"/>
 
                 <x-tab-button 
                 wire:click="switchTab"
-                text="Usuario Interno" :active="!$isExtern"/>
+                text="Usuario Externo" :active="$form->externo"/>
             </x-tabs>
 
             <div class="grid gap-4 grid-cols-1 md:grid-cols-2 mt-4 md:mt-5">
-                @if (!$isExtern)
+                @if (!$form->externo)
                     <x-input.text 
-                    wire:model.stop.blur="form.clave"
+                    wire:model.stop.live="form.clave"
                     label="Clave*" error="form.clave" />
                 @endif
+
+                <x-input.text
+                wire:model.stop.live.300ms="form.correo"
+                label="Correo*"
+                error="form.correo"
+            />
+            
 
                 <x-input.text 
                 wire:model.stop="form.nombre"
@@ -80,11 +87,7 @@
                     @endforeach
                 </x-input>
 
-                <x-input.text
-                wire:model.stop="form.correo"
-                label="Correo*" error="form.correo" />
-
-                @if (!$isExtern)
+                @if (!$form->externo)
                     <x-input.text 
                     wire:model.stop="form.procedencia"
                     label="Procedencia*" error="form.procedencia" />
@@ -122,11 +125,11 @@
             </x-button>
 
             <x-button
-            x-cloak x-show="step < 2 && $wire.isExtern && !$wire.registrado" wire:click="registrar">
+            x-cloak x-show="step < 2 && $wire.form.externo && !$wire.registrado" wire:click="registrar">
                 Registrar
             </x-button> 
 
-            <x-button x-cloak x-show="step < 2 && ($wire.registrado || !$wire.isExtern)" @click="step++">
+            <x-button x-cloak x-show="step < 2 && ($wire.registrado || !$wire.form.externo)" @click="step++">
                 Siguiente
             </x-button>
 

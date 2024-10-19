@@ -18,6 +18,6 @@
     </select>
 
     <div>
-        @error($error) <span class="text-red-600">{{ $message }}</span> @enderror
+        @error($error) <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
     </div>
 </div>

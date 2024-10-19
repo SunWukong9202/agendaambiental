@@ -5,7 +5,6 @@
         <x-toast
         message="Solicitud Procesada con exito"
         wire:model="editSuccess"
-        x-effect="if($wire.editSuccess) setTimeout(()=> $wire.editSuccess = false, 3000)"/>
         
         <x-toast
         wire:model="deleteSuccess"

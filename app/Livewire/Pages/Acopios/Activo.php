@@ -25,24 +25,25 @@ class Activo extends Component
 
     public $signUpSucces = false;
 
-
     public function updatedFormClave($value): void
     {
         $this->form->updatedKey($value);
     }
 
-    public function switchTab()
+    public function updatedFormCorreo($value): void
     {
-        $this->isExtern = !$this->isExtern;
-        $this->form->clearKeep();
-        $this->form->updatedKey(null, silenly: true);
-        $this->render();
+        $this->form->updatedEmail($value);
     }
 
+    public function switchTab()
+    {
+        $this->form->externo = !$this->form->externo;
+        $this->form->resetUser(keep: ['externo']);
+    }
     public function registrar(): void
     {
         $this->form->externo = true;
-        $this->form->create();
+        // $this->form->create();
         $this->registrado = true;
         $this->signUpSucces = true;
     }

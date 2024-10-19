@@ -45,7 +45,6 @@ return new class extends Migration
             $table->id();
             $table->string('observaciones')->nullable();
             $table->string('estado');
-            // $table->string('asignacion')->nullable();
             $table->foreignId('captura_id')->constrained('capturas_articulos')->cascadeOnDelete();
             $table->foreignId('revisado_por')->constrained('users')->cascadeOnDelete();
             $table->timestamps();

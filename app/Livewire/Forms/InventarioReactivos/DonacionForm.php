@@ -49,6 +49,7 @@ class DonacionForm extends Form
         $this->fac_proc = $donacion->fac_proc;
         $this->lab_proc = $donacion->lab_proc;
         $this->CRETIB = $donacion->CRETIB->toArray();
+    
     }
 
     public function create(): void
