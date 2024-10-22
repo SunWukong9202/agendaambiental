@@ -4,22 +4,15 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use App\Models\Acopio\Donacion;
-use App\Models\InventarioAcopio\Articulo;
-use App\Models\InventarioAcopio\CapturaArticulo;
-use App\Models\InventarioAcopio\SolicitudArticulo;
-use App\Models\InventarioReactivos\CapturaReactivo;
-use App\Models\InventarioReactivos\DonacionReactivo;
-use App\Models\InventarioReactivos\Reactivo;
-use App\Models\InventarioReactivos\SolicitudReactivo;
-use App\Utils\DateFormats;
-use App\Utils\FilterableSortableSearchable;
-use App\Utils\TableColumns;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Enums\Movement;
+use App\Models\Pivots\Delivery;
+use App\Models\Pivots\Donation;
+use App\Models\Pivots\ItemMovement;
+use App\Models\Pivots\ReagentMovement;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -28,22 +21,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-
-    use TableColumns;
     use SoftDeletes;
-    use FilterableSortableSearchable;
-    use DateFormats;
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    // protected $fillable = [
-    //     'clave',
-    //     'nombre',
-    //     'genero',
-    //     'password',
-    // ];
 
     protected $guarded = [];
 
@@ -67,140 +45,65 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    protected function nombreCompleto(): Attribute
+    //SECTION FOR USER REAGENT MOVEMENTS AND REAGENTS
+    public function reagents(): BelongsToMany
     {
-        return Attribute::make(
-            get: fn (mixed $value, array $attributes) 
-                => "{$attributes['nombre']} {$attributes['ap_pat']} {$attributes['ap_mat']}"
-        );
-    }
-
-    public function reactivosDonados(): BelongsToMany
-    {
-        return $this->_reactivosDonados()
-            ->wherePivotNull('deleted_at');
-    }
-
-    public function reactivosDonadosWithTrashed(): BelongsToMany
-    {
-        return $this->_reactivosDonados()
-            ->wherePivotNotNull('deleted_at');
-    }
-
-    public function reactivosSolicitados(): BelongsToMany
-    {
-        return $this->_reactivosSolicitados()
-        ->wherePivotNull('deleted_at');
-    }
-
-    public function reactivosSolicitadosWithTrashed(): BelongsToMany
-    {
-        return $this->_reactivosSolicitados()
-            ->wherePivotNotNull('deleted_at');
-    }
-                
-    private function _reactivosDonados(): BelongsToMany
-    {
-        $config = [
-            'table' => 'donaciones_reactivos',
-            'fk' => 'user_id',
-            'related_fk' => 'reactivo_id'
-        ];
-        
-
-        $columns = $this->getTableColumns(exclude: $config);
-
-        return $this->belongsToMany(Reactivo::class, $config['table'], $config['fk'], $config['related_fk'])
-            ->as('donacion')
-            ->withPivot(...$columns)
-            ->withTimestamps()
-            ->using(DonacionReactivo::class);
-    }
-
-    public function _reactivosSolicitados(): BelongsToMany
-    {
-        $config = [
-            'table' => 'solicitudes_reactivos',
-            'fk' => 'user_id',
-            'related_fk' => 'reactivo_id'
-        ];
-
-        $columns = $this->getTableColumns(exclude: $config);
-        
-        return $this->belongsToMany(Reactivo::class, $config['table'], $config['fk'], $config['related_fk'])
-            ->as('solicitud')
-            ->withPivot(...$columns)
-            ->withTimestamps()
-            ->using(SolicitudReactivo::class);
-    }
-
-    //REVISAR CREO QUE LA RELACION NO ESTA BIEN DEFINIDA
-    // public function articulosSolicitados(): BelongsToMany
-    // {
-    //     return $this->belongsToMany(Articulo::class, 'solicitudes_articulos', 'solicitante_id', 'articulo_id')
-    //         ->as('captura')
-    //         ->withPivot('observaciones', 'condiion')
-    //         ->withTimestamps()
-    //         ->using(User::class);
-    // }
-
-    public function articulosSolicitados(): BelongsToMany
-    {
-        return $this->belongsToMany(Articulo::class, 'solicitudes_articulos', 'articulo_id', 'solicitante_id')
-            ->as('solicitud')
-            ->withPivot('comentario', 'estado')
+        return $this->belongsToMany(Reagent::class)
+            ->using(ReagentMovement::class)->as(ReagentMovement::PIVOT)
+            ->withPivot(ReagentMovement::WITH_FIELDS)
             ->withTimestamps();
-            // ->using(SolicitudArticulo::class);
+    }   
+
+    public function reagentMovements(Movement $movement = Movement::Petition_By_Name): HasMany
+    {
+        return $this->hasMany(ReagentMovement::class)->where('type', $movement);
     }
 
-    public function articulosDonados(): BelongsToMany
+    //SECTION FOR USER ITEM MOVEMENT AND ITEMS
+    public function items(): BelongsToMany
     {
-        return $this->belongsToMany(Articulo::class, 'solicitudes_articulos', 'articulo_id', 'solicitante_id')
-            ->as('solicitud')
-            ->withPivot('comentario', 'estado')
-            ->withTimestamps();
-            // ->using(SolicitudArticulo::class);
+        return $this->_items();
     }
 
-    //Manejo de otras solicitudes
-    public function solicitudesOtroReactivo() : HasMany
+    public function itemMovements(Movement $movement = Movement::Petition_By_Name): HasMany
     {
-        return $this->hasMany(SolicitudReactivo::class, 'user_id');
+        return $this->hasMany(ItemMovement::class)->where('type', $movement);
     }
 
-    public function solicitudesOtroArticulo(): HasMany
+    //SECTION FOR DELIVERIES HANDLING
+    public function deliveries(): HasMany
     {
-        return $this->hasMany(SolicitudArticulo::class, 'solicitante_id');
+        return $this->hasMany(Delivery::class);
     }
 
-    public function acopios()
+    //SECTION: DONATIONS IN EVENTS AND EVENT CREATION
+    public function createdEvents(): HasMany
     {
-        return $this->belongsToMany(Evento::class, 'donaciones', 'donador_id', 'acopio_id')
+        return $this->hasMany(Event::class);
+    }
+    
+    public function events(string $for = 'capturist' /** capturist|donator */): BelongsToMany
+    {
+        return match($for) {
+            'capturist' => $this->_events(),
+            'donator' => $this->_events('donator_id')
+        };
+    }
+
+    private function _events($fk = 'user_id'): BelongsToMany
+    {
+        return $this->belongsToMany(Event::class, foreignPivotKey: $fk)
+            ->using(Donation::class)
+            ->as(Donation::PIVOT)
+            ->withPivot(Donation::WITH_FIELDS)
             ->withTimestamps();
     }
 
-    public function donaciones(): HasMany
+    private function _items($fk = 'user_id'): BelongsToMany
     {
-        return $this->hasMany(Donacion::class, 'donador_id');
-    }
-
-    public function donacionesDeLibros(): HasMany
-    {
-        return $this->donaciones()->where('de_residuos', false);
-    }
-
-    public function donacionesDeResiduos(): HasMany
-    {
-        return $this->donaciones()->where('de_residuos', true);
-    }
-
-    public function donacionesReactivos(): HasMany
-    {
-        return $this->hasMany(DonacionReactivo::class);
-    }
-
-    public function solicitudesServicios(): HasMany
-    {
-        return $this->hasMany(SolicitudServicio::class);
+        return $this->belongsToMany(Item::class, foreignPivotKey: $fk)
+            ->using(ItemMovement::class)->as('movement')
+            ->withPivot(ItemMovement::WITH_FIELDS)
+            ->withTimestamps();
     }
 }
