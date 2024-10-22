@@ -15,12 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('key', 7)->nullable()->unique();
             $table->string('name', 40);
-            $table->string('gender', 15);
+            $table->string('gender', 15)->nullable();
             $table->string('procedence', 40)->nullable();
             $table->string('email', 60);
             $table->string('phone_number', 17)->nullable();
-            $table->string('password');
-            $table->boolean('has_account')->default(false);
+            $table->string('password')->nullable();
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();
