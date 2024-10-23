@@ -12,6 +12,7 @@ use App\Livewire\Pages\Inventarios\Articulos;
 use App\Livewire\Pages\Inventarios\Reactivos;
 use App\Livewire\Pages\Solicitudes\Reactivos as SolicitudesReactivos;
 use App\Livewire\Pages\Users;
+use App\Livewire\Panel\ListUsers;
 use App\Models\InventarioAcopio\Articulo;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -30,78 +31,76 @@ use Illuminate\Support\Facades\Auth;
 */
 //as = name -> asi que esto se pega al inicio de name
 
-Route::view('login', 'client.login')->name('login');
+// Route::view('login', 'client.login')->name('login');
 
-Route::post('login', function (Request $req){
-    $credentials = $req->validate([
-        'clave' => ['required'],
-        'password' => ['required'],
-    ]);
+// Route::post('login', function (Request $req){
+//     $credentials = $req->validate([
+//         'clave' => ['required'],
+//         'password' => ['required'],
+//     ]);
 
-    if(Auth::attempt([
-        'clave' => $credentials['clave'],
-        'password' => $credentials['password']]
-        )) 
-    {
-        $req->session?->regenerate();
+//     if(Auth::attempt([
+//         'clave' => $credentials['clave'],
+//         'password' => $credentials['password']]
+//         )) 
+//     {
+//         $req->session?->regenerate();
 
-        return redirect()->intended();
-    }
+//         return redirect()->intended();
+//     }
 
-    return back()->withErrors([
-        'clave' => 'Credenciales erroneas',
-    ])->onlyInput('clave');
-});
+//     return back()->withErrors([
+//         'clave' => 'Credenciales erroneas',
+//     ])->onlyInput('clave');
+// });
 
-Route::get('logout', function (Request $request) {
-    Auth::logout();
+// Route::get('logout', function (Request $request) {
+//     Auth::logout();
 
-    $request->session()->invalidate();
+//     $request->session()->invalidate();
  
-    $request->session()->regenerateToken();
+//     $request->session()->regenerateToken();
  
-    return redirect('login');
+//     return redirect('login');
 
-})->name('logout');
+// })->name('logout');
 
-Route::group(['middleware' => 'auth'], function () {
+// Route::group(['middleware' => 'auth'], function () {
     
-    Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
-        // Route::get('/', AdminPanel::class)->name('panel');
-        Route::get('/', Users::class)->name('users');
+//     Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
+//         // Route::get('/', AdminPanel::class)->name('panel');
+//         Route::get('/', Users::class)->name('users');
         
-        Route::get('/events', Events::class)->name('events');
-        Route::get('/events/acopio/{action}/{id?}', Acopio::class)->name('acopio');
-        Route::get('/acopios/activos/{acopio}', Activo::class)->name('acopios.activos');
+//         Route::get('/events', Events::class)->name('events');
+//         Route::get('/events/acopio/{action}/{id?}', Acopio::class)->name('acopio');
+//         Route::get('/acopios/activos/{acopio}', Activo::class)->name('acopios.activos');
     
-        Route::get('/proveedores', Proveedores::class)->name('proveedores');
+//         Route::get('/proveedores', Proveedores::class)->name('proveedores');
     
-        Route::get('/inventario/reactivos', Reactivos::class)
-            ->name('inventario.reactivos');
-        Route::get('/solicitudes/reactivos', SolicitudesReactivos::class)
-            ->name('solicitudes.reactivos');
-        Route::get('/donaciones/reactivos', DonacionesReactivos::class)
-            ->name('donaciones.reactivos');
+//         Route::get('/inventario/reactivos', Reactivos::class)
+//             ->name('inventario.reactivos');
+//         Route::get('/solicitudes/reactivos', SolicitudesReactivos::class)
+//             ->name('solicitudes.reactivos');
+//         Route::get('/donaciones/reactivos', DonacionesReactivos::class)
+//             ->name('donaciones.reactivos');
     
-        Route::get('/inventario/articulos', Articulos::class)
-            ->name('inventario.articulos');
-    });
+//         Route::get('/inventario/articulos', Articulos::class)
+//             ->name('inventario.articulos');
+//     });
 
-    Route::get('/', function () {
-        return view('layout');
-    })->name('agendaAmbiental');
+//     Route::get('/', function () {
+//         return view('layout');
+//     })->name('agendaAmbiental');
 
-    Route::view('/modulo', 'client.home')->name('client.home');
-    Route::view('/modulo/testing', 'client.home')->name('client.home');
+//     Route::view('/modulo', 'client.home')->name('client.home');
+//     Route::view('/modulo/testing', 'client.home')->name('client.home');
 
-    Route::get('/modulo/solicitudes/{type}', Solicitudes::class)->name('solicitudes');
+//     Route::get('/modulo/solicitudes/{type}', Solicitudes::class)->name('solicitudes');
 
-    Route::get('/modulo/profile', Perfil::class)->name('user.profile');
+//     Route::get('/modulo/profile', Perfil::class)->name('user.profile');
 
-});
+// });
 
-
-
-Route::get('/hello', function () {
-    return 'Hello world';
+Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
+    Route::get('/', ListUsers::class)->name('users');
 });

@@ -2,15 +2,17 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
+        <meta name="application-name" content="{{ config('app.name') }}">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <title>{{ $title ?? 'Page Title' }}</title>
-        @livewireStyles
+        @filamentStyles
         @vite(['resources/js/app.js'])
         @vite('resources/css/app.css')
 
     </head>
-    <body class="text-base md:text-lg lg:text-xl">
+    <body class="text-base md:text-base lg:text-lg">
 
         @php
         $routes = \Illuminate\Support\Facades\Config::get('navigation.reactivos', []);
@@ -18,7 +20,7 @@
         
         <x-navbar class="fixed top-0 z-50">
             <a href="{{ route('admin.users') }}" class="flex ms-2 ">
-                <img src="/images/logoagenda.jpg" class="h-8 me-3" alt="FlowBite Logo" />
+                <img src="/images/logoagenda.jpg" class="h-8 me-3" alt="UASLP Logo" />
             </a>
             @if (request()->routeIs(...$routes))
             <div class="fixed inset-x-0">
@@ -26,12 +28,15 @@
             </div>
             @endif
         </x-navbar>
+
         <x-aside>
-            {{-- <x-link page="admin.panel" wire:navigate text="Inicio" icon="grid"/> --}}
-            <x-link wire:navigate page="admin.users" text="Usuarios" icon="grid"/>
+            <x-link wire:navigate page="admin.users" text="Usuarios">
+                <x-slot:icon>
+                    <x-heroicon-m-users class="w-5 h-5 text-yellow-300" />
+                </x-slot>
+            </x-link>
 
-            {{-- <x-link wire:navigate page="admin.events" text="Eventos" icon="grid"/> --}}
-
+{{-- 
             <x-dropdown key="Acopios">
                 <x-slot:trigger>
                     <x-link icon="grid"
@@ -75,11 +80,7 @@
             </x-dropdown>
 
             <x-link wire:navigate page="client.home" text="Regresar" icon="arrow-right-to-bracket"/>
-            <x-link page="logout" text="Cerrar Sesion" icon="arrow-right-to-bracket"/>
-            
-            {{-- <x-link text="Acopios" icon="grid"/> --}}
-
-            {{-- <x-link text="Acopio Activo" icon="grid"/> --}}
+            <x-link page="logout" text="Cerrar Sesion" icon="arrow-right-to-bracket"/> --}}
 
         </x-aside>
 
@@ -88,7 +89,7 @@
                 {{ $slot }}
             </div>
         </div>
-        @livewireScriptConfig
+        @filamentScripts
     </body>
 </html>
 

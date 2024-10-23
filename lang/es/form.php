@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'user' => 'User',
+    'delete' => 'Eliminar',
     'key' => 'Clave',
     'name' => 'Nombre',
     'gender' => 'Genero',
@@ -11,8 +13,8 @@ return [
         // 'key' => 'Clave de 6 digitos',
         // 'name' => 'Maximo :max'
     ],
-    'has_account' => 'Usuario con cuenta',
-    'without_account' => 'Usuario sin cuenta',
+    'has_account' => 'Tiene cuenta',
+    'without_account' => 'No tiene cuenta',
     'genders' => [
         'male' => 'Masculino',
         'female' => 'Femenino',

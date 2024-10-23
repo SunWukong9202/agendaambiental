@@ -17,12 +17,16 @@
     ]) }}
 >
 
-    @if($icon) <x-icon :icon="$icon"/> @endif
+    @isset($icon)
+        {{ $icon }}
+    @endisset
     
     @if($text) <span class="ms-3 {{ $iconRTL ? 'flex-1': '' }}">{{ $text }}</span> @endif
 
-       
-    @if($iconRTL) <x-icon  :icon="$iconRTL"/> @endif
+        
+    @isset($iconRTL)
+        {{ $iconRTL }}
+    @endisset
     
     {{ $slot }}
  </a>
