@@ -13,6 +13,7 @@ use App\Livewire\Pages\Inventarios\Reactivos;
 use App\Livewire\Pages\Solicitudes\Reactivos as SolicitudesReactivos;
 use App\Livewire\Pages\Users;
 use App\Livewire\Panel\ListUsers;
+use App\Livewire\Panel\Login;
 use App\Models\InventarioAcopio\Articulo;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -101,6 +102,12 @@ use Illuminate\Support\Facades\Auth;
 
 // });
 
+
+
 Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
+    Route::get('login', Login::class);
+
     Route::get('/', ListUsers::class)->name('users');
+
+
 });

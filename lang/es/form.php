@@ -1,6 +1,7 @@
 <?php
 
 return [
+
     'user' => 'User',
     'delete' => 'Eliminar',
     'key' => 'Clave',
@@ -9,6 +10,9 @@ return [
     'procedence' => 'Procedencia',
     'email' => 'Correo Electronico',
     'phone number' => 'Numero Telefonico',
+    'password' => 'Contraseña',
+    'with_email' => 'Con Correo',
+    'with_key' => 'Con Clave',
     'hints' => [
         // 'key' => 'Clave de 6 digitos',
         // 'name' => 'Maximo :max'
