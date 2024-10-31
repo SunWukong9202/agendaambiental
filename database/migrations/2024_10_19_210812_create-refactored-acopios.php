@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('name', 124);
             $table->string('faculty', 80);
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->dateTime('start');
             $table->dateTime('end');
-
+            //creador/{admin|permisos}
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->timestamps();
+                $table->timestamps();
         });
 
         Schema::create('suppliers', function (Blueprint $table): void {
@@ -59,6 +59,7 @@ return new class extends Migration
             $table->foreignId('event_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
+        
         //donations: we could use this as a pivot model or not
         Schema::create('event_user', function (Blueprint $table): void {
             $table->id();

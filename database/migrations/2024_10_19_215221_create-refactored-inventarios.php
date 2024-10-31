@@ -31,21 +31,22 @@ return new class extends Migration
             //this could be used to distinguish between petition made and settlement
             //but given that is just a binary state is enough to use the timestamps for distinguishment
             $table->unsignedBigInteger('group_id')->nullable();
+
             $table->string('observations', 255)->nullable();
             $table->string('item_name', 80)->nullable();
             //user related to the action {reparator|settler}
             $table->foreignId('related_id')->nullable()->constrained('users')->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('item_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->timestamps();
+            $table->timestamps();//created_at, updated_at
         });
 
         Schema::create('reagents', function (Blueprint $table): void {
             $table->id();
             $table->string('name', 80);
+            $table->string('unit', 32);
             $table->string('group', 16);
             $table->string('chemical_formula', 16);
-            $table->string('unit', 32);
             $table->boolean('visible');
             $table->string('max_per_petition', 12, 3)->default(99.999);
             $table->decimal('stock', 12, 3, true);//999 999 999 999.999
@@ -90,8 +91,21 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        Schema::create('reports', function (Blueprint $table): void {
+            $table->id();
+            $table->string('file_path');
+            $table->date('from');
+            $table->date('to');
+            $table->foreignId('supplier_id')->constrained()->cascadeOnDelete();
+            $table->timestamps();
+        });
 
-
+        Schema::create('report_user', function (Blueprint $table) {
+            $table->id();
+            $table->string('status', 12);//generated, sent, archived, deleted
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('report_id')->constrained()->cascadeOnDelete();
+        });
 
     }
 
@@ -100,17 +114,30 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
-        // Schema::dropIfExists('items');
-        // Schema::dropIfExists('item_user');
-        // Schema::dropIfExists('reparations');
-        // Schema::dropIfExists('reagents');
-        // Schema::dropIfExists('user_reagent');
-
         Schema::dropIfExists('reagent_user');
         Schema::dropIfExists('reagents');
         Schema::dropIfExists('item_user');
         Schema::dropIfExists('items');
         Schema::dropIfExists('settings');
+        Schema::dropIfExists('report_user');
+        Schema::dropIfExists('reports');
+
     }
 };
+
+// public function deleteReport($reportId)
+    // {
+    //     $report = Report::find($reportId);
+        
+    //     if ($report) {
+    //         // Delete the associated PDF file
+    //         $pdfPath = storage_path('app/reports/' . $report->file_name); // Adjust path as necessary
+    //         if (file_exists($pdfPath)) {
+    //             unlink($pdfPath); // Delete the file
+    //         }
+
+    //         // Update the report status to deleted
+    //         $report->status = 'deleted';
+    //         $report->save();
+    //     }
+    // }

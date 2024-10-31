@@ -33,7 +33,6 @@ class UserFactory extends Factory
             'procedence' => $this->randomOf(Config::get('opciones.procedencia')),
             'email' => $f->unique()->email(),
             'phone_number' => $f->unique->numerify('(444) ### ####'),
-            'has_account' => fake()->boolean(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];

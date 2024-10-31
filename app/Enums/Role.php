@@ -9,8 +9,18 @@ namespace App\Enums;
 //roles creados
 enum Role: string
 {
-    case SUPER_ADMIN = 'Super Administrador';
-    case ADMIN = 'Administrador';
-    case CAPTURISTA = 'Capturista';
-    case REUTRONIC = 'Reutronic';
+    case SuperAdmin = 'super-admin';
+    case Admin = 'admin';
+    case Capturist = 'capturist';
+    case RepairTechnician = 'repair-technician';
+
+    public static function readable($label): string
+    {
+        return self::format($label);
+    }
+
+    private static function format(string $label): string
+    {
+        return ucfirst(str_replace('-', ' ', $label));
+    }
 }

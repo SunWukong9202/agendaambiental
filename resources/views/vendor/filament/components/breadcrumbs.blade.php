@@ -20,16 +20,6 @@
                             'rtl:hidden',
                         ])
                     />
-
-                    <x-filament::icon
-                        {{-- @deprecated Use `breadcrubs.separator.rtl` instead of `breadcrumbs.separator` for RTL. --}}
-                        :alias="['breadcrumbs.separator.rtl', 'breadcrumbs.separator']"
-                        icon="heroicon-m-chevron-left"
-                        @class([
-                            $iconClasses,
-                            'ltr:hidden',
-                        ])
-                    />
                 @endif
 
                 @if (is_int($url))

@@ -7,16 +7,69 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <title>{{ $title ?? 'Page Title' }}</title>
+
+        <style>
+            [x-cloak] {
+                display: none !important;
+            }
+        </style>
+
         @filamentStyles
-        @vite(['resources/js/app.js'])
         @vite('resources/css/app.css')
+        <script>
+            // Global function to apply custom validation messages with dynamic constraint values
+            window.applyValidationMessages = function (formElement, locale = "{{ str_replace('_', '-', app()->getLocale()) }}") {
+                // Function to set a translated custom validity message
+                const setTranslatedMessage = (input) => {
+                    let messageKey;
 
+                    // Determine the validation type and message key
+                    if (input.validity.valueMissing) messageKey = 'required';
+                    else if (input.validity.typeMismatch && input.type === 'email') messageKey = 'email';
+                    else if (input.validity.typeMismatch && input.type === 'url') messageKey = 'url';
+                    else if (input.validity.rangeUnderflow) messageKey = 'min';
+                    else if (input.validity.rangeOverflow) messageKey = 'max';
+                    else if (input.validity.tooShort) messageKey = 'minlength';
+                    else if (input.validity.tooLong) messageKey = 'maxlength';
+                    else if (input.validity.patternMismatch) messageKey = 'pattern';
+                    else if (input.validity.typeMismatch && input.type === 'number') messageKey = 'number';
+
+                    // Get translated message template if available
+                    if (messageKey && validationMessages[messageKey]) {
+                        let translatedMessage = validationMessages[messageKey][locale] || validationMessages[messageKey].en;
+
+                        // Replace placeholders with actual constraint values
+                        translatedMessage = translatedMessage.replace('{min}', input.min)
+                                                            .replace('{max}', input.max)
+                                                            .replace('{minLength}', input.minLength)
+                                                            .replace('{maxLength}', input.maxLength);
+
+                        // Set the custom validity with the translated message
+                        input.setCustomValidity(translatedMessage);
+                    } else {
+                        input.setCustomValidity('');  // Reset message if no issues
+                    }
+                };
+
+                // Apply translated messages on page load
+                formElement.querySelectorAll('input, textarea, select').forEach(input => {
+                    setTranslatedMessage(input);
+
+                    // Update message on input event
+                    input.addEventListener('input', () => setTranslatedMessage(input));
+                });
+            }
+        </script>
     </head>
-    <body class="text-base md:text-base lg:text-lg">
-
+    <body class="fi-body fi-panel-admin flex flex-col min-h-screen bg-gray-50 font-normal text-gray-950 antialiased dark:bg-gray-950 dark:text-white">
+        
         {{ $slot }}
         
+        
+        @livewire('notifications')
+ 
         @filamentScripts
+        @vite(['resources/js/app.js'])
     </body>
 </html>
 

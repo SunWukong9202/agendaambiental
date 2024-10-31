@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Enums\CRETIB;
+use App\Enums\Role;
 use App\Models\Event;
 use App\Models\Item;
 use App\Models\Reagent;
@@ -24,10 +25,38 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call([
+            PermissionsSeeder::class
+        ]);
+
+        $superAdmin = User::factory()->create([
+            'email' => 'super-admin@gmail.com'
+        ]);
+
+        $superAdmin->assignRole(Role::SuperAdmin);
+
+        $admin = User::factory()->create([
+            'email' => 'admin@gmail.com'
+        ]);
+
+        $admin->assignRole(Role::Admin);
+
+        $capturist = User::factory()->create([
+            'email' => 'capturist@gmail.com'
+        ]);
+
+        $capturist->assignRole(Role::Capturist);
+
+        $technician = User::factory()->create([
+            'email' => 'technician@gmail.com'
+        ]);
+
+        $technician->assignRole(Role::RepairTechnician);
+
         $users = User::factory()->count(5)->create();
 
         Event::factory()->count(5)->create([
-            'user_id' => fake()->randomElement($users)->id,
+            'user_id' => $superAdmin->id,
         ]);
 
         Supplier::factory()->count(5)->create();

@@ -1,51 +1,47 @@
-
-
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-        <title>{{ $title ?? 'Page Title' }}</title>
-        @livewireStyles
-        @vite(['resources/js/app.js'])
-        @vite('resources/css/app.css')
-    </head>
-    <body 
-    class="text-base md:text-lg lg:text-xl"
+<x-layouts.base>
+    <nav 
+        class="w-full bg-marine border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700"
     >
-        <x-navbar>
-            <a href="{{ route('agendaAmbiental') }}" class="flex ms-2">
-                <img src="/images/logoagenda.jpg" class="h-8 me-3" alt="FlowBite Logo" />
-            </a>
-        </x-navbar>
-        <x-shell.sub-nav>
-            <x-link.pill 
-            @class([
-                '!bg-marine !text-white' => request()->routeIs('client.home')
-            ])
-            href="{{ route('client.home') }}">Solicitar</x-link>
-            <x-link.pill
-            @class([
-                '!bg-marine !text-white' => request()->routeIs('user.profile')
-            ])
-            href="{{ route('user.profile') }}">Perfil</x-link>
-
-            @if (auth()->user()->clave == '112233')
-                <x-link.pill
-                @class([
-                    '!bg-marine !text-white' => request()->routeIs('admin.panel')
-                ])
-                href="{{ route('admin.users') }}">Panel de Administrador</x-link>
-            @endif
-
-            <x-link.pill
-            href="{{ route('logout') }}">Cerrar sesion</x-link>
-
-        </x-shell>
-        <div class="p-4 sm:m dark:bg-gray-800">
-            {{ $slot }}
+        <div class="px-3 py-3 lg:px-5 lg:pl-3">
+            <div class="flex items-center justify-between">
+            <div class="flex items-center justify-start rtl:justify-end"> 
+                
+                <a class="flex ms-2">
+                    <img src="/images/logoagenda.jpg" class="h-8 me-3" alt="FlowBite Logo" />
+                </a>
+            </div>
         </div>
-        @livewireScriptConfig
-    </body>
-</html>
+    </nav>
+    <nav class=" bg-white border-b border-gray-200 shadow-sm">
+        <div class="max-w-screen-xl mx-auto">
+            <div class="flex items-center py-2 justify-center font-medium text-sm">
+                <x-link.pill 
+                    @class([
+                        '!bg-marine !text-white' => request()->routeIs('home')
+                    ])
+                    href="{{ route('home') }}"
+                >
+                    {{ __('ui.pages.Home') }}
+                </x-link>
+                @can(\App\Enums\Permission::HasAdminPanelAccess->value)
+                    <x-link.pill 
+                        wire:navigate
+                        href="{{ route('admin.dashboard') }}"
+                    >
+                        {{ __('ui.pages.Admin Panel') }}
+                    </x-link>
+                @else
+                <x-link.pill 
+                    wire:navigate
+                    href="{{ route('logout') }}"
+                >
+                    {{ __('ui.pages.Log out') }}
+                </x-link>
+                @endcan
+            </div>
+        </div>
+    </nav>
+    <div class="p-4 sm:m dark:bg-gray-800">
+        {{ $slot }}
+    </div>
+</x-layouts>

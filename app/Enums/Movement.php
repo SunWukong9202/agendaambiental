@@ -11,6 +11,7 @@ enum Movement: string {
     // case Categorization = 'categorization';
     case Assignment = 'assignement';
     case Repair_Started = 'repair started';
+    case Repair_Log = 'repair log';
     case Repair_Completed = 'repair completed';
 
     /**@param string $type repairment| */
