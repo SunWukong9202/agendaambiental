@@ -14,6 +14,11 @@ enum Role: string
     case Capturist = 'capturist';
     case RepairTechnician = 'repair-technician';
 
+    public function getTranslatedLabel(): string
+    {
+        return __($this->value);
+    }
+
     public static function readable($label): string
     {
         return self::format($label);
@@ -23,4 +28,6 @@ enum Role: string
     {
         return ucfirst(str_replace('-', ' ', $label));
     }
+
+
 }

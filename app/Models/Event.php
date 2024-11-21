@@ -5,24 +5,29 @@ namespace App\Models;
 use App\Models\Pivots\Delivery;
 use App\Models\Pivots\Donation;
 use App\Models\Pivots\ReagentMovement;
+use App\Utils\FilterableSortableSearchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Event extends Model
 {
     use HasFactory;
+    use FilterableSortableSearchable;
 
     protected $guarded = [];
 
+    public function deliveries(): HasMany
+    {
+        return $this->hasMany(Delivery::class);
+    }
 
-    // public function reagents(): BelongsToMany
-    // {
-    //     return $this->belongsToMany(Reagent::class)
-    //         ->using(ReagentMovement::class)->as('movement')
-    //         ->with
-    // }
+    public function donations()
+    {
+        return $this->hasMany(Donation::class);
+    }
     
     //SECTION FOR DELIVERIES TO SUPPLIERS
     public function suppliers(): BelongsToMany
@@ -34,9 +39,9 @@ class Event extends Model
     }
 
     //SECTION: DONTATIONS IN EVENTS AND EVENT CREATION
-    public function user(): BelongsTo//creator
+    public function cmUser(): BelongsTo//creator
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(CMUser::class);
     }
 
     public function users($as = 'capturist' /**capturists|donators*/): BelongsToMany
@@ -52,9 +57,9 @@ class Event extends Model
         };
     }
 
-    private function _users($as = 'user_id'): BelongsToMany
+    private function _users($as = 'cm_user_id'): BelongsToMany
     {
-        return $this->belongsToMany(User::class, relatedPivotKey: $as)
+        return $this->belongsToMany(CMUser::class, Donation::TABLE, relatedPivotKey: $as)
             ->using(Donation::class)
             ->as(Donation::PIVOT)
             ->withPivot(Donation::WITH_FIELDS)

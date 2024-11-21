@@ -39,23 +39,23 @@ class SupplierFactory extends Factory
         
         $result = null;
 
-        do{
-            $postalCode = fake()->randomElement($this->postalCodes);
-            $result = $this->fetchAddressData($postalCode);
-        }while(!$result);
+        // do{
+        //     $postalCode = fake()->randomElement($this->postalCodes);
+        //     $result = $this->fetchAddressData($postalCode);
+        // }while(!$result);
 
         [$colonias, $estado, $municipio] = $result;
 
         return [
             'name' => fake()->company,
             'tax_id' => fake()->regexify('[A-Z]{3}[0-9]{9}'),
-            'postal_code' => $postalCode,
+            'postal_code' => $postalCode ?? fake()->regexify('[0-9]{5}'),
             'street' => fake()->streetName(),
             'ext_number' => fake()->buildingNumber(),
             'int_number' => fake()->buildingNumber(),
-            'neighborhood' => fake()->randomElement($colonias),
-            'town' => $municipio,
-            'state' => $estado,
+            'neighborhood' => fake()->randomElement($colonias ?? [fake()->word()]),
+            'town' => $municipio ?? fake()->word(),
+            'state' => $estado ?? fake()->word(),
             'phone_number' => fake()->phoneNumber(),
             'email' => fake()->email(),
             'business_name' => fake()->randomElement($suffixes),
@@ -68,7 +68,7 @@ class SupplierFactory extends Factory
         $dipomex = new DipomexService();
         $response = $dipomex->getAddressByPostalCode($postalCode);
 
-        if (isset($response) || !$response['error']) {
+        if (isset($response) && !$response['error']) {
             $data = $response['codigo_postal'];
             $colonias = $data['colonias'];
             $estado = $data['estado'];

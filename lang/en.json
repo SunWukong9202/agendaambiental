@@ -1,0 +1,35 @@
+{
+    "Language Changed!": "Language Changed!",
+    "English": "English",
+    "Español": "Spanish",
+    "Language switched to ": "Language switched to ",
+    "Log out": "Log out",
+    "Settings": "Settings",
+    "Return to home": "Return to home",
+    "user": "User",
+    "delete": "Delete",
+    "waste": "Waste",
+    "create": "Create",
+    "Actions": "Actions",
+    "Added": "Added",
+    "Is Intern": "Is Intern",
+    "Donator": "Donator",
+    "deliveries": {
+      "title": "No deliveries yet.",
+      "icon": "heroicon-m-archive-box",
+      "description": "Once you register your first delivery, it will appear here.'"
+    },
+    "Please select the type of donator for what you want to register the donation": "Please select the type of donator for what you want to register the donation",
+    "Donations": "Donations",
+    "Select type donation": "Select type donation",
+    "Waste donation": "Waste donation",
+    "Book donation": "Book donation",
+    "Pending to fullfill": "Pending to fulfill",
+    "Donate": "Donate",
+    "Take": "Take",
+    "Type of user": "Type of user",
+    "Intern User": "Intern User",
+    "Extern User": "Extern User",
+    "Quantity": "Quantity"
+  }
+  

@@ -14,7 +14,7 @@
                 <div class="flex">
                     <x-filament::button class="ml-auto flex items-center cursor-pointer" type="submit">
                         <x-filament::loading-indicator wire:loading class="h-5 w-5 inline-block" />
-                        {{ $this->role ? 'Edit Role' : 'Create Role' }}
+                        {{ isset($this->role->id) ? 'Edit Role' : 'Create Role' }}
                     </x-filament>
                 </div>
                 {{ $this->roleForm }}

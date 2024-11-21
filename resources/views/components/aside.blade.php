@@ -12,7 +12,7 @@
     >
         <div 
         x-on:click.outside="from == 'sidebar-btn' ? from = null : open = false"
-        class="w-80 flex flex-col bg-white lg:bg-transparent">
+        class="w-80 flex flex-col bg-white dark:bg-gray-900 lg:bg-transparent">
             <div class="overflow-x-clip">
                 <header class="fi-sidebar-header flex h-16 lg:h-20 items-center px-6 ring-1 ring-gray-950/5 dark:bg-gray-900 dark:ring-white/10">
                     <div>

@@ -29,7 +29,7 @@ class UserFactory extends Factory
         return [
             'key' => ''.fake()->unique()->numberBetween(100000, 999999),
             'name' => $f->name(),
-            'gender' => $this->randomOf(Config::get('opciones.genero')),
+            'gender' => $this->randomOf(collect(trans('form.genders'))->forget('other')->keys()->toArray()),
             'procedence' => $this->randomOf(Config::get('opciones.procedencia')),
             'email' => $f->unique()->email(),
             'phone_number' => $f->unique->numerify('(444) ### ####'),

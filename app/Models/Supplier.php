@@ -12,13 +12,18 @@ class Supplier extends Model
     use HasFactory;
 
     protected $guarded = [];
-    //SECTION FOR EVENT DELIVERIES TO SUPPLIERS
-    public function events(): BelongsToMany
+    // //SECTION FOR EVENT DELIVERIES TO SUPPLIERS
+    // public function events(): BelongsToMany
+    // {
+    //     return $this->belongsToMany(Event::class)
+    //         ->using(Delivery::class)
+    //         ->as(Delivery::PIVOT)
+    //         ->withPivot(Delivery::WITH_FIELDS)
+    //         ->withTimestamps();
+    // }
+
+    public function deliveries()
     {
-        return $this->belongsToMany(Event::class)
-            ->using(Delivery::class)
-            ->as(Delivery::PIVOT)
-            ->withPivot(Delivery::WITH_FIELDS)
-            ->withTimestamps();
+        return $this->hasMany(Delivery::class);
     }
 }

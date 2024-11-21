@@ -2,85 +2,33 @@
     {{ __('pages.list users') }}
 </x-slot>
 
-<div>
+<div x-data>
+    <div class="flex mb-4">
+        <x-filament::breadcrumbs :breadcrumbs="[
+            route('admin.users') => __('ui.pages.Users Managment'),
+            '' => __('ui.list'),
+            ]"
+        />
+        <x-filament::loading-indicator wire:loading class="inset-y-1/2 text-primary-600 inline-block ml-2 h-5 w-5" />
+    </div>
 
-    {{-- <form 
-    wire:submit="save" class="flex flex-col gap-4">
-        {{ $this->userForm }}   
+    <x-filament::tabs class="flex mb-4 items-center">
+        <x-filament::tabs.item
+            class="flex-1 text-center flex"
+            :active="!$tab"
+            wire:click="$set('tab', false)"
+        >
+            {{ __('form.Internal Users') }}
+        </x-filament::tabs.item>
 
-        <x-filament::button type="submit" class="w-full">
-            {{ true ? __('form.save') : __('form.create')}}
-        </x-filament>
-    </form> --}}
+        <x-filament::tabs.item
+            class="flex-1"
+            :active="$tab"
+            wire:click="$set('tab', true)"
+        >
+            {{ __('form.External Users') }}
+        </x-filament::tabs.item>    
+    </x-filament::tabs>
 
     {{ $this->table }}
 </div>
-
-{{-- <form 
-
-    x-data="{
-        receivedSenders: new Set(),
-        allSenders: new Set(['key', 'email', 'name']),
-
-        checkValidatedUser(event) {
-            console.log('sender: ' + event.detail.sender + ' received')
-            this.receivedSender.add(event.detail.sender)
-
-            if(!event.detail.valid) return;
-
-            if(this.checkAllSendersClicked()) {
-                this.receivedSenders.clear();
-                $wire.save;
-            }
-        },
-        
-        checkAllSendersClicked() {
-            // Check if all required senders are in the received senders
-            return [...this.allSenders].every(sender => this.receivedSenders.has(sender));
-        },
-
-        issueValidation(event) {
-            console.log('validation issued')
-            event.preventDefault();
-            this.$dispatch('validateUser', console.log('sended issue'))
-        }
-    }"
-    x-on:validatedUser="checkValidatedUser"
-    x-on:submit="issueValidation" class="flex flex-col gap-4">
-        {{ $this->userForm }}   
-
-        <x-filament::button type="submit" class="w-full">
-            {{ true ? __('form.save') : __('form.create')}}
-        </x-filament>
-    </form>
-     --}}
-{{-- 
-@script
-<script>
-    let email = mail;
-
-    let messages = (event) => {
-        if(email.validity.valueMissing) {
-            email.setCustomValidity("Por favor llene este campo")
-        } else if (email.validity.typeMismatch) {
-            email.setCustomValidity("Ingrese una direccion valida")
-        } else {
-            email.setCustomValidity("")
-        }
-    }
-    window.addEventListener('DOMContentLoaded', () => {
-        email.addEventListener('input', messages)
-        email.addEventListener('mouseenter', () => {
-            const customTitle = email.title || ''; // Default to existing title if any
-            email.title = replacePlaceholders(customTitle, {
-                min: email.min,
-                max: email.max,
-                minlength: email.minLength,
-                maxlength: email.maxLength
-            });
-        })
-        messages();
-    })
-    
-</script>
-@endscript --}}

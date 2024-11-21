@@ -6,6 +6,7 @@ use App\Models\User;
 use Closure;
 use App\Forms\Components\EmptyContainer;
 use App\Forms\Components\AlpineValidator;
+use App\Models\CMUser;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Component;
@@ -19,10 +20,11 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
+use Filament\Notifications\Notification;
 
 trait HandlesModelUser
 {
-    public $user;
+    public ?CMUser $user = null;
 
     public ?array $userData;
 
@@ -35,75 +37,7 @@ trait HandlesModelUser
             ;
     }
 
-    private function setSender(string $sender) {
-        return [
-            'x-on:input' => 'validate',
-            'x-data' => '{}',
-            'x-on:validateUser.window' => "console.log('issue received');\$dispatch('validatedUser', { valid: errorMessage, sender: '$sender' })",
-        ];
-    }
-
-    public function getUserSchema(): array
-    {
-        $inputs = [
-            AlpineValidator::make([
-                $this->getKeyFormComponent()
-                    ->extraAttributes($this->setSender('key'))
-            ])
-            ->extraAttributes([
-                'x-cloak',
-                'x-show' => '$wire.userData.is_intern'
-            ]), 
-            
-            AlpineValidator::make([
-                $this->getEmailFormComponent()
-                    ->extraAttributes($this->setSender('email'))
-            ])
-            ->validationAttribute(__('form.email'))
-            ->setRules([
-                'required', 'email', 'max:255|string'
-            ]),
-            
-            AlpineValidator::make([
-                $this->getNameFormComponent()
-                    ->extraAttributes($this->setSender('name'))
-            ])
-            ->validationAttribute(__('form.name'))
-            ->setRules([
-                'required', 'min:6|string',   
-            ])
-            ,
-
-            $this->getGenderFormComponent()
-                ->required(),
-
-            // $this->getGeneratePasswordComponent()
-            //     ->visible(fn(Get $get, Set $set) => $get('has_access') && $this->regenerate($set))
-        ];
-
-        return [
-            Split::make([
-                Section::make([
-                    Checkbox::make('is_intern')
-                        ->label(__('form.is Intern')),
-                    
-                    EmptyContainer::make([
-                        Checkbox::make('has_access')
-                            ->label(__('form.has access')),
-                    ])->extraAttributes([
-                        'x-cloak',
-                        'x-show' => '$wire.userData.is_intern',
-                    ]),
-                ])->grow(false),
-            
-                Section::make([
-                    ...$inputs    
-                ])
-            ])->from('md')
-        ];
-    }
-
-    public function getUserFormSchema($statePath = 'userData'): array
+    public function getUserSchema($statePath = 'userData'): array
     {
         $inputs = [
             EmptyContainer::make([
@@ -152,6 +86,35 @@ trait HandlesModelUser
             ])->from('md')
         ];
     }
+
+    public function getUserFormSchema($ignorable = null): array
+    {
+        $inputs = [
+            $this->getNameFormComponent()
+            ->required(),
+
+            $this->getEmailFormComponent()
+                ->required()
+                ->regex('/^[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,}$/')
+                // ->unique(ignorable: $ignorable ?? $this->user)
+                ->unique(
+                    table: CMUser::class,
+                    ignorable: $ignorable ?? $this->user,
+                ),
+    
+            $this->getGenderFormComponent()
+                ->required()
+                ->reactive(),
+
+            $this->getOtherGenderFormComponent()
+                ->required(fn(Get $get) => $get('gender') == 'other')
+                ->visible(fn(Get $get) => $get('gender') == 'other')
+        ];
+    
+        return [
+            ...$inputs
+        ];
+    }
     
     public function getKeyFormComponent(): Component
     {
@@ -169,7 +132,7 @@ trait HandlesModelUser
             ->label(__('form.email'))
             ->email()
             ->hint(__('form.hints.Max characters', ['max' => 255]))
-            ->maxLength(20);
+            ->maxLength(255);
     }
     
     public function getNameFormComponent(): Component
@@ -177,69 +140,48 @@ trait HandlesModelUser
         return TextInput::make('name')
             ->label(__('form.name'))
             ->hint(__('form.hints.Max characters', ['max' => 80]))
-            ->maxLength(10);
+            ->maxLength(80);
     }
     
     public function getGenderFormComponent(): Component
     {
         return Select::make('gender')
             ->label(__('form.gender'))
-            ->required()
             ->options(__('form.genders'))
             // ->native(false)
             ;
     }
-    
-    public function getGeneratePasswordComponent(): Component
+
+    public function getOtherGenderFormComponent(): Component
     {
-        return TextInput::make('phrase_password')
-            ->label(__('form.password'))
-            ->readOnly()
-            ->hintAction(
-                Action::make('regenerate')
-                    ->icon('heroicon-m-arrow-path')
-                    ->extraAttributes([
-                        'x-data' => '{}',
-                        'x-on:click' => "\$wire.userData.phrase_password = {$this->regenerate()}"
-                    ])
-            )
-            ->suffixAction(
-                Action::make('copyPassword')
-                    ->icon('heroicon-m-clipboard')
-                    ->extraAttributes([
-                        'x-data' => '{}',
-                        'x-on:click' => 'navigator.clipboard.writeText($wire.userData.phrase_password)'
-                    ])
-            )
-            ;
+        return TextInput::make('other_gender')
+            ->label(__('form.gender'))
+            ->maxLength(15);
     }
     
-    private function generatePassphrase($wordCount = 4): string
-    {
-        $words = [
-            'sun', 'moon', 'star', 'sky', 'cloud',
-            'river', 'tree', 'mountain', 'ocean', 'desert',
-            'flower', 'grass', 'bird', 'fish', 'bear'
-        ];
     
-        shuffle($words);
-        return implode(' ', array_slice($words, 0, $wordCount)) . '!' . rand(1, 99); // Symbol and a random number for variability
+    private function userNotification($action, $name): Notification
+    {
+        return Notification::make()
+            ->success()
+            ->title(__('ui.notifications.users.title', compact('action')))
+            ->body(__('ui.notifications.users.body', compact('action', 'name')));
     }
-    
 
-    public function save()
+    public function createUser()
     {
-        $this->validate();
-
-        $this->model->save();
+        $data = $this->userForm->getState();
+        CMUser::create($data);
 
         // Optionally reset the form or perform other actions
-        $this->resetForm();
+        $this->resetForm($data['name']);
     }
 
-    public function resetForm()
+    public function resetForm($name)
     {
-        $this->user = new User(); // Reset to a new instance
+        $this->userNotification(__('Added'), $name)->send();
+        $this->userForm->fill(); 
+        $this->dispatch('close-modal', id: 'create-user');
     }
 }
 

@@ -7,7 +7,7 @@
     <form wire:submit="authenticate" 
         class="
         max-w-md w-full flex flex-col gap-8 p-8 border rounded-lg shadow-sm
-        bg-white/80"
+        bg-white/80 dark:bg-gray-900 dark:border-0"
         >
         {{ $this->form }}
 

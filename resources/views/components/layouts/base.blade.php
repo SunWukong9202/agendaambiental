@@ -17,6 +17,14 @@
         @filamentStyles
         @vite('resources/css/app.css')
         <script>
+            document.addEventListener('copy-text', (event) => {
+                const { text } = event.detail;
+                navigator.clipboard.writeText(text).then(() => {
+                    alert('Text copied to clipboard!'); // Replace with a notification system if needed
+                }).catch((err) => {
+                    console.error('Failed to copy text: ', err);
+                });
+            });
             // Global function to apply custom validation messages with dynamic constraint values
             window.applyValidationMessages = function (formElement, locale = "{{ str_replace('_', '-', app()->getLocale()) }}") {
                 // Function to set a translated custom validity message
@@ -61,12 +69,39 @@
             }
         </script>
     </head>
-    <body class="fi-body fi-panel-admin flex flex-col min-h-screen bg-gray-50 font-normal text-gray-950 antialiased dark:bg-gray-950 dark:text-white">
-        
+    <body 
+    x-cloak
+    x-data="{
+        theme: $persist('system'),
+
+        systemPreference: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
+
+        init() {
+            if(this.theme == 'system') {
+                this.applyTheme(this.systemPreference)   
+            } else {
+                this.applyTheme(this.theme) 
+            }
+        },
+
+        saveTheme(theme) {
+            return this.theme = theme;
+        },
+
+        applyTheme(theme) {
+            document.documentElement.classList.toggle('dark', theme === 'dark');
+        }
+    }"
+    class="fi-body fi-panel-admin flex flex-col min-h-screen bg-gray-50 font-normal text-gray-950 antialiased dark:bg-gray-950 dark:text-white">
+
+        @auth
+            @livewire('database-notifications')
+        @endauth
+
         {{ $slot }}
-        
-        
+
         @livewire('notifications')
+
  
         @filamentScripts
         @vite(['resources/js/app.js'])

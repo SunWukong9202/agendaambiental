@@ -51,6 +51,8 @@ enum Permission: string
     case ImportEventDonations = 'import-event-donations';
     //in this case is only in the active events
     case AddEventDonations = 'add-event-donations';
+    case EditEventDonations = 'edit-event-donations';
+    case DeleteventDonations = 'delete-event-donations';
 
     //these come from the donations of waste made during events. if there is
     //an item call it an electronic, gadget, etc that is in acceptable conditions

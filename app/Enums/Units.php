@@ -2,6 +2,8 @@
 
 namespace App\Enums;
 
+use function Pest\Laravel\instance;
+
 enum Units: string {
     case Milligram = 'milligram';
     case Gram = 'gram';
@@ -15,6 +17,24 @@ enum Units: string {
     case Pascal = 'pascal';
     case VolumePercent = 'volume_percent';
     case WeightPercent = 'weight_percent';
+
+    public static function buildOptions(ChemicalState|string|null $by): array
+    {
+        if(!$by) return [];
+        
+        if(is_string($by)) $by = ChemicalState::tryFrom($by);
+
+        return collect(self::options($by))
+            ->mapWithKeys(fn($unit) => [
+                $unit->value => $unit->getTranslatedLabel()
+            ])
+            ->toArray();
+    }
+
+    public function getTranslatedLabel(): string
+    {
+        return ucfirst(str_replace('_', ' ', $this->value));
+    }
 
     public static function options(ChemicalState $state): array
     {

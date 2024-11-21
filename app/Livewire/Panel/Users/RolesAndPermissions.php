@@ -77,11 +77,14 @@ class RolesAndPermissions extends Component implements HasForms, HasTable
             ->query(Role::query())
             ->headerActions([
                 Action::make('create')
-                    ->label(__('form.create role'))
+                    ->label(__('Create role'))
                     ->url(fn () => route('admin.role.save', ['action' => 'create']))
             ])
             ->columns([
                 TextColumn::make('name')
+                    ->formatStateUsing(fn($state) => 
+                        EnumsRole::tryFrom($state)->getTranslatedLabel()
+                    )
                     ->label(__('form.name')),
 
                 TextColumn::make('created_at')

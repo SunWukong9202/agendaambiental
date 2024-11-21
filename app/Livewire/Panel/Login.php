@@ -33,8 +33,10 @@ class Login extends Component implements HasForms, HasActions
     
     public function mount(): void
     {
+        app()->setLocale('es');
+
         $this->form->fill();
-        
+
         if(auth()->user()) {
             $this->redirectRoute('home');
         }
@@ -44,31 +46,33 @@ class Login extends Component implements HasForms, HasActions
     {
         $commons = [
                 TextInput::make('password')
-                    ->label(__('form.password'))
+                    ->translateLabel()
                     ->revealable()
                     ->password()
                     ->required(),
 
-                Checkbox::make('remember_me')
-                    ->label(__('form.remember me')),
+                Checkbox::make('remember me')
+                    ->translateLabel(),
         
         ];
         //APP TITLE, ENTRE A SU CUENTA
         return $form
             ->schema([
                 Tabs::make('tabs')->tabs([
-                    Tab::make(__('form.with_key'))->schema([
+                    Tab::make(__('with key'))
+                    ->schema([
                         TextInput::make('key')
-                            ->label(__('form.key'))
+                            ->translateLabel()
                             ->minLength(6)
                             ->mask('999999')
                             ->required(fn(Get $get) => ! filled($get('email'))),
                         ...$commons
                     ]),
 
-                    Tab::make(trans('form.with_email'))->schema([
+                    Tab::make(__('with email'))
+                    ->schema([
                         TextInput::make('email')
-                            ->label(__('form.email'))
+                            ->translateLabel()
                             ->email()
                             ->required(fn(Get $get) => ! filled($get('key'))),
                         ...$commons
@@ -76,10 +80,10 @@ class Login extends Component implements HasForms, HasActions
                 ])
                 ->extraAttributes([
                     'x-on:click' => '
-                        if($event.target.innerText === "'.__('form.with_key').'") {
+                        if($event.target.innerText === "'. __('with key') . '") {
                             $wire.data.email = ""
                         }
-                        if($event.target.innerText === "'.__('form.with_email').'") {
+                        if($event.target.innerText === "'. __('with email') . '") {
                             $wire.data.key = ""
                         }
                     ',

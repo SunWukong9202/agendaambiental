@@ -11,6 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
+        //control module users
+        Schema::create('cm_users', function (Blueprint $table) {
+            $table->id();
+            $table->string('name', 80)->nullable();
+            $table->string('gender', 32)->nullable();
+            $table->string('email', 60)->nullable();
+            $table->string('phone_number', 17)->nullable();
+            $table->string('locale', 32)->nullable();
+            $table->foreignId('user_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->softDeletes();
+            $table->timestamps();
+        });
+
         Schema::create('events', function (Blueprint $table): void {
             $table->id();
             $table->string('name', 124);
@@ -19,7 +32,7 @@ return new class extends Migration
             $table->dateTime('start');
             $table->dateTime('end');
             //creador/{admin|permisos}
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('cm_user_id')->constrained()->cascadeOnDelete();
                 $table->timestamps();
         });
 
@@ -53,26 +66,27 @@ return new class extends Migration
             $table->id();
             $table->decimal('quantity', 8, 3);//max: 99.999 toneladas o 99 999.999 kg
             $table->foreignId('waste_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('cm_user_id')->constrained()->cascadeOnDelete();
             
             $table->foreignId('supplier_id')->constrained()->cascadeOnDelete();
             $table->foreignId('event_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
-        
+        //type,books_taken, books_donated, quantity, waste_id, event_id,
+        //cm_user_id, donator_id 
         //donations: we could use this as a pivot model or not
-        Schema::create('event_user', function (Blueprint $table): void {
+        Schema::create('cm_user_event', function (Blueprint $table): void {
             $table->id();
-            $table->string('type', 16);//waste, books
-            $table->tinyInteger('books_taken')->default(0);
-            $table->tinyInteger('books_donated')->default(0);
+            $table->boolean('type');//waste, books
+            $table->tinyInteger('books_taken')->nullable();
+            $table->tinyInteger('books_donated')->nullable();
             
             $table->decimal('quantity', 6, 3)->nullable();//max 999.999 kg
             $table->foreignId('waste_id')->nullable()->constrained()->cascadeOnDelete();
 
             $table->foreignId('event_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('donator_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('cm_user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('donator_id')->constrained('cm_users')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -82,10 +96,11 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('event_user');
+        Schema::dropIfExists('cm_user_event');
         Schema::dropIfExists('event_supplier');
         Schema::dropIfExists('wastes');
         Schema::dropIfExists('suppliers');
-        Schema::dropIfExists('events');        
+        Schema::dropIfExists('events');
+        Schema::dropIfExists('cm_users');
     }
 };

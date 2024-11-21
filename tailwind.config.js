@@ -3,6 +3,7 @@ import preset from './vendor/filament/support/tailwind.config.preset'
 /** @type {import('tailwindcss').Config} */
 export default {
   presets: [preset],
+  darkMode: 'class',
   content: [
     "./resources/**/*.blade.php",
     "./resources/**/*.js",
@@ -12,6 +13,7 @@ export default {
     './resources/views/filament/**/*.blade.php',
     './vendor/filament/**/*.blade.php',
     './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
+    './vendor/jaocero/activity-timeline/resources/views/**/*.blade.php',
   ],
   theme: {
     extend: {
@@ -47,7 +49,8 @@ export default {
     },
   },
   plugins: [
-    require('flowbite/plugin')
+    require('flowbite/plugin'),
+    require('tailwindcss-rtl'), 
   ],
 }
 

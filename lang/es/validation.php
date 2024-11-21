@@ -122,8 +122,8 @@ return [
     'prohibited_if' => 'El campo :attribute está prohibido cuando :other es :value.',
     'prohibited_unless' => 'El campo :attribute está prohibido a menos que :other esté en :values.',
 
-    'prohibits' => 'The :attribute field prohibits :other from being present.',
-    'regex' => 'The :attribute field format is invalid.',
+    'prohibits' => 'El campo :attribute prohíbe la presencia de :other.',
+    'regex' => 'El formato del campo :attribute es inválido.',
     'required' => 'El campo :attribute es obligatorio.',
     'required_if' => 'El campo :attribute es obligatorio cuando :other es :value.',
     'required_unless' => 'El campo :attribute es obligatorio a menos que :other esté en :values.',
@@ -159,6 +159,7 @@ return [
     */
 
     'custom' => [
+        'date-part' => 'La parte :part del campo :attribute debe ser una fecha válida.',
         'attribute-name' => [
             'rule-name' => 'mensaje personalizado',
         ],

@@ -17,8 +17,54 @@ class ItemFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->sentence(2),
-            'stock' => fake()->randomNumber(3),
+            'name' => fake()->unique()->userName(),
         ];
     }
+
+    const preloaded = [
+        "Televisión",
+        "Computadora portátil",
+        "Teléfono móvil",
+        "Tableta",
+        "Monitor",
+        "Teclado",
+        "Mouse",
+        "Impresora",
+        "Cargador de teléfono",
+        "Altavoces",
+        "Lámparas",
+        "Ventiladores",
+        "Aspiradora",
+        "Microondas",
+        "Calentador eléctrico",
+        "Bicicleta",
+        "Juguetes",
+        "Ropa",
+        "Zapatos",
+        "Muebles pequeños",
+    ];
+
+    const forNamedPetitions = [
+        "Auriculares",
+        "Consola de videojuegos",
+        "Control de videojuegos",
+        "Reloj inteligente",
+        "Cámara digital",
+        "DVD o Blu-ray player",
+        "Router Wi-Fi",
+        "Disco duro externo",
+        "Memoria USB",
+        "Reproductor de MP3",
+        "Ropa de cama",
+        "Toallas",
+        "Sartenes",
+        "Ollas",
+        "Cubiertos",
+        "Vajilla",
+        "Cajas de herramientas",
+        "Instrumentos musicales",
+        "Linternas",
+        "Baterías",
+        "Cargadores solares"
+    ];
 }

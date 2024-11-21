@@ -6,8 +6,11 @@ use App\Livewire\Panel\Traits\HandlesWasteModel;
 use App\Models\Waste;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Notifications\Notification;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
@@ -34,19 +37,36 @@ class ListWastes extends Component implements HasForms, HasTable
                     ->form($this->getWasteFormSchema())
             ])
             ->columns([
-                TextColumn::make('category')
+                Stack::make([
+                    TextColumn::make('category')
+                    ->weight(FontWeight::SemiBold)
                     ->searchable()
                     ->label(__('form.category'))
                     ->wrap(),
 
-                SelectColumn::make('unit')
-                    ->label(__('form.unit'))
-                    ->options(__('form.units'))
-                    ->rules(['required']),
+                    SelectColumn::make('unit')
+                        ->label(__('form.unit'))
+                        ->grow()
+                        ->width('100%')
+                        ->options(__('form.units'))
+                        ->rules(['required'])
+                        ->afterStateUpdated(function ($record, $state) {
+                            Notification::make()
+                                ->success()
+                                ->title(__('Saved!'))
+                                ->send();
+                        }),
 
-                TextColumn::make('created_at')
-                    ->label(__('form.created at'))
-                    ->date()
+                    TextColumn::make('created_at')
+                        ->label(__('form.created at'))
+                        ->formatStateUsing(fn(Waste $record) => $record->dateTime('created_at'))
+
+                ])->space(2)
+            ])
+            ->contentGrid([
+                'sm' => 2,
+                'md' => 3,
+                'xl' => 4,
             ])
             ->filters([
                 // ...
@@ -59,8 +79,25 @@ class ListWastes extends Component implements HasForms, HasTable
             ]);
     }
 
+    // public function render()
+    // {
+    //     return view('livewire.panel.events.list-wastes');
+    // }
+
     public function render()
     {
-        return view('livewire.panel.events.list-wastes');
+        return <<<'HTML'
+        <div>
+            <div class="flex mb-4">
+                <x-filament::breadcrumbs :breadcrumbs="[
+                    route('admin.events.wastes') => __('ui.pages.Waste Managment'),
+                    '' => __('ui.list'),
+                    ]"
+                />
+                <x-filament::loading-indicator wire:loading class="inset-y-1/2 text-primary-600 inline-block ml-2 h-5 w-5" />
+            </div>
+            {{ $this->table }}
+        </div>
+        HTML;
     }
 }

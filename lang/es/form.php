@@ -16,6 +16,8 @@ return [
     'log in' => 'Entrar',
     'log in you account' => 'Entre a su cuenta',
     'is Intern' => 'Es Interno',
+    'Internal Users' => 'Usuarios Internos',
+    'External Users' => 'Usuarios externos',
     'is Extern' => 'Es Externo',
     'regenerate' => 'regenerate',
     'hints' => [
@@ -42,8 +44,21 @@ return [
     'description.default' => 'No Provista',
     'start date' => 'Fecha de inicio',
     'end date' => 'Fecha de cierre',
+    'created by' => 'Creado por',
+    //donation form
 
     //supplier form
+    'basic information' => 'Basic information',
+    'contact information' => 'Contact information',
+    'address information' => 'Address information',
+    'postal code' => 'Postal code',
+    'street' => 'Street',
+    'ext number' => 'External Number',
+    'int number' => 'Internal Number',
+    'neighborhood' => 'Neighborhood',
+    'town' => 'Town',
+    'estate' => 'Estate',
+    'tax id' => 'RFC',
     'business name' => 'Nombre legal',
     'business activity' => 'Actividad economica',
     'created at' => 'Agregado',
