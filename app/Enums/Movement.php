@@ -17,7 +17,6 @@ enum Movement: string {
     // case Assignment = 'assignement';
     case Reparation = 'reparation';
     //for filter purpose
-    case LastRepairLog = 'last repair';
 
     public static function ofItems(): array
     {

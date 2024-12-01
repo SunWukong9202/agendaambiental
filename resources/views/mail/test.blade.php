@@ -13,7 +13,7 @@
 
 # Introduction
 
-The body of your message.
+{{ fake()->text() }}
 
 <x-mail::button :url="''">
 Button Text

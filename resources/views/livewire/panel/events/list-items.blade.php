@@ -9,7 +9,7 @@
     </div>
 
     <div class="mb-8">
-        <div class="flex justify-end" x-bind:class="{{ json_encode(isset($item)) }} ? '' : 'hidden'">
+        <div class="flex justify-end " x-bind:class="{{ json_encode(isset($item)) }} ? '' : 'hidden'">
             <x-filament::link
                 wire:click="deleteItem"
                 color="danger" 
@@ -49,7 +49,7 @@
             >
                 {{ Str::plural($move::Petition->getTranslatedLabel()) }}
             </x-filament::tabs.item>
-
+{{-- 
             <x-filament::tabs.item
                 class="shrink-0"
                 :icon="$move::Petition_By_Name->getIcon()"
@@ -57,7 +57,7 @@
                 wire:click="$set('tab', '{{ $move::Petition_By_Name->value }}')"
             >
                 {{ Str::plural($move::Petition_By_Name->getTranslatedLabel()) }}
-            </x-filament::tabs.item>
+            </x-filament::tabs.item> --}}
 
             <x-filament::tabs.item
                 class="shrink-0"

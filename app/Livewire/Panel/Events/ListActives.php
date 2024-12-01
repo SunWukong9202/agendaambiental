@@ -268,7 +268,7 @@ class ListActives extends Component
         ];
 
         return $table
-            ->poll('5s')
+            // ->poll('5s')
             ->query($this->getQuery())
             ->columns($columns)
             ->headerActions($header_actions)
@@ -295,46 +295,6 @@ class ListActives extends Component
             ;
     }
 
-    private function getRegisterItemAction($cm_user = null): CreateAction
-    {
-        $cm_user = $cm_user ?? auth()->user()->CMUser;
-
-        return CreateAction::make('capture')
-                ->label(__('Register item'))
-                ->modalHeading(__('Register item'))
-                ->createAnother(false)
-                ->stickyModalFooter()
-                ->model(ItemMovement::class)
-                ->form($this->getCaptureSchema($cm_user))
-                ->using(function ($data, $model) use ($cm_user) {
-                    //selecteditem comes from handlesItem trait as public prop
-                    $data['item_id'] = $this->selectedItem->id;
-                    $data['cm_user_id'] = $cm_user->id;
-                    $data['type'] = Movement::Capture;
-                
-                    $comment = $data['comment'] ?? '';
-
-                    unset($data['comment']);
-
-                    $capture = $model::withoutEvents(
-                        fn() => $model::create($data)
-                    );
-
-                    if(!isset($capture->group_id) &&
-                        $data['status'] == Status::Repairable->value) {
-                        //to keep track of the repairment process
-                        $capture->group_id = $capture->id;
-                        $capture->saveQuietly();
-                    }
-
-                    $data['comment'] = $comment;
-                    
-                    $this->handleEditAssignment($capture, $data);
-
-                    return $capture;
-                });
-                // ->successNotificationTitle(__('Saved!'));
-    }
 
     private function getRegisterDonation($cm_user = null): CreateAction
     {

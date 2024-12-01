@@ -10,6 +10,7 @@ use App\Models\CMUser;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Component;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Split;
@@ -183,6 +184,21 @@ trait HandlesModelUser
         $this->userForm->fill(); 
         $this->dispatch('close-modal', id: 'create-user');
     }
+
+    public function getUploadSignature()
+    {
+        return FileUpload::make('signature_url')
+            ->image()
+            ->imagePreviewHeight('250')
+            ->loadingIndicatorPosition('left')
+            ->panelAspectRatio('2:1')
+            ->panelLayout('integrated')
+            ->removeUploadedFileButtonPosition('right')
+            ->uploadButtonPosition('left')
+            ->uploadProgressIndicatorPosition('left')
+            ;
+    }
+
 }
 
 // $inputs = [

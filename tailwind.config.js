@@ -17,6 +17,9 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        roboto: ['Roboto', 'sans-serif'],
+      },
       colors: {
         marine: {
           DEFAULT: '#1A3156',

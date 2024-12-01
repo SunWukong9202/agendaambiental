@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('email', 60)->nullable();
             $table->string('phone_number', 17)->nullable();
             $table->string('locale', 32)->nullable();
+            $table->string('signature_url')->nullable();
             $table->foreignId('user_id')->nullable()->constrained()->cascadeOnDelete();
             $table->softDeletes();
             $table->timestamps();

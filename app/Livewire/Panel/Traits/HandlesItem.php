@@ -17,7 +17,9 @@ use Carbon\Carbon;
 use Closure;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Actions\Action as FormAction;
+use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Component;
+use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
@@ -29,6 +31,7 @@ use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Notifications\Notification;
 use Filament\Support\RawJs;
+use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
@@ -326,7 +329,7 @@ trait HandlesItem {
     //I think working
     public function getSettleSchema(ItemMovement $record): array
     {
-        $additionals = $record->type == Movement::Petition_By_Name 
+        $additionals = $record->item_name != null 
         ? [
             Alert::make()
                 ->info()
@@ -344,25 +347,25 @@ trait HandlesItem {
                 ->label(__('Item'))
                 ->helperText(__('ui.helpers.item-not-found'))
                 ->required(),
-
-                $this->getStatusComponent([
-                    Status::Accepted, Status::Rejected
-                ]),     
+    
             ])->from('md')
-        ] : [
-            $this->getStatusComponent([
-                Status::Accepted, Status::Rejected
-            ]),     
-        ];
+        ] : [];
 
         return [
             $this->applyCopyable($this->getNamePetitionComponent())
                 ->readOnly(),
 
-            $this->getTextArea('observations', 'User comment')
+            $this->getTextArea('observations', 'Petitioner comment')
+                ->extraAttributes([
+                    'class' => 'opacity-60'
+                ])
                 ->readOnly(),
 
             ...$additionals,
+
+            $this->getStatusComponent([
+                Status::Accepted, Status::Rejected
+            ]),   
 
             $this->getTextArea('comment')
                 ->required()
@@ -399,21 +402,24 @@ trait HandlesItem {
         ];
     }
 
-    private function peek(Movement $movement, $by, ?Status $with = null)
+
+    public function calculateAvailableByItem($item, $by = null)
     {
-        $query = ItemMovement::where('group_id', $by);
+        if($item == null) return 0;
 
-        if($movement == Movement::LastRepairLog) {
-            $query->orderBy('created_at', 'desc');
-        } else if ($movement) {
-            $query->where('type', $movement);
-        }
+        $q = ItemMovement::where('item_id', $item);
+        $by = Movement::Capture;
+        $captured = $q->where('type', $by)
+                ->where('status', Status::Accepted)->count();
+        
+        $by = Movement::Reparation;
+        $repaired = $q->where('type', $by)
+                ->where('status', Status::Successful)->count();
 
-        if($with) {
-            $query->where('status', $with);
-        }
+        $gifted = $q->where('type', Movement::Petition)
+            ->where('status', Status::Accepted)->count();
 
-        return $query;
+        return $captured + $repaired - $gifted;
     }
 
     public function getStatusComponent($options)
@@ -555,8 +561,7 @@ trait HandlesItem {
                         )
                   ]
                 : []
-            )
-            ;
+            );
     }
 
     public function getNameComponent()
@@ -566,6 +571,47 @@ trait HandlesItem {
             ->hint(__('form.hints.Max characters', ['max' => 80]))
             ->maxLength(80)
             ->required();
+    }
+
+    private function getRegisterItemAction($cm_user = null): CreateAction
+    {
+        $cm_user = $cm_user ?? auth()->user()->CMUser;
+
+        return CreateAction::make('capture')
+                ->label(__('Register item'))
+                ->modalHeading(__('Register item'))
+                ->createAnother(false)
+                ->stickyModalFooter()
+                ->model(ItemMovement::class)
+                ->form($this->getCaptureSchema($cm_user))
+                ->using(function ($data, $model) use ($cm_user) {
+                    //selecteditem comes from handlesItem trait as public prop
+                    $data['item_id'] = $this->selectedItem->id;
+                    $data['cm_user_id'] = $cm_user->id;
+                    $data['type'] = Movement::Capture;
+                
+                    $comment = $data['comment'] ?? '';
+
+                    unset($data['comment']);
+
+                    $capture = $model::withoutEvents(
+                        fn() => $model::create($data)
+                    );
+
+                    if(!isset($capture->group_id) &&
+                        $data['status'] == Status::Repairable->value) {
+                        //to keep track of the repairment process
+                        $capture->group_id = $capture->id;
+                        $capture->saveQuietly();
+                    }
+
+                    $data['comment'] = $comment;
+                    
+                    $this->handleEditAssignment($capture, $data);
+
+                    return $capture;
+                });
+                // ->successNotificationTitle(__('Saved!'));
     }
 }
 

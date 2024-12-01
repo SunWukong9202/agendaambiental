@@ -1,144 +1,145 @@
 <?php 
 
 return [
-    'selected' => 'Selected',
-    'deliveries' => 'Deliveries',
-    'list' => 'list',
-    'create' => 'Create',
-    'edit' => 'Edit',
-    'delete' => 'Delete',
+    'selected' => 'Seleccionado',
+    'deliveries' => 'Entregas',
+    'list' => 'Lista',
+    'create' => 'Crear',
+    'edit' => 'Editar',
+    'delete' => 'Eliminar',
     "msgs" => [
         'deliveries' => [
-            "title" => "No deliveries found.",
+            "title" => "No se encontraron entregas.",
             "icon" => "heroicon-m-archive-box",
-            "description" => "Try looking for other term or adding a new delivery.",
-            "search" => "Search by event names, type of waste or name of the deliver.",
+            "description" => "Intenta buscar otro término o agregar una nueva entrega.",
+            "search" => "Buscar por nombre de evento, tipo de residuo o nombre del entregador.",
         ]
     ],
     'buttons' => [
-        'user'     => ':action user',
-        'supplier' => ':action supplier',
-        'event' => ':action event',
+        'user'     => ':action usuario',
+        'supplier' => ':action proveedor',
+        'event' => ':action evento',
         'enter' => 'Entrar',
     ],
     'notifications' => [
-        'p-accepted' => 'Great news, your petition for :item has been accepted!',
-        'p-rejected' => 'We are sorry, but your petition for :item has been declined!',
+        'p-accepted' => '¡Buenas noticias, tu solicitud para :item ha sido aceptada!',
+        'p-rejected' => 'Lo sentimos, pero tu solicitud para :item ha sido rechazada!',
         'actions' => [
-            'delete' => 'The :actor :name has been successfully deleted!.',
-            'create' => 'The :actor :name has been successfully created!.',
-            'edit' => 'The :actor :name has been successfully updated!.',
+            'delete' => '¡El :actor :name ha sido eliminado correctamente!',
+            'create' => '¡El :actor :name ha sido creado correctamente!',
+            'edit' => '¡El :actor :name ha sido actualizado correctamente!',
         ],
         'users' => [
-            'title' => 'User :action',
+            'title' => 'Usuario :action',
             'body' => 'The user :name has been :action succesfully.',
         ],
         'suppliers' => [
-            'title' => 'Supplier :action',
-            'body' => 'The supplier :name has been :action succesfully.',
+            'title' => 'Proveedor :action',
+            'body' => 'El proveedor :name ha sido :action correctamente.',
         ],
         'events' => [
-            'title' => 'Event :action',
-            'body' => 'The Event :name has been :action succesfully.',
+            'title' => 'Evento :action',
+            'body' => 'El evento :name ha sido :action correctamente.',
         ],
         'donations' => [
-            'title' => 'Donation :action',
-            'body' => ':type has been :action succesfully.',
+            'title' => 'Donación :action',
+            'body' => ':type ha sido :action correctamente.',
         ],
         'deliveries' => [
-            'title' => 'Delivery :action',
+            'title' => 'Entrega :action',
             // 'body' => 'The delivery has been :action for the supplier :name succesfully.',
-            'body' => ':quantity :unit of :waste has been :_action correctly!'
+            'body' => ':quantity :unit de :waste ha sido :_action correctamente!'
         ],
         'items' => [
-            'title' => 'Item :action',
+            'title' => 'Artículo :action',
             // 'body' => 'The delivery has been :action for the supplier :name succesfully.',
-            'body' => 'The Item :name has been :action succesfully.'
+            'body' => 'El Artículo :name ha sido :action correctamente.'
         ],
         'roles' => [
             'assign' => [
-                'title' => 'Role :name correctly assigned!',
-                'body' => 'Role :name assigned to the user :user',
+                'title' => '¡Rol :name asignado correctamente!',
+                'body' => 'Rol :name asignado al usuario :user',
             ],
             'unassign' => [
-                'title' => 'Role :name correctly revoked!',
-                'body' => 'Role :name was revoked from the user :user',
+                'title' => '¡Rol :name revocado correctamente!',
+                'body' => 'Rol :name fue revocado del usuario :user',
             ],
             'success' => [
-                'title' => 'New role :name successfully created!',
-                'body' => 'Now you can use this new role in the :modulename',
+                'title' => '¡Nuevo rol :name creado correctamente!',
+                'body' => 'Ahora puedes usar este nuevo rol en :modulename',
             ]
         ]
     ],
     'pages' => [
         //by default we left the pages named
         // Quick summary of recent activities, metrics, and updates on events, donations, or requests.
-        'Admin Panel' => 'Admin Panel',
-        'Dashboard' => 'Dashboard',
+        'Admin Panel' => 'Panel de Administración',
+        'Dashboard' => 'Tablero',
 
-        'Users Managment' => 'Users Managment',
-        'Manage Users' => 'Manage Users',
-        'Manage Suppliers' => 'Manage Suppliers',
-        'Roles & Permissions' => 'Roles & Permissions',
+        'Users Managment' => 'Gestión de Usuarios',
+        'Manage Users' => 'Gestionar Usuarios',
+        'Manage Suppliers' => 'Gestionar Proveedores',
+        'Roles & Permissions' => 'Roles y Permisos',
 
-        'Event Managment' => 'Event Managment',
+        'Event Managment' => 'Gestión de Eventos',
         //Access past events with filters (date, material type).
-        'Event History' => 'Event History',
+        'Event History' => 'Historial de Eventos',
         //View and manage ongoing events.
-        'Active Events' => 'Active Events',
+        'Active Events' => 'Eventos Activos',
         //: Record deliveries to providers.
-        'Register Deliveries' => 'Register Deliveries',
+        'Register Deliveries' => 'Registrar Entregas',
         //Track of waste by event
-        'Event Inventory' => 'Event Inventory',
+        'Event Inventory' => 'Inventario de Evento',
 
-        'Inventory Movements' => 'Inventory Movements',
+        'Inventory Movements' => 'Movimientos de Inventario',
 
-        'Inventory Movements' => 'Inventory Movements',
+        'Inventory Movements' => 'Movimientos de Inventario',
 
-        'Repairment Managment' => 'Repairment Managment',
+        'Repairment Managment' => 'Gestión de Reparaciones',
 
-        'Waste Managment' => 'Waste Managment',
+        'Waste Managment' => 'Gestión de Residuos',
 
-        'Reagent Management' => 'Reagent Management',
-        'Manage Reagents' => 'Manage Reagents',
-        'Reagent Inventory' => 'Reagent Inventory', 
+        'Reagent Management' => 'Gestión de Reactivos',
+        'Manage Reagents' => 'Gestionar Reactivos',
+        'Reagent Inventory' => 'Inventario de Reactivos', 
         
         'Home' => 'Inicio',
         'Donations' => 'Donaciones',
-        'Item petition' => 'Item petition',
-        'Reagent petition' => 'Reagent petition',
-        'Reagent donation' => 'Reagent donation',
+        'Item petition' => 'Petición de Artículos',
+        'Reagent petition' => 'Petición de Reactivo',
+        'Reagent donation' => 'Donación de Reactivo',
+        'Grant roles' =>'Roles',
         'Petitions' => 'Peticiones',
-        'My Repairs' => 'My Repairs',
+        'My Repairs' => 'Mis Reparaciones',
         'users' => [
             'link' => 'Usuarios',
         ],
-        'Log out' => 'Log out',
-        'Return home' => 'Return home',
-        'Settings' => 'Settings'
+        'Log out' => 'Cerrar sesión',
+        'Return home' => 'Regresar al inicio',
+        'Settings' => 'Configuraciones'
     ],
     'helpers' => [
-        'rfc' => 'Please ENTER a format like [XXX|X] YY MM DD [ZZ|Z] by example LOPJ 90 01 15 HDF or ABT 10 03 12 XX. Just keep typing and we will enforce the format',
-        'invalid_date' => 'Date format is incorrect please correct',
-        'technician' => 'Please take into account that you can only edit while the technician haven\'t started the repairment.',
-        'assign' => 'Here you can write anything you want to say to the technician :name about the item assigned for reparation.',
-        'unassign' => 'Here you can write why did you decide to unassign the item from the technician :name.',
-        'unassign_title' => 'To avoid uncontrolled un/assigments',
-        'unique_unassign' => 'One you do this uassignment the techncian :name wouldn\'t be allowed to be selected again for this item.',
-        'item-petition' => 'Here you can write anything you want to say. ex. I would like a blue cup.',
-        'item-not-found' => 'Can\'t find it? no problem you can add with the plus button at the end of the select',
-        'assign-technician-title' => 'Want to assign a technician to this item',
-        'assign-technician' => 'Below you can choose it. Dont want to do it right now. No problem you can assign it later.',
-        'repair-started' => 'Here you can write anything of what you want before begining with the repairment process.',
-        'repair-log' => 'Here you can write any obsevations for this repairment log.',
-        'repair-completed' => 'Here you can write anything you want before closing the repairment process.',
-        'item-capture' => 'Here you can add any observations about the item you want to write.',
-        'repair-assign' => 'Here you can write anything you want to say to the technician.',
+        'rfc' => 'Por favor, ingresa un formato como [XXX|X] YY MM DD [ZZ|Z], por ejemplo LOPJ 90 01 15 HDF o ABT 10 03 12 XX. Continúa escribiendo y nosotros aplicaremos el formato.',
+        'invalid_date' => 'El formato de la fecha es incorrecto, por favor corrígelo.',
+        'technician' => 'Por favor, ten en cuenta que solo puedes editar mientras el técnico no haya comenzado la reparación.',
+        'assign' => 'Aquí puedes escribir cualquier cosa que quieras decir al técnico :name sobre el ítem asignado para reparación.',
+        'unassign' => 'Aquí puedes escribir por qué decidiste desasignar el ítem del técnico :name.',
+        'unassign_title' => 'Para evitar desasignaciones incontroladas',
+        'unique_unassign' => 'Una vez que hagas esta desasignación, el técnico :name no podrá ser seleccionado nuevamente para este ítem.',
+        'item-petition' => 'Aquí puedes escribir cualquier cosa que quieras decir. Ej. Me gustaría una taza azul.',
+        'item-not-found' => '¿No lo encuentras? No hay problema, puedes agregarlo con el botón de más al final de la selección.',
+        'assign-technician-title' => '¿Quieres asignar un técnico a este Artículo?',
+        'assign-technician' => 'A continuación, puedes elegirlo. No quieres hacerlo ahora. No hay problema, puedes asignarlo más tarde.',
+        'repair-started' => 'Aquí puedes escribir cualquier cosa que quieras antes de comenzar con el proceso de reparación.',
+        'repair-log' => 'Aquí puedes escribir cualquier observación para este registro de reparación.',
+        'repair-completed' => 'Aquí puedes escribir cualquier cosa que quieras antes de cerrar el proceso de reparación.',
+        'item-capture' => 'Aquí puedes agregar cualquier observación sobre el ítem que quieras registrar.',
+        'repair-assign' => 'Aquí puedes escribir cualquier cosa que quieras decir al técnico.',
 
-        'named-petition-title' => 'Verify that the item does not exist!',
-        'named-petition-description' => 'Before resolving this petition, please ensure the requested item does not already exist in the system. To assist with this, you can perform a quick search using the provided search tool below.',
-        'named-petition-op1' => 'If the item is found: Select it to resolve the petition without duplication.',
-        'named-petition-op2' => 'If the item is not found: Proceed to create it before resolving the petition.',
+        'named-petition-title' => '¡Verifica que el Artículo no exista!',
+        'named-petition-description' => 'Antes de resolver esta petición, asegúrate de que el ítem solicitado no exista ya en el sistema. Para ayudarte, puedes realizar una búsqueda rápida usando la herramienta de búsqueda proporcionada a continuación.',
+        'named-petition-op1' => 'Si se encuentra el ítem: Selecciónalo para resolver la petición sin duplicados.',
+        'named-petition-op2' => 'Si no se encuentra el ítem: Procede a crearlo antes de resolver la petición.',
          
     ],
     'placeholders' => [
@@ -147,14 +148,14 @@ return [
         // 'item-search' => 'Please se'
     ],
     'cta' => [
-        'item-p-title' => '"Join Us in Building a Sustainable Future – Submit Your Material Request Today!"',
-        'item-petition' => 'Are you in need of specific resources or materials to further your environmental initiatives? Our system makes it simple to submit petitions for recycled materials and reagents essential to your projects.',
-        'reagent-title' => '"Make a Lasting Impact with Your Donations!',
-        'reagent-donation' => 'Your donations of unused reagents can fuel transformative environmental projects at the university and beyond. Whether you’re an internal member or an external contributor, your support is invaluable to our mission of sustainability.',
-        'reagent-p-title' => '"Need Reagents? Let’s Make Science Accessible!"',
-        'reagent-petition' => 'If you’re in need of reagents submit your request today. We’re here to make sure nothing stands in the way of your next breakthrough.',
-        'Make petition' => 'Make petition',
-        'Make donation' => 'Make donation'
+        'item-p-title' => '"¡Únete a nosotros para construir un futuro sostenible – Envía tu solicitud de materiales hoy!"',
+        'item-petition' => '¿Necesitas recursos o materiales específicos para avanzar en tus iniciativas ambientales? Nuestro sistema facilita la presentación de peticiones para materiales reciclados y reactivos esenciales para tus proyectos.',
+        'reagent-title' => '"¡Haz un impacto duradero con tus donaciones!"',
+        'reagent-donation' => 'Tus donaciones de reactivos no utilizados pueden impulsar proyectos transformadores en la universidad y más allá. Ya seas un miembro interno o un contribuyente externo, tu apoyo es invaluable para nuestra misión de sostenibilidad.',
+        'reagent-p-title' => '"¿Necesitas reactivos? ¡Hagamos la ciencia accesible!"',
+        'reagent-petition' => 'Si necesitas reactivos, presenta tu solicitud hoy mismo. Estamos aquí para asegurarnos de que nada se interponga en tu próximo avance.',
+        'Make petition' => 'Hacer solicitud',
+        'Make donation' => 'Hacer donación'
     ],
     'datalists' => [
         // [

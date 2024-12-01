@@ -41,7 +41,7 @@ class ListReagents extends Component implements HasForms, HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->poll('5s')
+            // ->poll('5s')
             ->query($this->getQuery())
             ->columns([
                 ImageColumn::make('photo_url')

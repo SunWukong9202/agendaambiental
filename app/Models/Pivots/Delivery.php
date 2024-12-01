@@ -7,6 +7,7 @@ use App\Models\Event;
 use App\Models\Supplier;
 use App\Models\User;
 use App\Models\Waste;
+use App\Utils\DateFormats;
 use App\Utils\FilterableSortableSearchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,6 +17,7 @@ class Delivery extends Pivot
 {
     use HasFactory;
     use FilterableSortableSearchable;
+    use DateFormats;
 
     //quantity, waste_id,cm_user_id,supplier_id,event_id
     public const WITH_FIELDS = [
@@ -42,7 +44,7 @@ class Delivery extends Pivot
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(CMUser::class);
+        return $this->belongsTo(CMUser::class, 'cm_user_id');
     }
     
     public static function searchByPivot($term, $relationships = null)

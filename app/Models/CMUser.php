@@ -8,6 +8,7 @@ use App\Models\Pivots\Delivery;
 use App\Models\Pivots\Donation;
 use App\Models\Pivots\ItemMovement;
 use App\Models\Pivots\ReagentMovement;
+use App\Models\Pivots\Report;
 use App\Utils\FilterableSortableSearchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -66,6 +67,11 @@ class CMUser extends Model implements AuthorizableContract
     public function repairments()
     {
         return $this->hasMany(ItemMovement::class, 'related_id');
+    }
+
+    public function reports(): HasMany
+    {
+        return $this->hasMany(Report::class, 'cm_user_id');
     }
 
     public static function searchDonatorsByTerm($searchTerm)

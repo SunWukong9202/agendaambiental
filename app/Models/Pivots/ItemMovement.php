@@ -8,6 +8,7 @@ use App\Models\CMUser;
 use App\Models\Item;
 use App\Models\User;
 use App\Utils\DateFormats;
+use App\Utils\FilterableSortableSearchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -17,6 +18,7 @@ class ItemMovement extends Pivot
 {
     use HasFactory;
     use DateFormats;
+    use FilterableSortableSearchable;
 
     public const WITH_FIELDS = [
         'type', 'status', 'quantity', 'group_id', 'cm_user_id',

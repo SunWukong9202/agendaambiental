@@ -14,6 +14,7 @@ use Filament\Forms\Components\Component;
 use Filament\Forms\Form;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Components\Split;
@@ -24,6 +25,7 @@ use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Notifications\Notification;
 use Filament\Support\RawJs;
+use Illuminate\Support\Facades\Storage;
 
 trait HandlesDelivery {
     public ?Delivery $delivery;
@@ -55,7 +57,7 @@ trait HandlesDelivery {
         $waste = $_waste->category;
 
         return Notification::make()
-            ->success()
+            ->success() 
             ->title(__('ui.notifications.deliveries.title', compact('action')))
             ->body(__('ui.notifications.deliveries.body', compact('_action', 'quantity', 'unit', 'waste')));
     }
@@ -197,5 +199,20 @@ trait HandlesDelivery {
             ->required();
     }
     
+    public function getUploadSignature()
+    {
+        return FileUpload::make('signature_url')
+            ->label(__('Signature'))
+            ->image()
+            ->disk('public')
+            ->imagePreviewHeight('120')
+            ->loadingIndicatorPosition('left')
+            ->panelAspectRatio('2:1')
+            ->panelLayout('integrated')
+            ->removeUploadedFileButtonPosition('right')
+            ->uploadButtonPosition('left')
+            ->uploadProgressIndicatorPosition('left')
+            ;
+    }
 
 }

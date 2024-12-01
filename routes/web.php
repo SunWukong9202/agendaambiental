@@ -2,6 +2,7 @@
 
 use App\Enums\Permission;
 use App\Enums\Role;
+use App\Livewire\Client\History;
 use App\Livewire\Client\Home;
 use App\Livewire\Client\ListRepairs as ClientListRepairs;
 use App\Livewire\Client\Repairment;
@@ -23,24 +24,69 @@ use App\Livewire\Panel\Events\RepairLog;
 use App\Livewire\Panel\ListReagents;
 use App\Livewire\RepairLogList;
 use App\Mail\Test;
+use App\Models\Pivots\Report;
+use App\Models\Supplier;
 use App\Models\User;
+use Barryvdh\Snappy\Facades\SnappyPdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Spatie\LaravelPdf\Facades\Pdf;
 
 Route::get('/login', Login::class)->name('login');
 
-Route::get('/mailable', function () {
-    $user = User::find(2);
+// Route::get('/mailable', function () {
+//     $user = User::find(2);
 
-    return new Test($user);
-});
+//     return new Test($user);
+// });
+
+// Route::get('see-pdf', function () {
+//     $pdf = SnappyPdf::setOptions([
+//         'encoding' => 'utf-8',
+//         'enable-local-file-access' => true
+//     ])
+//     ->loadView('pdf.report', [
+//         'from' => User::factory()->make(),
+//         'to' => Supplier::factory()->make(),
+//         'report' => [
+//             'created_at' => now()->format('d M, Y h:i A')
+//         ],
+//         'deliveries' => [
+
+//         ],
+//         'total' => '00.00',
+//     ])
+//     ->footerView('pdf.footer');
+
+//     return $pdf->inline();
+// });
+
+// Route::get('spatie-pdf', function () {
+//     return Pdf::view('pdf.deliveries')
+//         ->name('deliveries.pdf');
+// });
+
+// Route::view('pdf', 'pdf.deliveries', [
+//     'from' => User::factory()->make(),
+//     'to' => Supplier::factory()->make(),
+//     'report' => [
+//         'created_at' => now()->format('d M, Y h:i A')
+//     ],
+//     'deliveries' => [
+
+//     ],
+//     'total' => '00.00'
+
+// ]);
 
 Route::middleware('auth')->group(function () {
     // Route::group(['as' => 'client.', 'prefix' => 'client'], function () {
         Route::get('/home/{action?}', Home::class)
             ->name('home');
 
-        Route::get('/profile', Perfil::class)
+        Route::get('/profile', History::class)
             ->name('donations');
 
         Route::get('/listRepairs', ClientListRepairs::class)
@@ -82,6 +128,14 @@ Route::middleware(['auth',
             Route::get('suppliers/{supplier}/deliveries', ListDeliveries::class)
                 ->middleware(['permissionCM:' . Permission::ViewDeliveries->value])
                 ->name('supplier.deliveries');
+
+            Route::get('reports/{report}', function (Report $report) {
+
+                $pdfPath = storage_path("app/public/".$report->file_path);
+
+                return response()->file($pdfPath);
+
+            })->name('reports');
     
             Route::get('/users/roles-and-permissions', RolesAndPermissions::class)
                 ->middleware(['permissionCM:' . Permission::ViewRoles->value . '|' . Permission::ViewPermissions->value])

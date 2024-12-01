@@ -33,7 +33,7 @@ class ListRepairs extends Component implements HasForms, HasTable
                 [
                     // Status::Repaired, 
                     // Status::Unrepairable,
-                    Status::Reparable, 
+                    Status::Repairable, 
                 ]
             );
     }
@@ -65,7 +65,7 @@ class ListRepairs extends Component implements HasForms, HasTable
                     ->icon(fn($state) => $state->getIcon())
                     ->color(fn ($state) => $state->getBagdeColor())
                     ->tooltip(fn (ItemMovement $record) => 
-                        $record->status == Status::Reparable 
+                        $record->status == Status::Repairable 
                             ? ($record->related?->user?->name ?? 'Not Assigned')
                             : null 
                     ),

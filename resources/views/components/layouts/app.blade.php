@@ -68,8 +68,7 @@
             </div>
     </x-navbar>
 
-    <x-aside
-    >
+    <x-aside>
         <x-fl.dropdown>
             <x-fl.dropdown.item :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                 <x-slot:icon>
@@ -84,7 +83,7 @@
             $permission::ViewSuppliers->value,
             $permission::ViewRoles->value
         ])
-            <x-fl.dropdown persisted key="{{ __('ui.pages.Users Managment') }}">
+            <x-fl.dropdown persisted initiallyOpen key="{{ __('ui.pages.Users Managment') }}">
                 <x-slot name="trigger">
                     <x-fl.dropdown.button>
                         {{ __('ui.pages.Users Managment') }}

@@ -153,17 +153,19 @@ class Home extends Component implements HasForms, HasInfolists
         $data['cm_user_id'] = auth()->user()->CMUser->id;
         $data['status'] = Status::In_Progress;
 
-        if(isset($data['item_id'])) {
-            $data['type'] = Movement::Petition;
-        } else if (isset($data['item_name'])) {
-            $data['type'] = Movement::Petition_By_Name;
-        } else {
+        if(isset($data['item_id']) && isset($data['item_name'])) {
             return $this->onValidationError(ValidationException::withMessages([
-                __('Try again later')
+                __('Either select the wanted item or provide a name for it not both')
             ]));
         }
 
-        ItemMovement::create($data);
+        $data['type'] = Movement::Petition;
+
+        $petition = ItemMovement::create($data);
+
+        $petition->update([
+            'group_id' => $petition->id,
+        ]);
 
         $this->form->fill();
 

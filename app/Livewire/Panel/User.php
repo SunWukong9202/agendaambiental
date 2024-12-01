@@ -22,7 +22,7 @@ class User extends Component
 
     public function save(): void
     {
-        $this->validate()
+        $this->validate();
     }
 
     public function render()

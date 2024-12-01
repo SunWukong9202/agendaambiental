@@ -113,9 +113,10 @@ class DatabaseSeeder extends Seeder
         //     } 
         // });
 
-        $wastes = collect(WasteFactory::preloaded)->map(function ($category) {
+        $wastes = collect(WasteFactory::preloaded)->map(function ($data) {
             return Waste::factory()->create([
-                'category' => $category
+                'category' => $data[0],
+                'unit' => $data[1]
             ]);
         });
 

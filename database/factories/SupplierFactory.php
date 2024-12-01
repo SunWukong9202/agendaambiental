@@ -58,7 +58,7 @@ class SupplierFactory extends Factory
             'state' => $estado ?? fake()->word(),
             'phone_number' => fake()->phoneNumber(),
             'email' => fake()->email(),
-            'business_name' => fake()->randomElement($suffixes),
+            'business_name' => fake()->word() . " " . fake()->randomElement($suffixes),
             'business_activity' => fake()->randomElement($girosEmpresas),
         ];
     }

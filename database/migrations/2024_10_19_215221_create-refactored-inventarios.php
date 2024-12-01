@@ -97,9 +97,11 @@ return new class extends Migration
         Schema::create('reports', function (Blueprint $table): void {
             $table->id();
             $table->string('file_path');
-            $table->date('from');
-            $table->date('to');
+            $table->boolean('emailed')->default(false);
+            // $table->date('from');
+            // $table->date('to');
             $table->foreignId('supplier_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('cm_user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
 

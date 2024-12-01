@@ -36,10 +36,10 @@ enum Status: string {
         $movement = self::resolve($movement);        
 
         return match($movement) {
-            Movement::Petition, Movement::Petition_By_Name => [
+            Movement::Petition => [
                 self::Accepted, self::Rejected, self::In_Progress
             ],
-
+            Movement::Petition_By_Name => [],
             Movement::Capture => [
                 self::Accepted, self::Repairable,
             ],
@@ -50,9 +50,7 @@ enum Status: string {
                 self::RepairLog, self::Successful,
                 self::Failed,
             ],
-            default => [
-                self::Accepted
-            ],
+            default => [],
         };
     }
     
