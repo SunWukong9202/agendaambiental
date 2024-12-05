@@ -52,7 +52,7 @@ enum Movement: string {
     public function getBagdeColor(): string
     {
         return match($this) {
-            self::Donation => 'success',
+            self::Donation => 'primary',
             self::Petition => 'info',
             self::Petition_By_Name => 'indigo',
             self::Capture => 'sky',

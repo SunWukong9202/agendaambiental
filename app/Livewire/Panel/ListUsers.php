@@ -83,14 +83,6 @@ class ListUsers extends Component implements HasForms, HasTable
         return $table
             ->query($this->getQuery())
             ->headerActions([
-                EditAction::make()
-                ->label(__('Edit Signature'))
-                ->record(auth()->user()->CMUser)
-                ->modalHeading(__('Edit your signature'))
-                ->form([
-                    $this->getUploadSignature()
-                ]),
-
                 CreateAction::make()
                     ->label(__('ui.buttons.user', ['action' => __('ui.create')]))
                     ->modalHeading(__('ui.buttons.user', ['action' => __('ui.create')]))

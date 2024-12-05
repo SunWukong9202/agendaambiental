@@ -74,6 +74,11 @@ class CMUser extends Model implements AuthorizableContract
         return $this->hasMany(Report::class, 'cm_user_id');
     }
 
+    public function addedReagents(): HasMany
+    {
+        return $this->hasMany(Reagent::class, 'cm_user_id');
+    }
+
     public static function searchDonatorsByTerm($searchTerm)
     {
         return self::whereHas('donations')

@@ -23,7 +23,7 @@ abstract class BaseTableConfiguration
         // };
 
         return $table
-            ->recordClasses('hover:bg-gray-100')
+            ->recordClasses('hover:bg-gray-100 dark:hover:bg-gray-800')
             ->headerActions($this->mergeDefaults($this->defaultHeaderActions(), $this->customHeaderActions))
             ->groups($this->mergeDefaults($this->defaultGroups(), $this->customGroups))
             ->columns($this->mergeDefaults($this->getDefaultColumns(), $this->customColumns))

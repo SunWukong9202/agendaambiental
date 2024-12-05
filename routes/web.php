@@ -22,6 +22,7 @@ use App\Livewire\Panel\Events\ListItems;
 use App\Livewire\Panel\Events\ListRepairs;
 use App\Livewire\Panel\Events\RepairLog;
 use App\Livewire\Panel\ListReagents;
+use App\Livewire\Panel\ReagentManagment;
 use App\Livewire\RepairLogList;
 use App\Mail\Test;
 use App\Models\Pivots\Report;
@@ -175,6 +176,9 @@ Route::middleware(['auth',
 
             Route::get('/reagents', ListReagents::class)
                 ->name('reagents');
+
+            Route::get('/reagents/managment', ReagentManagment::class)
+                ->name('reagents.managment');
     });     
 });
 

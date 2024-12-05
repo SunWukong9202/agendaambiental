@@ -890,14 +890,14 @@ if (isset($__slots)) unset($__slots);
                 <?php if (\Illuminate\Support\Facades\Blade::check('canCM', $permission::ViewReagents->value)): ?>
                     <?php if (isset($component)) { $__componentOriginal5b6dc1f1e9031fb8ba6e5e5a10a157d1 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal5b6dc1f1e9031fb8ba6e5e5a10a157d1 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.fl.dropdown.item','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.fl.dropdown.item','data' => ['href' => route('admin.reagents.managment'),'active' => request()->routeIs('admin.reagents.managment')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('fl.dropdown.item'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes([]); ?>
+<?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('admin.reagents.managment')),'active' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(request()->routeIs('admin.reagents.managment'))]); ?>
                          <?php $__env->slot('icon', null, []); ?> 
                             <?php if (isset($component)) { $__componentOriginal643fe1b47aec0b76658e1a0200b34b2c = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal643fe1b47aec0b76658e1a0200b34b2c = $attributes; } ?>
@@ -980,50 +980,7 @@ if (isset($__slots)) unset($__slots);
 <?php unset($__componentOriginal5b6dc1f1e9031fb8ba6e5e5a10a157d1); ?>
 <?php endif; ?>
 
-                    <?php if (isset($component)) { $__componentOriginal5b6dc1f1e9031fb8ba6e5e5a10a157d1 = $component; } ?>
-<?php if (isset($attributes)) { $__attributesOriginal5b6dc1f1e9031fb8ba6e5e5a10a157d1 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.fl.dropdown.item','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
-<?php $component->withName('fl.dropdown.item'); ?>
-<?php if ($component->shouldRender()): ?>
-<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
-<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
-<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
-<?php endif; ?>
-<?php $component->withAttributes([]); ?>
-                         <?php $__env->slot('icon', null, []); ?> 
-                            <?php if (isset($component)) { $__componentOriginal643fe1b47aec0b76658e1a0200b34b2c = $component; } ?>
-<?php if (isset($attributes)) { $__attributesOriginal643fe1b47aec0b76658e1a0200b34b2c = $attributes; } ?>
-<?php $component = BladeUI\Icons\Components\Svg::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
-<?php $component->withName('heroicon-o-clock'); ?>
-<?php if ($component->shouldRender()): ?>
-<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
-<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(BladeUI\Icons\Components\Svg::class))->getConstructor()): ?>
-<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
-<?php endif; ?>
-<?php $component->withAttributes(['class' => 'w-5 h-5']); ?>
-<?php echo $__env->renderComponent(); ?>
-<?php endif; ?>
-<?php if (isset($__attributesOriginal643fe1b47aec0b76658e1a0200b34b2c)): ?>
-<?php $attributes = $__attributesOriginal643fe1b47aec0b76658e1a0200b34b2c; ?>
-<?php unset($__attributesOriginal643fe1b47aec0b76658e1a0200b34b2c); ?>
-<?php endif; ?>
-<?php if (isset($__componentOriginal643fe1b47aec0b76658e1a0200b34b2c)): ?>
-<?php $component = $__componentOriginal643fe1b47aec0b76658e1a0200b34b2c; ?>
-<?php unset($__componentOriginal643fe1b47aec0b76658e1a0200b34b2c); ?>
-<?php endif; ?>
-                         <?php $__env->endSlot(); ?>
-                        <?php echo e(__('ui.pages.Inventory Movements')); ?>
-
-                     <?php echo $__env->renderComponent(); ?>
-<?php endif; ?>
-<?php if (isset($__attributesOriginal5b6dc1f1e9031fb8ba6e5e5a10a157d1)): ?>
-<?php $attributes = $__attributesOriginal5b6dc1f1e9031fb8ba6e5e5a10a157d1; ?>
-<?php unset($__attributesOriginal5b6dc1f1e9031fb8ba6e5e5a10a157d1); ?>
-<?php endif; ?>
-<?php if (isset($__componentOriginal5b6dc1f1e9031fb8ba6e5e5a10a157d1)): ?>
-<?php $component = $__componentOriginal5b6dc1f1e9031fb8ba6e5e5a10a157d1; ?>
-<?php unset($__componentOriginal5b6dc1f1e9031fb8ba6e5e5a10a157d1); ?>
-<?php endif; ?>
+                    
                 <?php endif; ?>
 
              <?php echo $__env->renderComponent(); ?>

@@ -47,7 +47,7 @@
                 :active="$tab === $move::Petition->value"
                 wire:click="$set('tab', '{{ $move::Petition->value }}')"
             >
-                {{ Str::plural($move::Petition->getTranslatedLabel()) }}
+                {{ __('Petitions') }}
             </x-filament::tabs.item>
 {{-- 
             <x-filament::tabs.item
@@ -75,7 +75,7 @@
                 :active="$tab === $move::Reparation->value"
                 wire:click="$set('tab', '{{ $move::Reparation->value }}')"
             >
-                {{ Str::plural($move::Reparation->getTranslatedLabel()) }}
+                {{ __('Reparations') }}
             </x-filament::tabs.item>
 
         

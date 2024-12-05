@@ -207,7 +207,9 @@
                     </x-fl>
                 </x-slot>
                 @canCM($permission::ViewReagents->value)
-                    <x-fl.dropdown.item >
+                    <x-fl.dropdown.item 
+                        :href="route('admin.reagents.managment')" :active="request()->routeIs('admin.reagents.managment')"
+                    >
                         <x-slot:icon>
                             <x-heroicon-m-beaker class="w-5 h-5" />
                         </x-slot>
@@ -216,19 +218,19 @@
                 @endcanCM
                 
                 @canCM($permission::ViewReagentsInventory->value)
-                    <x-fl.dropdown.item :href="route('admin.reagents')" :active="request()->routeIs('admin.reagents')">
+                    <x-fl.dropdown.item :href="route('admin.reagents')" :active="request()->routeIs('admin.reagents')" >
                         <x-slot:icon>
                             <x-heroicon-m-chart-bar class="w-5 h-5" />
                         </x-slot>
                         {{ __('ui.pages.Reagent Inventory') }}
                     </x-fl>
 
-                    <x-fl.dropdown.item >
+                    {{-- <x-fl.dropdown.item >
                         <x-slot:icon>
                             <x-heroicon-o-clock class="w-5 h-5" />
                         </x-slot>
                         {{ __('ui.pages.Inventory Movements') }}
-                    </x-fl>
+                    </x-fl> --}}
                 @endcanCM
 
             </x-fl>

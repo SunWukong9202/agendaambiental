@@ -48,6 +48,7 @@ class ListReagents extends Component implements HasForms, HasTable
                     ->label(__('Image')),
 
                 TextColumn::make('reagent.name')
+                    ->label(__('Reagent'))
                     ->searchable()
                     ->default(__('Not assigned to a reagent'))
                     ->visible(!isset($this->item) && 
@@ -70,9 +71,9 @@ class ListReagents extends Component implements HasForms, HasTable
                         dd($record, $state);
                     }),
                 
-                // TextColumn::make('user.name')
-                //     ->label(__('Issued by'))
-                //     ->searchable(),
+                TextColumn::make('user.user.name')
+                    ->label(__('Issued by'))
+                    ->searchable(),
 
                 TextColumn::make('created_at')
                 ->label(__('Issued'))
@@ -85,7 +86,14 @@ class ListReagents extends Component implements HasForms, HasTable
     public function render()
     {
         return <<<'HTML'
-        <div>        
+        <div> 
+            <div class="flex mb-4">
+                <x-filament::breadcrumbs :breadcrumbs="[
+                    route('admin.reagents') => __('ui.pages.Reagent Inventory'),
+                    '' => __('ui.list'),
+                    ]"
+                />
+            </div>       
             <div class="mb-8 mx-auto max-w-4xl flex justify-center">
             <x-filament::tabs 
                 custom-scrollbar="x-sm"
@@ -110,7 +118,7 @@ class ListReagents extends Component implements HasForms, HasTable
                     :active="$tab === $move::Donation->value"
                     wire:click="$set('tab', '{{ $move::Donation->value }}')"
                 >
-                    {{ Str::plural($move::Donation->getTranslatedLabel()) }}
+                    {{ __('Donations') }}
                 </x-filament::tabs.item>
 
                 <x-filament::tabs.item
@@ -119,7 +127,7 @@ class ListReagents extends Component implements HasForms, HasTable
                     :active="$tab === $move::Petition->value"
                     wire:click="$set('tab', '{{ $move::Petition->value }}')"
                 >
-                    {{ Str::plural($move::Petition->getTranslatedLabel()) }}
+                    {{ __('Petitions') }}
                 </x-filament::tabs.item>
 
                 <x-filament::tabs.item
@@ -128,7 +136,7 @@ class ListReagents extends Component implements HasForms, HasTable
                     :active="$tab === $move::Petition_By_Name->value"
                     wire:click="$set('tab', '{{ $move::Petition_By_Name->value }}')"
                 >
-                    {{ Str::plural($move::Petition_By_Name->getTranslatedLabel()) }}
+                    {{ __('Petitions') }}
                 </x-filament::tabs.item>
             
             </x-filament::tabs>

@@ -14,7 +14,36 @@ class DonationImporter extends Importer
     public static function getColumns(): array
     {
         return [
-            //
+            ImportColumn::make('type')
+                ->label(__('Donation type'))
+                ->requiredMapping()
+                ->rules(['required']),
+
+            ImportColumn::make('books_taken')
+                ->label(__('Books taken'))
+                ->requiredMapping()
+                ->integer()
+                ->rules(['max:255', 'min:0']),
+
+            ImportColumn::make('books_donated')
+                ->label(__('Books donated'))
+                ->requiredMapping()
+                ->integer()
+                ->rules(['max:255', 'min:0']),
+
+            ImportColumn::make('quantity')
+                ->label(__('Quantity'))
+                ->requiredMapping()
+                ->numeric(decimalPlaces: 3)
+                ->rules(['max:999.999', 'min:0.100']),
+
+            ImportColumn::make('waste')
+                ->label(__('waste'))
+                ->relationship(resolveUsing: ['category', 'id']),
+
+            ImportColumn::make('event')
+                ->label(__('Event'))
+                ->relationship(resolveUsing: ['name', 'id']),
         ];
     }
 

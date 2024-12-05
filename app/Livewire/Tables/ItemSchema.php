@@ -40,7 +40,7 @@ class ItemSchema extends BaseTableConfiguration
             ->visible()
             ->label(__('Technician'))
             ->searchable()];
-        }        
+        }
 
         $issuer = TextColumn::make('user.user.name');
 
@@ -52,11 +52,12 @@ class ItemSchema extends BaseTableConfiguration
 
                 TextColumn::make('related.user.name')
                 ->label(__('Closed by'))
-                ->default('pending')
+                ->default(__('Pending'))
                 ->searchable()
             ]
-            : [ 
-                $issuer->label(__('Made by'))
+            : [
+                $issuer
+                ->label(__('Made by'))
                 ->searchable()
             ];
 
@@ -68,7 +69,7 @@ class ItemSchema extends BaseTableConfiguration
                 ->searchable(
                     query: function ($query, $search) {
                         return $query->search($search, ['item_name'])
-                            ->orWhereHas('item', 
+                            ->orWhereHas('item',
                                 fn($q) => $q->search($search, ['name'])
                             );
                     }
@@ -76,25 +77,27 @@ class ItemSchema extends BaseTableConfiguration
                 ->formatStateUsing(function (ItemMovement $record) {
                     $name = $record->item?->name ?? $record->item_name;
                     // dump($name);
-                    return $name; 
-                })                
+                    return $name;
+                })
                 ,
 
             TextColumn::make('type')
                 ->translateLabel()
                 ->badge()
                 ->visible(Movement::tryFrom($this->tab) == null)
-                ->formatStateUsing(fn($state) => $state->value)
+                ->formatStateUsing(fn($state) => $state->getTranslatedLabel())
                 ->color(fn ($state) => $state->getBagdeColor()),
-            
+
             TextColumn::make('status')
+                ->label(__('status'))
+                ->formatStateUsing(fn($state) => $state->getTranslatedLabel())
                 ->badge()
                 ->icon(fn($state) => $state->getIcon())
                 ->color(fn ($state) => $state->getBagdeColor())
-                ->tooltip(fn (ItemMovement $record) => 
-                    $record->status == Status::Repairable 
+                ->tooltip(fn (ItemMovement $record) =>
+                    $record->status == Status::Repairable
                         ? ($record->related?->user?->name ?? 'Not Assigned')
-                        : null 
+                        : null
                 ),
 
 
@@ -107,7 +110,7 @@ class ItemSchema extends BaseTableConfiguration
         ];
 
         return [
-            $columns            
+            ...$columns
         ];
     }
 
@@ -118,7 +121,9 @@ class ItemSchema extends BaseTableConfiguration
 
     public function defaultHeaderActions(): array
     {
-        return [];
+        return [
+            $this->getRegisterItemAction(),
+        ];
     }
 
     public function getDefaultFilters(): array
@@ -129,11 +134,11 @@ class ItemSchema extends BaseTableConfiguration
                     Select::make('status')
                         ->disabled($this->tab == Movement::Reparation->value)
                         ->placeholder(__('All'))
-                        // ->options(fn ($livewire) => 
+                        // ->options(fn ($livewire) =>
                         //     dd($livewire)
                         // )
                         ->options(Status::buildSelect(
-                                $this->tab != Movement::Capture->value 
+                                $this->tab != Movement::Capture->value
                                     ? Status::by($this->tab)
                                     : [ Status::Accepted ]
                             )
@@ -167,21 +172,21 @@ class ItemSchema extends BaseTableConfiguration
     private function getUpdateAssignAction(): EditAction
     {
         return EditAction::make()
-        ->label(fn (ItemMovement $record) => 
+        ->label(fn (ItemMovement $record) =>
         isset($record->related_id) ? __('Edit assignenment')
                                    : __('Assign technician'))
-        ->modalHeading(fn (ItemMovement $record) => 
+        ->modalHeading(fn (ItemMovement $record) =>
             isset($record->related_id) ? __('Edit assigned technician')
                                        : __('Assign technician')
         )
         ->hidden(function (ItemMovement $record) {
-            //not in {capture,} 
+            //not in {capture,}
             $reparaible = Status::Repairable == $record->status;
 
             $alreadyEnded = ItemMovement::where('group_id', $record->group_id)
             ->whereIn('status',[Status::Successful, Status::Failed])
             ->first();
-            
+
             return !$reparaible && $alreadyEnded == null;
         })
         ->form(fn(ItemMovement $record) => $this->getEditAssignSchema($record))
@@ -196,7 +201,7 @@ class ItemSchema extends BaseTableConfiguration
         Notification::make()
             ->warning()
             ->title(__('Out of stock'))
-            ->body(__('Come again later. Check with other item or add one.'))
+            ->body(__('out-of-stock'))
             ->persistent()
             ->send();
     }
@@ -204,7 +209,7 @@ class ItemSchema extends BaseTableConfiguration
     private function getResolvePetitionAction($cm_user = null): EditAction
     {
         $cm_user = auth()->user()->CMUser;
-        
+
         return EditAction::make('settle-petition')
         ->label(__('Resolve petition'))
         ->modalHeading(__('Resolve petition'))
@@ -234,7 +239,7 @@ class ItemSchema extends BaseTableConfiguration
             if(isset($data['item_id'])) {
                 $data['item_name'] = Item::find($data['item_id'])?->name;
             }
-            
+
             return $data;
         })
         ->form(fn (ItemMovement $record) => $this->getSettleSchema($record))
@@ -242,13 +247,13 @@ class ItemSchema extends BaseTableConfiguration
             $status = Status::tryFrom($data['status']);
 
             $stock = $this->calculateAvailableByItem($this->selectedItem?->id);
-    
+
             if($stock <= 0 && $status != Status::Rejected && $record->item_id == null) {
                 $this->outStockNotification();
 
                 $action->halt();
             }
-            
+
             $settled = $record->replicate()->fill([
                 'status' => $status,
                 'related_id' => $cm_user->id,
@@ -264,7 +269,7 @@ class ItemSchema extends BaseTableConfiguration
             $title = $accepted
                 ? __('ui.notifications.p-accepted', compact('item'))
                 : __('ui.notifications.p-rejected', compact('item'));
-                                    
+
             $this->buildDBNotification(
                 title: $title,
             )
@@ -273,7 +278,7 @@ class ItemSchema extends BaseTableConfiguration
             //for testing purpose we will notify me
             // ->sendToDatabase(CMUser::find($cm_user->id)->user);
             ->sendToDatabase($record->user->user);
-            
+
             return $record;
         });
     }

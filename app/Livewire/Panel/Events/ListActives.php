@@ -7,6 +7,8 @@ use App\Enums\EventDonation;
 use App\Enums\Movement;
 use App\Enums\Permission;
 use App\Enums\Status;
+use App\Filament\Exports\DonationExporter;
+use App\Filament\Imports\DonationImporter;
 use App\Livewire\DBNotifications;
 use App\Livewire\Panel\Traits\HandlesActiveEvent;
 use App\Livewire\Panel\Traits\HandlesItem;
@@ -46,11 +48,14 @@ use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ExportAction;
+use Filament\Tables\Actions\ImportAction;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Filament\Widgets\StatsOverviewWidget\Stat;
+use Illuminate\Validation\Rules\File;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -201,6 +206,7 @@ class ListActives extends Component
         //cm_user_id, donator_id
         $columns = [
             TextColumn::make('type')
+                ->label(__('Donation'))
                 ->formatStateUsing(
                     fn($state) => EventDonation::tryFrom($state)?->getTranslatedLabel()
                 )
@@ -210,19 +216,23 @@ class ListActives extends Component
                 ->badge(),
 
             TextColumn::make('books_donated')
+                ->label(__('Books donated'))
                 ->visible($this->tab == EventDonation::Books->value)
                 ->icon('heroicon-m-arrow-trending-up'),
 
             TextColumn::make('books_taken')
+                ->label(__('Books taken'))
                 ->visible($this->tab == EventDonation::Books->value)
                 ->icon('heroicon-m-arrow-trending-down'),
 
             TextColumn::make('waste.category')
+                ->label(__('Waste'))
                 ->searchable()
                 ->visible($this->tab == EventDonation::Waste->value)
                 ->extraAttributes(['class' => 'uppercase']),
 
             TextColumn::make('quantity')
+                ->label(__('Quantity'))
                 ->sortable()
                 ->visible($this->tab == EventDonation::Waste->value)
                 ->formatStateUsing(fn(Donation $record) => 
@@ -264,7 +274,10 @@ class ListActives extends Component
         $header_actions = [
             $this->getRegisterItemAction($cm_user),            
             $this->getRegisterDonation($cm_user),
-
+            ImportAction::make()
+                ->importer(DonationImporter::class),
+            ExportAction::make()
+                ->exporter(DonationExporter::class)
         ];
 
         return $table

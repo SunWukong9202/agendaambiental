@@ -98,11 +98,11 @@ class RolesAndPermissions extends Component implements HasForms, HasTable
             ])
             ->actions([
                 EditAction::make()
-                    ->disabled(!$user->hasPermissionTo(Permission::EditRoles))
+                    ->disabled(!$user->can(Permission::EditRoles->value))
 
                     ->url(fn(Role $role) => route('admin.role.save', ['action' => 'edit', 'role' => $role->id])),
                 DeleteAction::make()
-                    ->disabled(fn ($record) => !$user->hasPermissionTo(Permission::DeleteRoles) || in_array(EnumsRole::tryFrom($record->name), EnumsRole::cases()))
+                    ->disabled(fn ($record) => !$user->can(Permission::DeleteRoles->value) || in_array(EnumsRole::tryFrom($record->name), EnumsRole::cases()))
 
             ])
             ->bulkActions([
