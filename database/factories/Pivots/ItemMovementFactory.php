@@ -37,7 +37,7 @@ class ItemMovementFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function (ItemMovement $movement) {
-            if($movement->type == Movement::Capture && $movement->status == Status::Reparable) {
+            if($movement->type == Movement::Capture && $movement->status == Status::Repairable) {
                 $movement->update([
                     'group_id' => $movement->id,
                 ]);
@@ -88,7 +88,7 @@ class ItemMovementFactory extends Factory
                 'cm_user_id' => $user->id,
                 'type' => Movement::Capture,
                 'status' => fake()->randomElement([
-                    Status::Accepted, Status::Reparable
+                    Status::Accepted, Status::Repairable
                 ]),
                 'item_id' => fake()->randomElement($items)->id,
             ];
@@ -146,7 +146,7 @@ class ItemMovementFactory extends Factory
 
         // Assignment
         $assignment = $captureMovement->replicate()->fill([
-            'type' => Movement::Assignment,
+            'type' => Movement::Reparation,
             'status' => Status::Assigned,
             'created_at' => $baseDate,
             'related_id' => $initialTechnician->id,
@@ -192,7 +192,7 @@ class ItemMovementFactory extends Factory
         // Repair start
         $baseDate = $baseDate->addMinutes(rand(5, 15));
         $repairStart = $assignment->replicate()->fill([
-            'type' => Movement::Repair_Started,
+            'type' => Movement::Reparation,
             'status' => Status::In_Progress,
             'created_at' => $baseDate,
         ]);
@@ -202,8 +202,8 @@ class ItemMovementFactory extends Factory
         foreach (range(0, rand(2, 5)) as $j) {
             $baseDate = $baseDate->addMinutes(rand(5, 15));
             $repairLog = $repairStart->replicate()->fill([
-                'type' => Movement::Repair_Log,
-                'status' => Status::repairmentTry,
+                'type' => Movement::Reparation,
+                'status' => Status::RepairLog,
                 'observations' => fake()->text(),
                 'created_at' => $baseDate,
             ]);
@@ -213,8 +213,8 @@ class ItemMovementFactory extends Factory
         // Repair completion
         $baseDate = $baseDate->addMinutes(rand(5, 15));
         $completion = $repairStart->replicate()->fill([
-            'type' => Movement::Repair_Completed,
-            'status' => fake()->randomElement(Status::by(Movement::Repair_Completed)),
+            'type' => Movement::Reparation,
+            'status' => fake()->randomElement(Status::by(Movement::Reparation)),
             'created_at' => $baseDate,
         ]);
         $completion->save();

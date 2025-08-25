@@ -10,7 +10,7 @@
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['size' => 'md']); ?>
-        <div x-init="$wire.getUnreadNotificationsCount" wire:poll.5s="getUnreadNotificationsCount">
+        <div x-init="$wire.getUnreadNotificationsCount" wire:poll.15s="getUnreadNotificationsCount">
             <?php echo e($unreadCount ?? 0); ?>
 
         </div>

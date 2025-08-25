@@ -28,7 +28,7 @@ class Perfil extends Component
         if (!auth()->user()) {
             return $this->redirectRoute('logout');
         }
-        $this->form->clearKeep();
+        // $this->form->clearKeep();
         $this->form->setUser(auth()->user());
     }
 

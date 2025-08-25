@@ -1,7 +1,7 @@
     
 <div x-data class="flex items-center">
     <x-filament::badge size="md">
-        <div x-init="$wire.getUnreadNotificationsCount" wire:poll.5s="getUnreadNotificationsCount">
+        <div x-init="$wire.getUnreadNotificationsCount" wire:poll.15s="getUnreadNotificationsCount">
             {{ $unreadCount ?? 0 }}
         </div>
     </x-filament::badge>

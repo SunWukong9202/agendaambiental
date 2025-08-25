@@ -5,7 +5,7 @@ namespace App\Livewire\Client;
 trait ItemDonation {
     
 
-    public function getSelectItemComponent(parameters)
+    public function getSelectItemComponent()
     {
         # code...
     }

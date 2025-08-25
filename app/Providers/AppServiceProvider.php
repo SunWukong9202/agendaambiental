@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
 
-        DatabaseNotifications::pollingInterval('10s');
+        DatabaseNotifications::pollingInterval('35s');
         // DatabaseNotifications::trigger('livewire.notifications-trigger');
 
         // DatabaseNotifications::trigger('components.notification-trigger');

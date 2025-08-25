@@ -35,7 +35,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Spatie\LaravelPdf\Facades\Pdf;
 
-Route::get('/login', Login::class)->name('login');
+// Route::middleware('guest')->group(function () {
+    Route::get('/', Login::class)->name('login');
+// });
 
 // Route::get('/mailable', function () {
 //     $user = User::find(2);
@@ -104,7 +106,7 @@ Route::middleware('auth')->group(function () {
             $request->session()->invalidate();
             $request->session()->regenerateToken();
 
-            return redirect('login');
+            return redirect('/');
         })->name('logout');
     // });
 });
@@ -115,7 +117,7 @@ Route::middleware(['auth',
     ])->group(function () {
     Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
 
-        Route::get('/', Dashboard::class)
+        Route::get('/dashboard', Dashboard::class)
                 ->name('dashboard');
     
             Route::get('/users', ListUsers::class)

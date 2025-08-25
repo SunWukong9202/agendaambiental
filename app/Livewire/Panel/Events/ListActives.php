@@ -20,6 +20,7 @@ use App\Models\Pivots\Donation;
 use App\Models\Pivots\ItemMovement;
 use App\Models\User;
 use App\Models\Waste;
+use Filament\Actions\Exports\Models\Export;
 // use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -49,12 +50,14 @@ use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ExportAction;
+use Filament\Tables\Actions\ExportBulkAction;
 use Filament\Tables\Actions\ImportAction;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Filament\Widgets\StatsOverviewWidget\Stat;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Validation\Rules\File;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -73,6 +76,7 @@ class ListActives extends Component
     public $action = 'list';
     public $data = [];
     public $tab = false;
+    public $exporter = DonationExporter::class;
 
     public ?Event $event = null;
 
@@ -147,9 +151,10 @@ class ListActives extends Component
     public function selectActive(Form $form): Form
     {
         $actives = $this->getSelectActive()
-            ->afterStateUpdated(fn($state) => 
-                $this->event = Event::find($state)
-            );    
+            ->afterStateUpdated(function ($state) {
+                $this->event = Event::find($state);
+                $this->resetTable();
+            });    
         return $form
             ->schema([$actives])
             ->statePath('data');
@@ -271,12 +276,40 @@ class ListActives extends Component
             
         ];
         
+        $active = null;
+
+        $actives = $this->queryActives();
+
+        if($this->event != null) {
+            $active = $this->event;
+        } elseif($actives->count() == 1) {
+            $active = $actives->first();
+        } 
+
+        DonationExporter::$active = $active;
+
         $header_actions = [
             $this->getRegisterItemAction($cm_user),            
             $this->getRegisterDonation($cm_user),
             ImportAction::make()
+                ->label(__('Import donations'))
                 ->importer(DonationImporter::class),
-            ExportAction::make()
+
+            ExportAction::make('export-all')
+                ->label(__('Export all donations'))
+                ->fileName(function (Export $export) use($active) {
+                    return isset($active)
+                        ? __('donations') . "-{$active->name}"
+                        : null;
+                })
+                ->options([
+                    'activeEvent' => $active,
+                ])
+                ->modifyQueryUsing(function (Builder $query) use($active) {
+                    $actives = $this->queryActives()->pluck('id')->toArray();
+
+                    return Donation::whereIn('event_id', $actives);
+                })
                 ->exporter(DonationExporter::class)
         ];
 
@@ -285,6 +318,10 @@ class ListActives extends Component
             ->query($this->getQuery())
             ->columns($columns)
             ->headerActions($header_actions)
+            ->bulkActions([
+                ExportBulkAction::make('export')
+                    ->exporter(DonationExporter::class),
+            ])
             ->filters([
 
             ])

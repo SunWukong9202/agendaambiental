@@ -6,7 +6,7 @@
     <x-fl.label>
         {{ __('form.name') }}
     </x-fl>
-    <x-panel.validator-wrapper
+    <x-panel.alpine-validator
         attribute="{{ __('form.name') }}"
         :rules="['min:5|string', 'max:10|string', 'required']"
     >
@@ -24,7 +24,7 @@
     <x-fl.label>
         {{ __('form.key') }}
     </x-fl>
-    <x-panel.validator-wrapper
+    <x-panel.alpine-validator
         attribute="{{ __('form.key') }}"
         :rules="['min:6|string', 'max:6|string', 'required']"
     >

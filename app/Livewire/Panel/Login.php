@@ -59,6 +59,15 @@ class Login extends Component implements HasForms, HasActions
         return $form
             ->schema([
                 Tabs::make('tabs')->tabs([
+                    Tab::make(__('with email'))
+                    ->schema([
+                        TextInput::make('email')
+                            ->translateLabel()
+                            ->email()
+                            ->required(fn(Get $get) => ! filled($get('key'))),
+                        ...$commons
+                    ]),
+
                     Tab::make(__('with key'))
                     ->schema([
                         TextInput::make('key')
@@ -66,15 +75,6 @@ class Login extends Component implements HasForms, HasActions
                             ->minLength(6)
                             ->mask('999999')
                             ->required(fn(Get $get) => ! filled($get('email'))),
-                        ...$commons
-                    ]),
-
-                    Tab::make(__('with email'))
-                    ->schema([
-                        TextInput::make('email')
-                            ->translateLabel()
-                            ->email()
-                            ->required(fn(Get $get) => ! filled($get('key'))),
                         ...$commons
                     ])
                 ])

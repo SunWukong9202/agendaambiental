@@ -42,7 +42,7 @@
     class="mt-4"
     x-show="$wire.show"
     wire:submit="donar">          
-        <x-dropdown            
+        <x-table.dropdown            
         x-cloak 
         x-init="expanded = true"
         class="!px-0 py-4"
@@ -106,9 +106,9 @@
                 label="Laboratorio*" error="form.lab_proc" />
     
             </div>
-        </x-dropdown> 
+        </x-table.dropdown> 
 
-        <x-dropdown                   
+        <x-table.dropdown                   
         {{-- x-init="expanded = true" --}}
         class="!px-0 py-4"
         :persistent="false">
@@ -126,7 +126,7 @@
                     <label for="bordered-checkbox-1" class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ $propiedad->label() }}</label>
                 </div>
             @endforeach
-        </x-dropdown> 
+        </x-table.dropdown> 
 
         <x-loading.wrapper class="!justify-end inset-y-0 right-2">
             <x-button type="submit" class="flex items-center font-semibold !px-8 ml-auto"

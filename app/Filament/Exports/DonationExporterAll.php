@@ -11,12 +11,11 @@ use OpenSpout\Common\Entity\Style\CellAlignment;
 use OpenSpout\Common\Entity\Style\CellVerticalAlignment;
 use OpenSpout\Common\Entity\Style\Style;
 
-class DonationExporter extends Exporter
+class DonationExporterAll extends Exporter
 {
     protected static ?string $model = Donation::class;
 
     public static $active = null;
-    public static $tab = null;//0-books
 
     public static function getColumns(): array
     {
@@ -53,7 +52,7 @@ class DonationExporter extends Exporter
             ExportColumn::make('donator_id')
                 ->label(__('Donator'))
                 ->formatStateUsing(function (Donation $record) {
-                    return $record->donator->user?->name ?? $record->donator->name;
+                    return $record->donator->user?->name ?? $record->donator?->name;
                 }),
 
             ExportColumn::make('capturist.user.name')
@@ -66,15 +65,9 @@ class DonationExporter extends Exporter
             ->label(__('Event'));
         }
 
-        $columns = [];
+        $columns = array_merge($both, $books, $waste, $last);
 
-        // if(self::$tab) {
-        //     $columns = array_merge($waste, $last);
-        // } else {
-        //     $columns = array_merge($books, $last);
-        // }
-
-        return array_merge($both, $books, $waste, $last);
+        return $columns;
     }
 
     public static function getCompletedNotificationBody(Export $export): string

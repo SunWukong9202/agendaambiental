@@ -79,39 +79,39 @@ class DatabaseSeeder extends Seeder
             );
 
         //ITEM CAPTURES/PETITIONS: type,status{accepte,reparable}, 
-        // ItemMovementFactory::$technicians = $technicians;
+        ItemMovementFactory::$technicians = $technicians;
 
-        // collect($panelUsers)->each(function ($user) use ($items) {
-        //     foreach (range(1, 3) as $i) {
-        //         ItemMovement::factory()
-        //             // ->withTechnicians($techs)
-        //             ->withCapture($user, $items)
-        //             ->create();
-        //     }
-        // });
+        collect($panelUsers)->each(function ($user) use ($items) {
+            foreach (range(1, 3) as $i) {
+                ItemMovement::factory()
+                    // ->withTechnicians($techs)
+                    ->withCapture($user, $items)
+                    ->create();
+            }
+        });
 
         //superadmin impersonates a technician
-        // ItemMovementFactory::$technicians = collect([$superAdmin, $admins->first()]);
+        ItemMovementFactory::$technicians = collect([$superAdmin, $admins->first()]);
 
-        // collect($admins)->each(function ($user) use ($items) {
-        //     //just for testing purpose we add to superadmin
-        //     foreach(range(2, 4) as $i) {
-        //         ItemMovement::factory()
-        //             // ->withTechnicians(collect([$superAdmin]))
-        //             ->withCapture($user, $items)
-        //             ->create();
-        //     }
-        // });
+        collect($admins)->each(function ($user) use ($items) {
+            //just for testing purpose we add to superadmin
+            foreach(range(2, 4) as $i) {
+                ItemMovement::factory()
+                    // ->withTechnicians(collect([$superAdmin]))
+                    ->withCapture($user, $items)
+                    ->create();
+            }
+        });
         
         //normal users without any role/privelige
-        // $interns->each(function ($user) use ($items, $admins) {
-        //     foreach (range(1, rand(2, 3)) as $i) {
-        //         ItemMovement::factory()
-        //             ->withAdministratives($admins)
-        //             ->withPetition($user, $items)
-        //             ->create();
-        //     } 
-        // });
+        $interns->each(function ($user) use ($items, $admins) {
+            foreach (range(1, rand(2, 3)) as $i) {
+                ItemMovement::factory()
+                    ->withAdministratives($admins)
+                    ->withPetition($user, $items)
+                    ->create();
+            } 
+        });
 
         $wastes = collect(WasteFactory::preloaded)->map(function ($data) {
             return Waste::factory()->create([

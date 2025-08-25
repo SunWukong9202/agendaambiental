@@ -41,7 +41,7 @@
         @if ($action == 'create' || $action == 'edit')
             <form 
                 wire:submit="{{ $action }}">
-                <x-dropdown
+                <x-table.dropdown
                     x-init="expanded = true"
                     class="!px-0 py-4"
                     :persistent="false">
@@ -82,9 +82,9 @@
                         wire:model.stop="form.giro_empresa"
                         label="Giro de la empresa*" error="form.giro_empresa" />
                     </x-input> --}}
-                </x-dropdown>
+                </x-table.dropdown>
 
-                <x-dropdown 
+                <x-table.dropdown 
                     {{-- :x-init="$errors->has('form.cp') || $errors->has('form.num_ext') ? 'expanded = true' : ''" --}}
                     :x-init="$form->hasErrors('cp', 'num_ext') ? 'expanded = true' : ''"
                     class="!px-0 py-4"
@@ -140,9 +140,9 @@
                         wire:model.stop="form.municipio"
                         label="Municipio" error="form.municipio" />
                     </div> --}}
-                </x-dropdown>
+                </x-table.dropdown>
 
-                <x-dropdown 
+                <x-table.dropdown 
                     {{-- :x-init="$errors->has('form.correo') || $errors->has('form.telefono') ? 'expanded = true' : ''" --}}
                     :x-init="$form->hasErrors('correo', 'telefono') ? 'expanded = true' : ''"
                     class="!px-0 py-4"
@@ -164,7 +164,7 @@
                         label="Correo*" error="form.correo" />    
 
                     </div>
-                </x-dropdown>
+                </x-table.dropdown>
                 @if ($action == 'create')
                     <x-modal-footer>
                         <div class="ml-auto">
@@ -192,7 +192,7 @@
                 @endif
             </form>
         @elseif ($action == 'show')
-            <x-dropdown
+            <x-table.dropdown
                 x-init="expanded = true"
                 class="!px-0 py-4"
                 :persistent="false">
@@ -218,9 +218,9 @@
                     title="Giro de la empresa">
                     {{ $form->giro_empresa }}
                 </x-utils> --}}
-            </x-dropdown>
+            </x-table.dropdown>
 
-            <x-dropdown 
+            <x-table.dropdown 
                 class="!px-0 py-4"
                 {{-- class="px-4 pb-2 pt-4 text-sm text-gray-500" --}}
                 :persistent="false">
@@ -246,7 +246,7 @@
                     {{ $form->telefono }}
                 </x-utils> --}}
                 
-            </x-dropdown>
+            </x-table.dropdown>
 
 
             <x-modal-footer></x-modal-footer>
