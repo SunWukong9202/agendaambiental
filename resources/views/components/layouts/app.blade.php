@@ -1,96 +1,251 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<x-layouts.base >
+    @php
+        $permission = \App\Enums\Permission::class;
+    @endphp
 
-        <title>{{ $title ?? 'Page Title' }}</title>
-        @livewireStyles
-        @vite(['resources/js/app.js'])
-        @vite('resources/css/app.css')
+    <x-navbar class="fixed top-0 z-30">
+        {{-- <div class="flex-1 w-full"> --}}
+            <div class="ml-auto flex gap-8">
 
-    </head>
-    <body class="text-base md:text-lg lg:text-xl">
+                @livewire('notifications-trigger')
 
-        @php
-        $routes = \Illuminate\Support\Facades\Config::get('navigation.reactivos', []);
-        @endphp
-        
-        <x-navbar class="fixed top-0 z-50">
-            <a href="{{ route('admin.users') }}" class="flex ms-2 ">
-                <img src="/images/logoagenda.jpg" class="h-8 me-3" alt="FlowBite Logo" />
-            </a>
-            @if (request()->routeIs(...$routes))
-            <div class="fixed inset-x-0">
-                <x-tabs :pages="$routes"/>
+                <x-filament::dropdown placement="bottom-start">
+                    <x-slot name="trigger">
+                        {{-- <x-filament::avatar class="ml-auto px-[9px] py-2 rounded-full bg-white dark:bg-gray-950 shadow-sm border-primary-600 dark:border-primary-400 border-4">
+                            {{ __('AG') }}
+                        </x-filament> --}}
+                        <button type="button" class="ml-auto px-[9px] py-2 rounded-full bg-white dark:bg-gray-950 shadow-sm border-primary-600 dark:border-primary-400 border-4 flex items-center justify-center ring-0">
+                            AG
+                        </button>
+                    </x-slot>
+
+                    <x-filament::dropdown.list>
+                        <x-filament::dropdown.list.item class="hover:bg-none cursor-text" icon="heroicon-m-user-circle">
+                            {{ auth()->user()->name ?? 'Usuario' }}
+                        </x-filament::dropdown.list.item>
+
+                        <div class="p-1 flex gap-1" @click="close()">
+                            <x-filament::button 
+                            @click="applyTheme(saveTheme('dark'))"
+                            class="flex-1 !ring-0 shadow-none" 
+                            {{-- x-bind:class="theme == 'dark' ? 'dark:bg-primary-600' : '' " --}}
+                            color="gray" tooltip="{{__('Enable dark mode')}}">
+                                <x-heroicon-m-moon class="size-5 text-gray-400" x-bind:class="theme == 'dark' ? 'text-primary-600 dark:text-primary-400' : '' " />
+                            </x-filament>
+                            <x-filament::button 
+                            @click="applyTheme(saveTheme('light'))"
+                            class="flex-1 !ring-0 shadow-none" 
+                            {{-- x-bind:class="theme == 'light' ? 'dark:bg-primary-600' : '' " --}}
+                            color="gray" tooltip="{{__('Enable light mode')}}">
+                                <x-heroicon-m-sun class="size-5 text-gray-400 b" x-bind:class="theme == 'light' ? 'text-primary-600 dark:text-primary-400' : '' "/>
+                            </x-filament>
+                            <x-filament::button 
+                            @click="applyTheme(saveTheme('system'))"
+                            {{-- x-bind:class="theme == 'system' ? 'dark:bg-primary-600' : '' " --}}
+                            class="flex-1 !ring-0 shadow-none" color="gray" tooltip="{{__('Enable system mode')}}">
+                                <x-heroicon-m-computer-desktop class="size-5 text-gray-400"  x-bind:class="theme == 'system' ? 'text-primary-600 dark:text-primary-400' : ''"/>
+                            </x-filament>
+                        </div>
+
+                        <div class="p-1">
+                            {{-- @livewire('language-switcher') --}}
+                            <livewire:panel.language-switcher @change="close()" currentUrl="{{ request()->url() }}" />
+                        </div>
+
+                        <x-filament::dropdown.list.item tag="a" wire:navigate href="{{ route('home') }}" icon="heroicon-m-cog-6-tooth">
+                            {{ __('Settings') }}
+                        </x-filament::dropdown.list.item>
+
+                        <x-filament::dropdown.list.item tag="a" wire:navigate href="{{ route('home') }}" icon="heroicon-m-arrow-left">
+                            {{ __('Return to home') }}
+                        </x-filament::dropdown.list.item>
+
+                        <x-filament::dropdown.list.item tag="a" wire:navigate href="{{ route('logout') }}" icon="heroicon-m-arrow-left-end-on-rectangle">
+                            {{ __('Log out') }}
+                        </x-filament::dropdown.list.item>
+                    </x-filament::dropdown.list>
+                </x-filament::dropdown>
             </div>
-            @endif
-        </x-navbar>
-        <x-aside>
-            {{-- <x-link page="admin.panel" wire:navigate text="Inicio" icon="grid"/> --}}
-            <x-link wire:navigate page="admin.users" text="Usuarios" icon="grid"/>
+    </x-navbar>
 
-            {{-- <x-link wire:navigate page="admin.events" text="Eventos" icon="grid"/> --}}
+    <x-aside>
+        <x-fl.dropdown>
+            <x-fl.dropdown.item :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
+                <x-slot:icon>
+                    <x-heroicon-m-squares-2x2 class="w-5 h-5" />
+                </x-slot>
+                {{ __('ui.pages.Dashboard') }}
+            </x-fl>
+        </x-fl>
 
-            <x-dropdown key="Acopios">
-                <x-slot:trigger>
-                    <x-link icon="grid"
-                        text="Acopios">
-                        <x-icon.angle-down 
-                        x-bind:class="expanded ? '-rotate-180': 'rotate-0'"   
-                        class="ml-auto mt-[2px]"/>
-                    </x-link>
+        @cananyCM([
+            $permission::ViewUsers->value,
+            $permission::ViewSuppliers->value,
+            $permission::ViewRoles->value
+        ])
+            <x-fl.dropdown persisted initiallyOpen key="{{ __('ui.pages.Users Managment') }}">
+                <x-slot name="trigger">
+                    <x-fl.dropdown.button>
+                        {{ __('ui.pages.Users Managment') }}
+                    </x-fl>
                 </x-slot>
 
-                <x-link class="pl-11" wire:navigate page="admin.events" text="Inicio" />
-                <x-link wire:navigate page="admin.proveedores" class="pl-11" text="Proveedores" />
-            </x-dropdown>
+                @canCM($permission::ViewUsers->value)
+                    <x-fl.dropdown.item :href="route('admin.users')" :active="request()->routeIs('admin.users')">
+                        <x-slot:icon>
+                            <x-heroicon-m-users class="w-5 h-5" />
+                        </x-slot>
+                        {{ __('ui.pages.Manage Users') }}
+                    </x-fl>
+                @endcan
 
-            <x-dropdown key="Inventarios">
-                <x-slot:trigger>
-                    <x-link icon="grid"
-                        text="Inventarios">
-                        <x-icon.angle-down 
-                        x-bind:class="expanded ? '-rotate-180': 'rotate-0'"   
-                        class="ml-auto mt-[2px]"/>
-                    </x-link>
+                @canCM($permission::ViewSuppliers->value)
+                    <x-fl.dropdown.item :href="route('admin.suppliers')" :active="request()->routeIs('admin.suppliers')">
+                        <x-slot:icon>
+                            <x-heroicon-m-identification class="w-5 h-5" />
+                        </x-slot>
+                        {{ __('ui.pages.Manage Suppliers') }}
+                    </x-fl>
+                @endcan
+
+                @canCM($permission::ViewRoles->value)
+                    <x-fl.dropdown.item :href="route('admin.roles-and-permissions')" :active="request()->routeIs('admin.roles-and-permissions')">
+                        <x-slot:icon>
+                            <x-heroicon-m-lock-closed class="w-5 h-5" />
+                        </x-slot>
+                        {{ __('ui.pages.Roles & Permissions') }}
+                    </x-fl>
+                @endcan
+            </x-fl>
+        @endcanany
+
+        @cananyCM([
+            $permission::AccessActiveEvents->value,
+            $permission::ViewDeliveries->value,
+            $permission::ViewEventInventory->value,
+            $permission::ViewRepairments->value,
+            $permission::ViewWastes->value,
+            $permission::ViewEvents->value
+        ])
+            <x-fl.dropdown persisted initiallyOpen key="{{ __('ui.pages.Event Managment') }}">
+                <x-slot name="trigger">
+                    <x-fl.dropdown.button>
+                        {{ __('ui.pages.Event Managment') }}
+                    </x-fl>
                 </x-slot>
+                @canCM($permission::AccessActiveEvents->value)
+                    <x-fl.dropdown.item :href="route('admin.events.actived')" :active="request()->routeIs('admin.events.actived')">
+                        <x-slot:icon>
+                            <x-heroicon-m-bolt class="w-5 h-5" />
+                        </x-slot>
+                        {{ __('ui.pages.Active Events') }}
+                    </x-fl>
+                @endcanCM
 
-                <x-link wire:navigate page="admin.inventario.articulos" class="pl-11" text="Articulos" />
-                <x-link wire:navigate :page="$routes['Inicio']" :$routes class="pl-11" text="Reactivos" />
-            </x-dropdown>
+                {{-- @canCM($permission::ViewDeliveries->value)
+                    <x-fl.dropdown.item :href="route('admin.events.deliveries')" :active="request()->routeIs('admin.events.deliveries')">
+                        <x-slot:icon>
+                            <x-heroicon-m-archive-box class="w-5 h-5" />
+                        </x-slot>
+                        {{ __('ui.pages.Register Deliveries') }}
+                    </x-fl>
+                @endcanCM --}}
 
-            <x-dropdown key="Configuracion">
-                <x-slot:trigger>
-                    <x-link icon="grid"
-                        text="Configuracion">
-                        <x-icon.angle-down 
-                        x-bind:class="expanded ? '-rotate-180': 'rotate-0'"   
-                        class="ml-auto mt-[2px]"/>
-                    </x-link>
+                @canCM($permission::ViewEventInventory->value)
+                    <x-fl.dropdown.item :href="route('admin.events.inventory')" :active="request()->routeIs('admin.events.inventory')">
+                        <x-slot:icon>
+                            <x-heroicon-m-chart-bar class="w-5 h-5" />
+                        </x-slot>
+                        {{ __('ui.pages.Event Inventory') }}
+                    </x-fl>
+
+                    {{-- <x-fl.dropdown.item >
+                        <x-slot:icon>
+                            <x-heroicon-o-clock class="w-5 h-5" />
+                        </x-slot>
+                        {{ __('ui.pages.Inventory Movements') }}
+                    </x-fl> --}}
+                @endcanCM
+
+                {{-- @canCM($permission::ViewRepairments->value)
+                    <x-fl.dropdown.item :href="route('admin.events.repairments')" :active="request()->routeIs('admin.events.repairments')" >
+                        <x-slot:icon>
+                            <x-heroicon-o-briefcase class="w-5 h-5" />
+                        </x-slot>
+                        {{ __('ui.pages.Repairment Managment') }}
+                    </x-fl>
+                @endcanCM --}}
+
+                @canCM($permission::ViewEvents->value)
+                    <x-fl.dropdown.item :href="route('admin.events.history')" :active="request()->routeIs('admin.events.history')">
+                        <x-slot:icon>
+                            <x-heroicon-m-rectangle-stack class="w-5 h-5" />
+                        </x-slot>
+                        {{ __('ui.pages.Event History') }}
+                    </x-fl>
+                @endcanCM
+
+                @canCM($permission::ViewWastes->value)
+                    <x-fl.dropdown.item :href="route('admin.events.wastes')" :active="request()->routeIs('admin.events.wastes')">
+                        <x-slot:icon>
+                            <x-heroicon-m-square-3-stack-3d class="w-5 h-5" />
+                        </x-slot>
+                        {{ __('ui.pages.Waste Managment') }}
+                    </x-fl>
+                @endcanCM
+            </x-fl>
+        @endcanany
+
+        @cananyCM([
+            $permission::ViewReagents->value,
+            $permission::ViewReagentsInventory->value,
+        ])
+            <x-fl.dropdown persisted initiallyOpen key="{{ __('ui.pages.Reagent Management') }}">
+                <x-slot name="trigger">
+                    <x-fl.dropdown.button>
+                        {{ __('ui.pages.Reagent Management') }}
+                    </x-fl>
                 </x-slot>
+                @canCM($permission::ViewReagents->value)
+                    <x-fl.dropdown.item 
+                        :href="route('admin.reagents.managment')" :active="request()->routeIs('admin.reagents.managment')"
+                    >
+                        <x-slot:icon>
+                            <x-heroicon-m-beaker class="w-5 h-5" />
+                        </x-slot>
+                        {{ __('ui.pages.Manage Reagents') }}
+                    </x-fl>
+                @endcanCM
+                
+                @canCM($permission::ViewReagentsInventory->value)
+                    <x-fl.dropdown.item :href="route('admin.reagents')" :active="request()->routeIs('admin.reagents')" >
+                        <x-slot:icon>
+                            <x-heroicon-m-chart-bar class="w-5 h-5" />
+                        </x-slot>
+                        {{ __('ui.pages.Reagent Inventory') }}
+                    </x-fl>
 
-                <x-link class="pl-11" text="Permisos" />
-                <x-link wire:navigate class="pl-11" text="General" />
-            </x-dropdown>
+                    {{-- <x-fl.dropdown.item >
+                        <x-slot:icon>
+                            <x-heroicon-o-clock class="w-5 h-5" />
+                        </x-slot>
+                        {{ __('ui.pages.Inventory Movements') }}
+                    </x-fl> --}}
+                @endcanCM
 
-            <x-link wire:navigate page="client.home" text="Regresar" icon="arrow-right-to-bracket"/>
-            <x-link page="logout" text="Cerrar Sesion" icon="arrow-right-to-bracket"/>
-            
-            {{-- <x-link text="Acopios" icon="grid"/> --}}
+            </x-fl>
+        @endcanany
 
-            {{-- <x-link text="Acopio Activo" icon="grid"/> --}}
+    </x-aside>
 
-        </x-aside>
+    <div class="flex-1 p-4 lg:p-8 lg:ml-80 mt-16">
 
-        <div class="p-2 sm:p-4 sm:ml-64 dark:bg-gray-800">
-            <div class="p-2 sm:p-4 rounded-lg dark:border-gray-700 mt-14">
-                {{ $slot }}
-            </div>
-        </div>
-        @livewireScriptConfig
-    </body>
-</html>
+        {{ $slot }}
+
+    </div>
+
+</x-layouts>
+
 
 {{-- <x-link wire:navigate page="users-page" class="pl-11" text="Eventos" icon="grid"/>
 <x-link wire:navigate page="events-page" class="pl-11" text="Eventos" icon="grid"/>

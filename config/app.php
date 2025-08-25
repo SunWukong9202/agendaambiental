@@ -83,7 +83,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => env('APP_LOCALE', 'en'),
 
     /*
     |--------------------------------------------------------------------------
@@ -168,6 +168,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
+        Barryvdh\Snappy\ServiceProvider::class,
     ])->toArray(),
 
     /*

@@ -1,5 +1,5 @@
 <div>
-    <x-dropdown
+    <x-table.dropdown
     
         x-init="expanded = true"
         class="!px-0 py-4"
@@ -41,9 +41,9 @@
             wire:model.stop="form.giro_empresa"
             label="Giro de la empresa*" error="form.giro_empresa" />
         </x-input>
-    </x-dropdown>
+    </x-table.dropdown>
 
-    <x-dropdown 
+    <x-table.dropdown 
         {{-- :x-init="$errors->has('form.cp') || $errors->has('form.num_ext') ? 'expanded = true' : ''" --}}
         :x-init="$form->hasErrors('cp', 'num_ext') ? 'expanded = true' : ''"
         class="!px-0 py-4"
@@ -102,9 +102,9 @@
             wire:model.stop="form.municipio"
             label="Municipio" error="form.municipio" />
         </div>
-    </x-dropdown>
+    </x-table.dropdown>
 
-    <x-dropdown 
+    <x-table.dropdown 
         {{-- :x-init="$errors->has('form.correo') || $errors->has('form.telefono') ? 'expanded = true' : ''" --}}
         :x-init="$form->hasErrors('correo', 'telefono') ? 'expanded = true' : ''"
         class="!px-0 py-4"
@@ -124,7 +124,7 @@
             x-mask="(999) 999 9999"
             label="Telefono*" error="form.telefono" />
         </div>
-    </x-dropdown>
+    </x-table.dropdown>
     
     @if (!isset($form->proveedor))
         <x-modal-footer>

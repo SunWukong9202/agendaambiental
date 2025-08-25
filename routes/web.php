@@ -1,107 +1,186 @@
 <?php
 
-use App\Livewire\AdminPanel;
-use App\Livewire\Pages\Acopios\Acopio;
-use App\Livewire\Pages\Acopios\Activo;
-use App\Livewire\Pages\Acopios\Proveedores;
-use App\Livewire\Pages\Client\Perfil;
-use App\Livewire\Pages\Client\Solicitudes;
-use App\Livewire\Pages\Donaciones\Reactivos as DonacionesReactivos;
-use App\Livewire\Pages\Events;
-use App\Livewire\Pages\Inventarios\Articulos;
-use App\Livewire\Pages\Inventarios\Reactivos;
-use App\Livewire\Pages\Solicitudes\Reactivos as SolicitudesReactivos;
-use App\Livewire\Pages\Users;
-use App\Models\InventarioAcopio\Articulo;
-use App\Models\User;
+use App\Enums\Permission;
+use App\Enums\Role;
+use App\Livewire\Client\History;
+use App\Livewire\Client\Home;
+use App\Livewire\Client\ListRepairs as ClientListRepairs;
+use App\Livewire\Client\Repairment;
+use App\Livewire\Panel\Dashboard;
+use App\Livewire\Panel\Events\ListEvents;
+use App\Livewire\Panel\Events\ListWastes;
+use App\Livewire\Panel\ListUsers;
+use App\Livewire\Panel\Login;
+use App\Livewire\Panel\Users\ListSuppliers;
+use App\Livewire\Panel\Users\RolesAndPermissions;
 use Illuminate\Support\Facades\Route;
-use Faker\Factory as Faker;
+
+use App\Livewire\Pages\Client\Perfil;
+use App\Livewire\Panel\Events\ListActives;
+use App\Livewire\Panel\Events\ListDeliveries;
+use App\Livewire\Panel\Events\ListItems;
+use App\Livewire\Panel\Events\ListRepairs;
+use App\Livewire\Panel\Events\RepairLog;
+use App\Livewire\Panel\ListReagents;
+use App\Livewire\Panel\ReagentManagment;
+use App\Livewire\RepairLogList;
+use App\Mail\Test;
+use App\Models\Pivots\Report;
+use App\Models\Supplier;
+use App\Models\User;
+use Barryvdh\Snappy\Facades\SnappyPdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-//as = name -> asi que esto se pega al inicio de name
+use Illuminate\Support\Facades\Storage;
+use Spatie\LaravelPdf\Facades\Pdf;
 
-Route::view('login', 'client.login')->name('login');
+// Route::middleware('guest')->group(function () {
+    Route::get('/', Login::class)->name('login');
+// });
 
-Route::post('login', function (Request $req){
-    $credentials = $req->validate([
-        'clave' => ['required'],
-        'password' => ['required'],
-    ]);
+// Route::get('/mailable', function () {
+//     $user = User::find(2);
 
-    if(Auth::attempt([
-        'clave' => $credentials['clave'],
-        'password' => $credentials['password']]
-        )) 
-    {
-        $req->session?->regenerate();
+//     return new Test($user);
+// });
 
-        return redirect()->intended();
-    }
+// Route::get('see-pdf', function () {
+//     $pdf = SnappyPdf::setOptions([
+//         'encoding' => 'utf-8',
+//         'enable-local-file-access' => true
+//     ])
+//     ->loadView('pdf.report', [
+//         'from' => User::factory()->make(),
+//         'to' => Supplier::factory()->make(),
+//         'report' => [
+//             'created_at' => now()->format('d M, Y h:i A')
+//         ],
+//         'deliveries' => [
 
-    return back()->withErrors([
-        'clave' => 'Credenciales erroneas',
-    ])->onlyInput('clave');
-});
+//         ],
+//         'total' => '00.00',
+//     ])
+//     ->footerView('pdf.footer');
 
-Route::get('logout', function (Request $request) {
-    Auth::logout();
+//     return $pdf->inline();
+// });
 
-    $request->session()->invalidate();
- 
-    $request->session()->regenerateToken();
- 
-    return redirect('login');
+// Route::get('spatie-pdf', function () {
+//     return Pdf::view('pdf.deliveries')
+//         ->name('deliveries.pdf');
+// });
 
-})->name('logout');
+// Route::view('pdf', 'pdf.deliveries', [
+//     'from' => User::factory()->make(),
+//     'to' => Supplier::factory()->make(),
+//     'report' => [
+//         'created_at' => now()->format('d M, Y h:i A')
+//     ],
+//     'deliveries' => [
 
-Route::group(['middleware' => 'auth'], function () {
-    
-    Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
-        // Route::get('/', AdminPanel::class)->name('panel');
-        Route::get('/', Users::class)->name('users');
+//     ],
+//     'total' => '00.00'
+
+// ]);
+
+Route::middleware('auth')->group(function () {
+    // Route::group(['as' => 'client.', 'prefix' => 'client'], function () {
+        Route::get('/home/{action?}', Home::class)
+            ->name('home');
+
+        Route::get('/profile', History::class)
+            ->name('donations');
+
+        Route::get('/listRepairs', ClientListRepairs::class)
+            ->middleware(['rolCM:' . Role::RepairTechnician->value])
+            ->name('listRepairs');
+
+        Route::get('/repairment/{record}', Repairment::class)
+            ->middleware(['rolCM:' . Role::RepairTechnician->value])
+            ->name('repairment');
         
-        Route::get('/events', Events::class)->name('events');
-        Route::get('/events/acopio/{action}/{id?}', Acopio::class)->name('acopio');
-        Route::get('/acopios/activos/{acopio}', Activo::class)->name('acopios.activos');
-    
-        Route::get('/proveedores', Proveedores::class)->name('proveedores');
-    
-        Route::get('/inventario/reactivos', Reactivos::class)
-            ->name('inventario.reactivos');
-        Route::get('/solicitudes/reactivos', SolicitudesReactivos::class)
-            ->name('solicitudes.reactivos');
-        Route::get('/donaciones/reactivos', DonacionesReactivos::class)
-            ->name('donaciones.reactivos');
-    
-        Route::get('/inventario/articulos', Articulos::class)
-            ->name('inventario.articulos');
-    });
+        Route::get('/logout', function (Request $request) {
+            Auth::logout();
+            
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
 
-    Route::get('/', function () {
-        return view('layout');
-    })->name('agendaAmbiental');
-
-    Route::view('/modulo', 'client.home')->name('client.home');
-    Route::view('/modulo/testing', 'client.home')->name('client.home');
-
-    Route::get('/modulo/solicitudes/{type}', Solicitudes::class)->name('solicitudes');
-
-    Route::get('/modulo/profile', Perfil::class)->name('user.profile');
-
+            return redirect('/');
+        })->name('logout');
+    // });
 });
 
 
+Route::middleware(['auth',
+    'permissionCM:' . Permission::HasAdminPanelAccess->value
+    ])->group(function () {
+    Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
 
-Route::get('/hello', function () {
-    return 'Hello world';
+        Route::get('/dashboard', Dashboard::class)
+                ->name('dashboard');
+    
+            Route::get('/users', ListUsers::class)
+                ->middleware(['permissionCM:' . Permission::ViewUsers->value])
+                ->name('users');
+    
+            Route::get('/suppliers', ListSuppliers::class)
+                ->middleware(['permissionCM:' . Permission::ViewSuppliers->value])
+                ->name('suppliers');
+
+            Route::get('suppliers/{supplier}/deliveries', ListDeliveries::class)
+                ->middleware(['permissionCM:' . Permission::ViewDeliveries->value])
+                ->name('supplier.deliveries');
+
+            Route::get('reports/{report}', function (Report $report) {
+
+                $pdfPath = storage_path("app/public/".$report->file_path);
+
+                return response()->file($pdfPath);
+
+            })->name('reports');
+    
+            Route::get('/users/roles-and-permissions', RolesAndPermissions::class)
+                ->middleware(['permissionCM:' . Permission::ViewRoles->value . '|' . Permission::ViewPermissions->value])
+                ->name('roles-and-permissions');
+
+            Route::get('/roles/{action}/{role?}', RolesAndPermissions::class)
+                ->middleware(['permissionCM:' . Permission::ViewRoles->value . '|' . Permission::ViewPermissions->value])
+                ->name('role.save');
+
+            Route::get('/events/history', ListEvents::class)
+                ->middleware(['permissionCM:' . Permission::ViewEvents->value])
+                ->name('events.history');
+
+            Route::get('/events/actived/{action?}/{event?}', ListActives::class)
+                ->middleware(['permissionCM:' . Permission::AccessActiveEvents->value])
+                ->name('events.actived');
+
+            Route::get('/event/deliveries', ListDeliveries::class)
+                ->middleware(['permissionCM:' . Permission::ViewDeliveries->value])
+                ->name('events.deliveries');
+
+            Route::get('/event/inventory/{tab?}/{status?}', ListItems::class)
+                ->middleware(['permissionCM:' . Permission::ViewEventInventory->value])
+                ->name('events.inventory');
+
+            Route::get('/events/repairments', ListRepairs::class)
+                ->middleware(['permissionCM:' . Permission::ViewRepairments->value])
+                ->name('events.repairments');
+
+            Route::get('/repairment/{movement}', RepairLogList::class)
+                ->middleware(['permissionCM:' . Permission::ViewRepairments->value])
+                ->name('events.repairmentLog');
+    
+            Route::get('/events/wastes', ListWastes::class)
+                ->middleware(['permissionCM:' . Permission::ViewWastes->value])
+                ->name('events.wastes');
+
+            Route::get('/reagents', ListReagents::class)
+                ->name('reagents');
+
+            Route::get('/reagents/managment', ReagentManagment::class)
+                ->name('reagents.managment');
+    });     
 });
+

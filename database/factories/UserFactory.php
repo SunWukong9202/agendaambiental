@@ -27,14 +27,12 @@ class UserFactory extends Factory
         $f = \Faker\Factory::create('es_ES');
     
         return [
-            'clave' => ''.fake()->unique()->numberBetween(100000, 999999),
-            'nombre' => $f->name(),
-            'ap_pat' => $f->lastName(),
-            'ap_mat' => $f->lastName(),
-            'genero' => $this->randomOf(Config::get('opciones.genero')),
-            'procedencia' => $this->randomOf(Config::get('opciones.procedencia')),
-            'correo' => $f->unique()->email(),
-            'telefono' => $f->unique->numerify('(444) ### ####'),
+            'key' => ''.fake()->unique()->numberBetween(100000, 999999),
+            'name' => $f->name(),
+            'gender' => $this->randomOf(collect(trans('form.genders'))->forget('other')->keys()->toArray()),
+            'procedence' => $this->randomOf(Config::get('opciones.procedencia')),
+            'email' => $f->unique()->email(),
+            'phone_number' => $f->unique->numerify('(444) ### ####'),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];

@@ -1,3 +1,109 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@tailwind variants;
+
+.heading-secondary {
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    display: inline-block;
+    background-image: linear-gradient(to right, #F2994A, #F2C94C);
+    -webkit-background-clip: text;
+    color: transparent;
+    letter-spacing: .1rem;
+    transition: all .2s;
+}
+
+
+.heading-secondary::hover {
+    transform: skewY(2deg), skewX(15deg) scale(1.1);
+}
+
+.fi-ta-group-header {
+  @apply mb-0 !important;
+}
+
+[custom-scrollbar], .fi-ta-content {
+  @apply overflow-auto;
+}
+
+[custom-scrollbar="x-sm"]::-webkit-scrollbar {
+  @apply h-1 !important; 
+}
+
+[custom-scrollbar="lg"]::-webkit-scrollbar {
+  @apply w-[7px] h-[6px];
+}
+
+[custom-scrollbar]::-webkit-scrollbar, .fi-ta-content::-webkit-scrollbar {
+  @apply w-[8px] h-2;
+}
+
+.fi-ta-content::-webkit-scrollbar-thumb {
+  @apply bg-gray-500 rounded-r-lg
+}
+
+.fi-ta-content::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-300
+}
+
+[custom-scrollbar]::-webkit-scrollbar-thumb  {
+  @apply bg-primary-500 rounded-r-lg;
+}
+
+[custom-scrollbar]::-webkit-scrollbar-thumb:hover{
+  @apply bg-primary-600 !important;
+}
+
+.fi-ta-content::-webkit-scrollbar-track {
+  @apply bg-black
+}
+
+[custom-scrollbar]::-webkit-scrollbar-track {
+  @apply bg-primary-100 rounded;
+} 
+
+  
+  /* Dark mode thumb */
+  /* .dark [custom-scrollbar]::-webkit-scrollbar-thumb {
+    @apply bg-orange-400;
+  }
+  
+  .dark [custom-scrollbar]::-webkit-scrollbar-thumb:hover {
+    @apply bg-orange-500 !important;
+  } */
+  
+  /* Dark mode track (rail) */
+  /* .dark [custom-scrollbar]::-webkit-scrollbar-track {
+    @apply bg-orange-800;
+  } */
+  
+
+  /* Light mode thumb */
+  /* [custom-scrollbar]::-webkit-scrollbar-thumb {
+    @apply bg-orange-300 rounded-r-lg;
+  }
+  
+  [custom-scrollbar]::-webkit-scrollbar-thumb:hover {
+    @apply bg-orange-400 !important;
+  }
+   */
+  /* Light mode track (rail) */
+  /* [custom-scrollbar]::-webkit-scrollbar-track {
+    @apply bg-orange-100 rounded;
+  } */
+  
+  /* Dark mode thumb */
+  /* .dark [custom-scrollbar]::-webkit-scrollbar-thumb {
+    @apply bg-orange-400;
+  }
+  
+  .dark [custom-scrollbar]::-webkit-scrollbar-thumb:hover {
+    @apply bg-orange-500 !important;
+  }
+   */
+  /* Dark mode track (rail) */
+  /* .dark [custom-scrollbar]::-webkit-scrollbar-track {
+    @apply bg-orange-800;
+  }*/

@@ -44,7 +44,7 @@
             <h3 class="mb-4 text-lg font-bold leading-none tracking-tight text-gray-500 md:text-4xl dark:text-white py-4">
                 Bienvenido {{ $form->nombre }}
             </h3>
-            <x-dropdown                   
+            <x-table.dropdown                   
                 x-init="expanded = true"
                 class="!px-0 py-4"
                 :persistent="false">
@@ -72,9 +72,9 @@
                     title="Procedencia"
                     content="{{ $form->procedencia }}"
                     />
-                </x-dropdown>
+                </x-table.dropdown>
 
-            <x-dropdown                   
+            <x-table.dropdown                   
                 x-init="expanded = true"
                 class="!px-0 py-4"
                 :persistent="false">
@@ -92,7 +92,7 @@
                     title="Telefono"
                     content="{{ $form->telefono }}"
                     />
-            </x-dropdown>
+            </x-table.dropdown>
         </div>
 
         <div x-cloak x-show="$wire.see == 'solicitudes'">
@@ -222,7 +222,7 @@
                 {{-- nombre acopio, acopio --}}
                     @foreach ($donaciones as $donacion)
                     @if ($show == 'reactivos')
-                    <x-dropdown                   
+                    <x-table.dropdown                   
                     {{-- x-init="expanded = true" --}}
                     class="!px-0 py-4"
                     :persistent="false">
@@ -308,9 +308,9 @@
                             </div>
                         </div>
 
-                    </x-dropdown> 
+                    </x-table.dropdown> 
                     @else
-                    <x-dropdown                   
+                    <x-table.dropdown                   
                     {{-- x-init="expanded = true" --}}
                     class="!px-0 py-4"
                     :persistent="false">
@@ -320,7 +320,7 @@
                             </x-disclosure>
                         </x-slot>
                         <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 mt-4">
-                            <x-dropdown                   
+                            <x-table.dropdown                   
                             {{-- x-init="expanded = true" --}}
                             class="!px-0 py-4"
                             :persistent="false">
@@ -361,9 +361,9 @@
                                     />
                                 </div>
 
-                            </x-dropdown>
+                            </x-table.dropdown>
 
-                            <x-dropdown                   
+                            <x-table.dropdown                   
                             {{-- x-init="expanded = true" --}}
                             class="!px-0 py-4"
                             :persistent="false">
@@ -396,9 +396,9 @@
                                     content="{{ $donacion->tomados }} Libros"
                                     />
                                 @endif
-                            </x-dropdown>
+                            </x-table.dropdown>
                         </div>
-                    </x-dropdown> 
+                    </x-table.dropdown> 
                     @endif
                                
                     @endforeach

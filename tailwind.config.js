@@ -1,14 +1,25 @@
+import preset from './vendor/filament/support/tailwind.config.preset'
+
 /** @type {import('tailwindcss').Config} */
 export default {
+  presets: [preset],
+  darkMode: 'class',
   content: [
     "./resources/**/*.blade.php",
     "./resources/**/*.js",
     "./resources/**/*.vue",
     "./node_modules/flowbite/**/*.js",
+    './app/Filament/**/*.php',
+    './resources/views/filament/**/*.blade.php',
+    './vendor/filament/**/*.blade.php',
     './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
+    './vendor/jaocero/activity-timeline/resources/views/**/*.blade.php',
   ],
   theme: {
     extend: {
+      fontFamily: {
+        roboto: ['Roboto', 'sans-serif'],
+      },
       colors: {
         marine: {
           DEFAULT: '#1A3156',
@@ -41,7 +52,8 @@ export default {
     },
   },
   plugins: [
-    require('flowbite/plugin')
+    require('flowbite/plugin'),
+    require('tailwindcss-rtl'), 
   ],
 }
 
