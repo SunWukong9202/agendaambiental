@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
 
-        if(env('APP_ENV') !== 'local') {
+        if (!app()->environment('local')) {
             URL::forceScheme('https');
         }
 
@@ -61,7 +61,6 @@ class AppServiceProvider extends ServiceProvider
             $cmUser = auth()->user()->CMUser ?? null;
             return $cmUser && ($cmUser->hasRole($role) || $cmUser->hasRole(Role::SuperAdmin));
         });
-
 
         // Custom directive for checking multiple permissions
         Blade::if('cananyCM', function (...$permissions) {

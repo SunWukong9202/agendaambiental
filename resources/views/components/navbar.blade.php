@@ -8,7 +8,7 @@ x-data="{count: 0}"
       <div class="flex items-center justify-start rtl:justify-end">
         <button 
         x-on:click="$dispatch('open-sidebar', 'sidebar-btn')"  
-        type="button" class="inline-flex items-center p-2 text-sm text-gray-500 dark:text-gray-900 rounded-lg lg:hidden hover:bg-gray-100">
+        type="button" class="inline-flex items-center p-2 text-sm text-gray-900 dark:text-gray-200 rounded-lg lg:hidden">
             <span class="sr-only">Open sidebar</span>
             <x-heroicon-m-bars-3 class="size-6" />
         </button>

@@ -106,6 +106,9 @@ class ListEvents extends Component implements HasForms, HasTable
     public function render()
     {
         return <<<'HTML'
+        <x-slot:title>
+            {{ __('ui.pages.Event History') }}
+        </x-slot>
         <div>
             <div class="flex mb-4">
                 <x-filament::breadcrumbs :breadcrumbs="[

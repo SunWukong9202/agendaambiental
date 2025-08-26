@@ -36,7 +36,6 @@ use Illuminate\Support\Facades\Storage;
 use Spatie\LaravelPdf\Facades\Pdf;
 
 // Route::middleware('guest')->group(function () {
-    Route::get('/', Login::class)->name('login');
 // });
 
 // Route::get('/mailable', function () {
@@ -84,7 +83,12 @@ use Spatie\LaravelPdf\Facades\Pdf;
 
 // ]);
 
-Route::middleware('auth')->group(function () {
+Route::get('/', Login::class)
+    ->middleware('throttle:5,1')
+    ->name('login');
+
+
+Route::middleware(['auth', 'throttle:20,1'])->group(function () {
     // Route::group(['as' => 'client.', 'prefix' => 'client'], function () {
         Route::get('/home/{action?}', Home::class)
             ->name('home');
@@ -112,12 +116,12 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::middleware(['auth',
+Route::middleware(['auth', 'throttle:20,1',
     'permissionCM:' . Permission::HasAdminPanelAccess->value
     ])->group(function () {
     Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
 
-        Route::get('/dashboard', Dashboard::class)
+        Route::get('/', Dashboard::class)
                 ->name('dashboard');
     
             Route::get('/users', ListUsers::class)

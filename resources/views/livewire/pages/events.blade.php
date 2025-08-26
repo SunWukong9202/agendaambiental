@@ -1,6 +1,3 @@
-<x-slot:title>
-    Panel de administracion - Acopios
-</x-slot>
 
 <div class="relative">
 

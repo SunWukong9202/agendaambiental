@@ -1,3 +1,7 @@
+<x-slot:title>
+    {{ __('ui.pages.Active Events') }}
+</x-slot>
+
 <div custom-scrollbar>
     <div class="flex mb-4 justify-between">
         <div class="flex">

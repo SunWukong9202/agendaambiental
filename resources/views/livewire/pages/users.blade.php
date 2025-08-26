@@ -1,5 +1,5 @@
 <x-slot:title>
-    Panel de administracion - Usuarios
+    {{  __('ui.pages.Manage Users')  }}
 </x-slot>
 
 <div class="relative">

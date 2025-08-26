@@ -1,5 +1,5 @@
 <x-slot:title>
-    Panel de administracion - Proveedores
+    {{ __('ui.pages.Manage Suppliers') }}
 </x-slot>
 
 <div class="relative">
