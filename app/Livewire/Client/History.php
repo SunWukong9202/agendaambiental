@@ -18,8 +18,13 @@ class History extends Component implements HasForms, HasTable
 {
     use InteractsWithTable;
     use InteractsWithForms;
-    public $tab = Movement::Petition->value;
+    public $tab;
     public $forReagents = false;
+    
+    public function mount()
+    {
+        $this->tab = Movement::Petition->value;
+    }
 
     private function getQuery()
     {
