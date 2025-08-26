@@ -28,11 +28,11 @@
     }
 </style>
 <main class="flex-1 p-6 max-w-full">
-    <div class="text-center mb-8">
+    <div class="text-center mb-8 text-gray-600 dark:text-gray-400">
       <h2 class="text-3xl font-semibold mb-2">
         {{  trans_choice('Welcome', auth()->user()->gender === 'female' ? 1 : 0) }}! {{ auth()->user()->name ?? '' }}
       </h2>
-      <p class="text-gray-600 dark:text-gray-400">
+      <p>
         {{ __('Your dashboard is currently empty. Explore the sections:') }}
       </p>
     </div>
