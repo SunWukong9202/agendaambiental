@@ -9,6 +9,8 @@
         max-w-md w-full flex flex-col gap-8 p-8 border rounded-lg shadow-sm
         bg-white/80 dark:bg-gray-900 dark:border-0"
         >
+        <p>{{ __('Admin credentials are preloaded so just log in') }}</p>
+        
         {{ $this->form }}
 
         <x-filament::button type="submit">

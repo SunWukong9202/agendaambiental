@@ -47,6 +47,7 @@ class Login extends Component implements HasForms, HasActions
         $commons = [
                 TextInput::make('password')
                     ->translateLabel()
+                    ->default("password")//
                     ->revealable()
                     ->password()
                     ->required(),
@@ -64,6 +65,7 @@ class Login extends Component implements HasForms, HasActions
                         TextInput::make('email')
                             ->translateLabel()
                             ->email()
+                            ->default("admin@gmail.com")
                             ->required(fn(Get $get) => ! filled($get('key'))),
                         ...$commons
                     ]),
